@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="program">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="program\[000] library">
+      <UniqueIdentifier>{09672401-4fc2-4734-b792-36b80c770b80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[001] dxlib_ext">
+      <UniqueIdentifier>{413cd02b-9e9c-4380-878e-8de31d0aa61f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game">
+      <UniqueIdentifier>{6febca5b-94b9-462e-9667-612e572524b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[001] dxlib_ext\create_mesh">
+      <UniqueIdentifier>{11d8e443-8d64-409c-92f1-6895cd2dbbce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[001] dxlib_ext\example">
+      <UniqueIdentifier>{ea5a88b7-f286-41e9-879d-401c3c3d5248}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[002] myLibrary">
+      <UniqueIdentifier>{65b0aed6-7d21-4a44-9cf5-c6c368abb287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[002] myLibrary\[000] manager">
+      <UniqueIdentifier>{53db13a0-6617-49fc-a8ba-3e7ceee06a0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[002] myLibrary\[001] base">
+      <UniqueIdentifier>{f0be2d67-ad31-4373-af13-068dac0ac743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\scene">
+      <UniqueIdentifier>{7176b931-7726-40cf-bb7b-9068294e0930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\base">
+      <UniqueIdentifier>{75b8d23c-adbc-492f-a1c5-e2c1efdb8bf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\manager">
+      <UniqueIdentifier>{627d66b3-03b6-45e8-b528-f1acff2e13ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\objectBlock">
+      <UniqueIdentifier>{dfb0fd73-dbe2-4f1a-9633-beb08901c6c2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ManagedDxlGame.cpp">
+      <Filter>program</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_font_texture.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_input.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_intersect.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_math.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_matrix.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_quaternion.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_seek_unit.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_util.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext_data.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext_mesh.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext_texture.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\OBJLoader.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_barrel.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_box.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_cone.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_cone_cylinder.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_cylinder.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_disk.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_disk_ring.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_dome.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_from_height_map.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_half_barrel.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_obj.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_plane.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_sphere.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_torus.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_triangle_equilateral.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_triangle_isosceles.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_triangle_right.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_main.cpp">
+      <Filter>program\[003] game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\create_mesh\dxlib_ext_mesh_hollow_out_disk_plane.cpp">
+      <Filter>program\[001] dxlib_ext\create_mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\json11.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_inclution_owner_locked.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_instance.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_vector3.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\library\tnl_vector2i.cpp">
+      <Filter>program\[000] library</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext_mesh_mtrl_gui_controller.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\dxlib_ext\dxlib_ext_gui_menu_selector.cpp">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Manager\ito_GameManager.cpp">
+      <Filter>program\[002] myLibrary\[000] manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Manager\ito_ResourceManager.cpp">
+      <Filter>program\[002] myLibrary\[000] manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Base\Graphic.cpp">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Base\ito_Object2D.cpp">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Base\ito_Object3D.cpp">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Base\ito_SceneBase.cpp">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Base\ito_transform.cpp">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\scene\ScenePlay.cpp">
+      <Filter>program\[003] game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\myLibrary\Manager\ito_CsvManager.cpp">
+      <Filter>program\[002] myLibrary\[000] manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\object\Wall.cpp">
+      <Filter>program\[003] game\objectBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\base\ObjectBlockBase.cpp">
+      <Filter>program\[003] game\base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\manager\ObjectManager.cpp">
+      <Filter>program\[003] game\manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ManagedDxlGame.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="ManagedDxlGame.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="program\library\stb_image.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_font_texture.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_hierarchy_tree.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_input.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_intersect.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_link_linear.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_math.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_matrix.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_quaternion.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_seek_unit.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_sequence.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_shared_factory.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_timer_fluct.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_using.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_util.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_camera.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_data.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_mesh.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_render_param.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_texture.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\OBJLoader.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_main.h">
+      <Filter>program\[003] game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_mesh_desc.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\json11.hpp">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_inclution_owner_locked.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_instance.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_csv.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_vector3.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\library\tnl_vector2i.h">
+      <Filter>program\[000] library</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_mesh_mtrl_gui_controller.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_gui_value_slider.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_adjust_object_velocity.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_start_up.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\dxlib_ext_gui_menu_selector.h">
+      <Filter>program\[001] dxlib_ext</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_use_skybox.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_intersect_correct_sphere.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_intersect_correct_aabb.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_intersect_screen_ray.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_convert_to_screen.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\dxlib_ext\example\dxlib_ext_example_3d_height_map_ground.h">
+      <Filter>program\[001] dxlib_ext\example</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Manager\ito_GameManager.h">
+      <Filter>program\[002] myLibrary\[000] manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Manager\ito_ResourceManager.h">
+      <Filter>program\[002] myLibrary\[000] manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Base\Graphic.h">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Base\ito_Object2D.h">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Base\ito_Object3D.h">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Base\ito_SceneBase.h">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Base\ito_transform.h">
+      <Filter>program\[002] myLibrary\[001] base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\ScenePlay.h">
+      <Filter>program\[003] game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\myLibrary\Manager\ito_CsvManager.h">
+      <Filter>program\[002] myLibrary\[000] manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\object\Wall.h">
+      <Filter>program\[003] game\objectBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\base\ObjectBlockBase.h">
+      <Filter>program\[003] game\base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\manager\ObjectManager.h">
+      <Filter>program\[003] game\manager</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
