@@ -3,7 +3,7 @@
 #include "ito_GameManager.h"
 #include "ito_ResourceManager.h"
 #include "../Base/ito_SceneBase.h"
-
+#include "../../game/manager/ObjectManager.h"
 
 namespace ito {
 

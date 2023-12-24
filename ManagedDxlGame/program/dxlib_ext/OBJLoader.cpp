@@ -769,7 +769,7 @@ bool OBJMESH::LoadMTLFile( const char* filename )
 		{
 			file >> t_materials[iMtlCount].shininess;
 		}
-		// Ambient Map
+		// Ambient Stage
 		else if ( 0 == strcmp( buf, "map_Ka" ) )
 		{
 			char mapKaName[OBJ_NAME_LENGTH];
@@ -777,7 +777,7 @@ bool OBJMESH::LoadMTLFile( const char* filename )
 			SetDirectoryPath( mapKaName, m_directoryPath );
 			strcpy( t_materials[iMtlCount].ambientMapName, mapKaName );
 		}
-		// Diffuse Map
+		// Diffuse Stage
 		else if ( 0 == strcmp( buf, "map_Kd" ) )
 		{
 			char mapKdName[OBJ_NAME_LENGTH];
@@ -785,7 +785,7 @@ bool OBJMESH::LoadMTLFile( const char* filename )
 			SetDirectoryPath( mapKdName, m_directoryPath );
 			strcpy( t_materials[iMtlCount].diffuseMapName, mapKdName );
 		}
-		// Specular Map
+		// Specular Stage
 		else if ( 0 == strcmp( buf, "map_Ks" ) )
 		{
 			char mapKsName[OBJ_NAME_LENGTH];
@@ -793,7 +793,7 @@ bool OBJMESH::LoadMTLFile( const char* filename )
 			SetDirectoryPath( mapKsName, m_directoryPath );
 			strcpy( t_materials[iMtlCount].specularMapName, mapKsName );
 		}
-		// Bump Map
+		// Bump Stage
 		else if ( 0 == strcmp( buf, "map_Bump" ) )
 		{
 			char mapBumpName[OBJ_NAME_LENGTH];

@@ -4,6 +4,7 @@
 #include <functional>
 #include "../dxlib_ext/dxlib_ext.h"
 #include "gm_main.h"
+#include "scene/ScenePlay.h"
 
 Shared<dxe::Camera> camera = nullptr;
 Shared<dxe::Mesh> mesh = nullptr;
@@ -22,12 +23,14 @@ void gameStart() {
 	SetBackgroundColor(32, 32, 32);
 
 
-	camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
+	//camera = std::make_shared<dxe::Camera>(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
-	texture = dxe::Texture::CreateFromFile("graphics/test.jpg");
+	//texture = dxe::Texture::CreateFromFile("graphics/test.jpg");
 
-	mesh = dxe::Mesh::CreateSphereMV(100, 20, 20);
-	mesh->setTexture(texture);
+	//mesh = dxe::Mesh::CreateSphereMV(100, 20, 20);
+	//mesh->setTexture(texture);
+
+	ito::GameManager::GetInstance_( new ScenePlay() );
 
 }
 
@@ -36,14 +39,18 @@ void gameStart() {
 // –ˆƒtƒŒ[ƒ€ŽÀs‚³‚ê‚Ü‚·
 void gameMain(float delta_time) {
 
-	mesh->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
+	//mesh->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
 
-	camera->update();
+	//camera->update();
 
 
-	DrawGridGround(camera, 50, 20);
+	
 
-	mesh->render(camera);
+	//mesh->render(camera);
+
+
+	ito::GameManager::GetInstance_()->update(delta_time);
+
 
 	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
 

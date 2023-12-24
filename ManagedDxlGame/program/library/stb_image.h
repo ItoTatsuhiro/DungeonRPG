@@ -7401,7 +7401,7 @@ static int stbi__pic_info(stbi__context *s, int *x, int *y, int *comp)
 #endif
 
 // *************************************************************************************************
-// Portable Gray Map and Portable Pixel Map loader
+// Portable Gray Stage and Portable Pixel Stage loader
 // by Ken Miller
 //
 // PGM: http://netpbm.sourceforge.net/doc/pgm.html

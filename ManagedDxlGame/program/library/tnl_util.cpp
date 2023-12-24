@@ -202,11 +202,11 @@ namespace tnl {
 		memset(buff, 0, size);
 		signed char* p = buff;
 		*(char*)p = 0;			p += 1;		// IDField
-		*(char*)p = 0;			p += 1;		// Enable Color Map
+		*(char*)p = 0;			p += 1;		// Enable Color Stage
 		*(char*)p = 2;			p += 1;		// Image Type
-		*(short*)p = 0;			p += 2;		// Color Map Entry
-		*(short*)p = 0;			p += 2;		// Color Map Entry Size
-		*(char*)p = 0;			p += 1;		// Color Map Entry Bit Num
+		*(short*)p = 0;			p += 2;		// Color Stage Entry
+		*(short*)p = 0;			p += 2;		// Color Stage Entry Size
+		*(char*)p = 0;			p += 1;		// Color Stage Entry Bit Num
 		*(short*)p = 0;			p += 2;		// Pos X
 		*(short*)p = 0;			p += 2;		// Pos Y
 		*(short*)p = width;		p += 2;		// Width

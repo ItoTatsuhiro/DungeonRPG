@@ -23,6 +23,9 @@ ObjectManager* ObjectManager::GetInstance() {
 }
 
 
+//----------------------------------------------------------------------
+// オブジェクトのオリジナル、クローンを作成する関数
+
 // Boxのメッシュを持つオブジェクトのクローンを作成する関数
 // 同名のオリジナルが作成されていればクローンを返し、
 // 作成されていなければ作成してからクローンを返す
@@ -82,4 +85,26 @@ std::shared_ptr<ito::Object3D> ObjectManager::createPlane(tnl::Vector3 size, std
 	// 作成したオブジェクトを返す
 	return planeObj_clone;
 
+}
+
+
+//----------------------------------------------------------------------
+// オブジェクトのオリジナルを削除する関数
+
+// 既に存在しているオリジナルのオブジェクトを削除する関数
+// 引数：name...削除するオブジェクトの名前
+void ObjectManager::deleteOriginal(std::string name) {
+
+	// 同名のオリジナルオブジェクトを探す
+	auto it = originObjList_.find(name);
+
+	// リストに同名のオリジナルが存在する場合削除する
+	if (it != originObjList_.end()) {
+		originObjList_.erase(name);
+		return;
+	}
+
+	// 存在しなかった場合削除できなかった旨を表示する
+	tnl::DebugTrace("%sのオリジナルが存在しなかったため、削除できませんでした", name);
+	return;
 }

@@ -2,13 +2,14 @@
 #include "../../dxlib_ext/dxlib_ext.h"
 #include <vector>
 
+#include "../map/Stage.h"
 
 class ScenePlay final: public ito::SceneBase {
 public :
 	// コンストラクタ
 	ScenePlay();
 	// デストラクタ
-	~ScenePlay() override;
+	~ScenePlay();
 
 	void update(float delta_time);
 
@@ -17,11 +18,13 @@ public :
 
 private :
 
+	// ScenePlay用のカメラ
+	std::shared_ptr<dxe::Camera> camera_;
 
-	// マップ用の2重vector
-	std::vector<std::vector<int>> map;
+	// ステージを管理するクラス
+	std::shared_ptr<Stage> stage_ = nullptr;
 
-	std::vector<std::vector<>>
+
 
 	// 壁のオブジェクト
 	std::shared_ptr< ito::Object3D > wall_ = nullptr;

@@ -42,7 +42,10 @@
     <Filter Include="program\[003] game\manager">
       <UniqueIdentifier>{627d66b3-03b6-45e8-b528-f1acff2e13ef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\objectBlock">
+    <Filter Include="program\[003] game\map">
+      <UniqueIdentifier>{0f016b70-768b-4f88-b34f-bc3336b586ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\map\objectBlock">
       <UniqueIdentifier>{dfb0fd73-dbe2-4f1a-9633-beb08901c6c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -194,14 +197,17 @@
     <ClCompile Include="program\myLibrary\Manager\ito_CsvManager.cpp">
       <Filter>program\[002] myLibrary\[000] manager</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\object\Wall.cpp">
-      <Filter>program\[003] game\objectBlock</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\base\ObjectBlockBase.cpp">
       <Filter>program\[003] game\base</Filter>
     </ClCompile>
     <ClCompile Include="program\game\manager\ObjectManager.cpp">
       <Filter>program\[003] game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\map\objectBlock\Wall.cpp">
+      <Filter>program\[003] game\map\objectBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\map\Stage.cpp">
+      <Filter>program\[003] game\map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -368,14 +374,17 @@
     <ClInclude Include="program\myLibrary\Manager\ito_CsvManager.h">
       <Filter>program\[002] myLibrary\[000] manager</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\object\Wall.h">
-      <Filter>program\[003] game\objectBlock</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\base\ObjectBlockBase.h">
       <Filter>program\[003] game\base</Filter>
     </ClInclude>
     <ClInclude Include="program\game\manager\ObjectManager.h">
       <Filter>program\[003] game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\map\objectBlock\Wall.h">
+      <Filter>program\[003] game\map\objectBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\map\Stage.h">
+      <Filter>program\[003] game\map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

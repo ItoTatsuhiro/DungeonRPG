@@ -13,9 +13,13 @@ public :
 	virtual ~ObjectBlockBase(){}
 
 	// アップデート関数
-	void update(float delta_time) {};
+	virtual void update(float delta_time) {};
 	// 描画関数
-	virtual void draw() {};
+	virtual void draw(std::shared_ptr<dxe::Camera> camera) {}
+
+	// 構成するオブジェクトを生成する関数
+	// これを仮想関数として回すことで、一気にオブジェクトを作成可能
+	virtual void CreateObj(){}
 
 protected :
 	// 大きさの変数
