@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+
+# 自身で付け加える除外
+.vs/
+x64/
+ManagedDxlGame/x64/
