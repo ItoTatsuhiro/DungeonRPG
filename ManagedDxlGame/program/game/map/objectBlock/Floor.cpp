@@ -28,8 +28,7 @@ void Floor::draw(std::shared_ptr<dxe::Camera> camera) {
 
 void Floor::CreateObj() {
 
-
-	floorTexture_ = dxe::Texture::CreateFromFile("graphics/myGpc/floor_test.png");
+	floorTexture_ = dxe::Texture::CreateFromFile("graphics/myGpc/tileStone_hibi.png");
 
 
 	// 壁の1ブロック分のオブジェクト
@@ -37,6 +36,8 @@ void Floor::CreateObj() {
 	std::shared_ptr<ito::Object3D> floorObj
 		= ObjectManager::GetInstance()->createPlane(tnl::Vector3 (gridSize_), "floor");
 
+	// テクスチャの形式を変更
+	floorObj->get_mesh_()->setSampleFilterMode(DX_DRAWMODE_NEAREST);
 	floorObj->get_mesh_()->setTexture(floorTexture_);
 
 	// ブロックの座標を設定

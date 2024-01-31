@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "objectBlock/Wall.h"
 #include "objectBlock/Floor.h"
+#include "../object/Player.h"
 
 // コンストラクタ
 // 引数：startStage	...初期ステージ
@@ -57,15 +58,27 @@ void Stage::draw(std::shared_ptr<dxe::Camera> camera) {
 	if (!existNowStage_) return;
 
 
-	// 現在のステージのオブジェクトを描画する
-	for (int y = 0; y < stageObjMap_[nowStage_].size(); ++y) {
-		for (int x = 0; x < stageObjMap_[nowStage_][y].size(); ++x) {
-			stageObjMap_[nowStage_][y][x]->draw(camera);
-		}
+	//// 現在のステージのオブジェクトを描画する
+	//for (int y = 0; y < stageObjMap_[nowStage_].size(); ++y) {
+	//	for (int x = 0; x < stageObjMap_[nowStage_][y].size(); ++x) {
+	//		stageObjMap_[nowStage_][y][x]->draw(camera);
+	//	}
+	//}
+
+
+	sortObjectList(camera);
+
+	auto it = drawObjectList_.begin();
+
+	while (it != drawObjectList_.end()) {
+
+		(*it)->draw(camera);
+
+		++it;
 	}
 
-}
 
+}
 
 
 //-------------------------------------------------------------------------------------
@@ -94,6 +107,7 @@ void Stage::StageChange(std::string nextStage) {
 	seq_.change(&Stage::seqStageChange);
 }
 
+//-------------------------------------------------------------------------------------
 // 引数の座標のマップの数値を調べる関数
 // 引数：checkGrid...マップの配列から確認する要素番号(x, y)
 int Stage::CheckGridPosInt(tnl::Vector2i checkGrid) {
@@ -104,10 +118,11 @@ int Stage::CheckGridPosInt(tnl::Vector2i checkGrid) {
 		return -1;
 	}
 
-
 	return stageArrayMap_[nowStage_][checkGrid.y][checkGrid.x];
 }
 
+
+//-------------------------------------------------------------------------------------
 // 引数の座標のオブジェクトを取得する関数
 // 引数：checkGrid...マップの配列から確認する要素番号(x, y)
 std::shared_ptr<ObjectBlockBase> Stage::CheckGridPosObj(tnl::Vector2i checkGrid) {
@@ -115,6 +130,44 @@ std::shared_ptr<ObjectBlockBase> Stage::CheckGridPosObj(tnl::Vector2i checkGrid)
 	tnl::DebugTrace(" %d ", stageObjMap_[nowStage_][checkGrid.y][checkGrid.x]);
 	return stageObjMap_[nowStage_][checkGrid.y][checkGrid.x];
 }
+
+
+
+// 描画するオブジェクトを描画するlistに入れる関数
+void Stage::drawObjectInList() {
+
+	// 中身がある場合は削除する
+	if ( drawObjectList_.size() > 0 ) {
+		drawObjectList_.clear();
+	}
+
+	// 現在のステージの配列の中身を描画用のlistに入れる
+	for (int y = 0; y < stageObjMap_[nowStage_].size(); ++y) {
+		for (int x = 0; x < stageObjMap_[nowStage_][0].size(); ++x) {
+
+			drawObjectList_.emplace_back(stageObjMap_[nowStage_][y][x]);
+
+		}
+	}
+
+}
+
+
+void Stage::sortObjectList(std::shared_ptr<dxe::Camera> camera ) {
+
+	//drawObjectList_.sort((camera->pos_ - player_->getTransform().getPos_()).length());
+	drawObjectList_.sort( [&](const std::shared_ptr<ObjectBlockBase>& left, const std::shared_ptr<ObjectBlockBase>& right){
+		float l1 = (camera->pos_ - left->getPos_()).length();
+		float l2 = (camera->pos_ - right->getPos_()).length();
+		return (l1 > l2);
+	});
+
+	//int a = 0;
+	//a++;
+
+}
+
+
 
 
 //-------------------------------------------------------------------------------------
@@ -231,6 +284,10 @@ bool Stage::seqStageChange(const float delta_time) {
 	}
 	// 生成したオブジェクトの配列を名前と紐づけて保存
 	stageObjMap_.insert(std::make_pair(nowStage_, mapObjArray));
+
+
+	drawObjectInList();
+
 	// ステージを次のステージに切り替える
 	// nowStage_ = nextStage;
 	// 次のシーケンスに切り替える

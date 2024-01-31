@@ -9,6 +9,9 @@
 class Stage;
 
 
+// プレイヤー・敵キャラクターに継承するベースクラス
+// 引数：gridSize...ステージのマスの大きさ
+// startPos...生成された際のマップ上での位置
 class CharacterBase : public EntityBase {
 public :
 
@@ -26,11 +29,30 @@ public :
 	// 描画処理の関数
 	void draw();
 
+	// プレイヤーのTransformを取得する関数
+	const ito::Transform getTransform() { return nowTransform_; }
 
-	const ito::Transform getTransform(){ }
-
+	
 
 protected :
+
+	// 移動を行う関数
+	// Player, Enemy等の移動を行う際はこの関数を使用する
+	void Moving(float delta_time);
+
+	// 回転を行う関数
+	// Plauer, Enemy等の回転を行う際はこの関数を使用する
+	void Rotating(float delta_time);
+
+	// シーケンスを切り替えが可能かどうかのフラグ
+	// Move, Rotate等の処理中はfalseにすること
+	bool canChengeSeq_ = true;
+
+	// 次に移動する移動先を計算する関数
+	// moveGrid_（マス目を移動する方向ベクトル）も計算
+	// 引数：移動方向(Enum::Dir4型)
+	// 戻り値：移動先のマスの座標(nextGridPos_に入れる用)
+	tnl::Vector2i calcMoveGrid(Enum::Dir4 moveDir);
 
 	// ステージのポインタ
 	// シーンで生成してあるStageクラスから、ステージの配列の情報を持ってくるために使用
@@ -76,18 +98,7 @@ protected :
 	// Dir4クラスは別ファイルで定義
 	Enum::Dir4 nextDir_ = Enum::Dir4::UP;
 
-	// シーケンス制御用変数
-	tnl::Sequence<CharacterBase> seq_ = tnl::Sequence<CharacterBase>(this, &CharacterBase::seqIdle);
 
-	// 待機中のシーケンス
-	// プレイヤーと敵それぞれで個別に
-	virtual bool seqIdle(const float delta_time);
-	// 移動を準備するシーケンス
-	bool seqMoveCheck(const float delta_time);
-	// 回転を準備するシーケンス
-	bool seqRotateCheck(const float delta_time);
-	// 移動を行うシーケンス
-	bool seqMoving(const float delta_time);
-	// 回転を行うシーケンス
-	bool seqRotating(const float delta_time);
+
+
 };

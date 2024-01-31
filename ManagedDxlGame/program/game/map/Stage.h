@@ -4,6 +4,11 @@
 #include <unordered_map>
 #include "../base/ObjectBlockBase.h"
 
+
+
+class Player;
+
+
 // ダンジョンのステージを管理するクラス
 // ステージと紐づくステージ名はstring型で、csvより読み取る予定
 class Stage final{
@@ -28,6 +33,8 @@ public :
 	// 描画の処理
 	void draw(std::shared_ptr<dxe::Camera> camera);
 
+	// プレイヤーをセットする関数
+	void setPlayer(std::shared_ptr<Player> player) { player_ = player; }
 
 	// 新たにマップを読み込む関数
 	void LoadMap(std::string name, std::string csvPath);
@@ -45,7 +52,20 @@ public :
 	// 引数：checkGrid...マップの配列から確認する要素番号(x, y)
 	std::shared_ptr<ObjectBlockBase> CheckGridPosObj(tnl::Vector2i checkGrid);
 
+	// 描画するオブジェクトを描画するlistに入れる関数
+	void drawObjectInList();
+
+	// 描画するオブジェクトのlistをカメラからの距離でソートする関数
+	void sortObjectList( std::shared_ptr<dxe::Camera> camera );
+
 private :
+
+	// プレイヤー
+	std::shared_ptr<Player> player_ = nullptr;
+
+	// 描画するオブジェクトのリスト
+	// 描画前に毎回カメラからの距離でソートする
+	std::list<std::shared_ptr<ObjectBlockBase>> drawObjectList_;
 
 	// マップを生成する際の基準の座標
 	tnl::Vector3 basePos_ = { 0, 0, 0 };
@@ -58,7 +78,7 @@ private :
 
 	//-------------------------------------------------------------------------------------
 	// Stageの行うシーケンス処理関係
-	// 
+	
 	// 現在のシーケンス
 	tnl::Sequence<Stage> seq_ = tnl::Sequence<Stage>(this, &Stage::seqStageChange);
 

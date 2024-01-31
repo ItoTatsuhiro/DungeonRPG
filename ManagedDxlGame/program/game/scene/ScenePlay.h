@@ -23,8 +23,7 @@ public :
 
 private :
 
-	//// ScenePlay用のカメラ
-	//std::shared_ptr<dxe::Camera> camera_;
+
 
 	// 一人称のカメラ
 	std::shared_ptr< TransformCamera > FPCamera_;

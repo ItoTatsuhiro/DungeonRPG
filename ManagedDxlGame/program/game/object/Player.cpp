@@ -2,7 +2,7 @@
 
 // コンストラクタ
 // 引数：cellSize...1マス分の大きさ, startGridPos...マップ上での初期座標
-Player::Player(float gridSize, tnl::Vector2i startGridPos) : EntityBase(startGridPos, gridSize) {
+Player::Player(float gridSize, tnl::Vector2i startGridPos) : CharacterBase(gridSize, startGridPos) {
 
 	// 生成済のステージのインスタンスを取得
 	stage_ = Stage::GetInstance();
@@ -164,11 +164,14 @@ bool Player::seqMoveCheck(const float delta_time) {
 	}
 	// 移動できるとき
 	else {
-
+		// 移動先の座標を設定
 		nextTransform_.setPos_( { nextGridPos_.x * gridSize_, gridSize_, -nextGridPos_.y * gridSize_ });
 
 		// 動作を行うシーケンスに切り替え
 		seq_.change(&Player::seqMoving);
+
+		// シーケンスの切り替えを制限
+		canChengeSeq_ = false;
 
 		seqNow_ = " seqMoving ";
 
@@ -201,6 +204,9 @@ bool Player::seqRotateCheck(const float delta_time) {
 	// 回転を行うシーケンスに切り替え
 	seq_.change(&Player::seqRotating);
 
+	// シーケンスの切り替えを制限
+	canChengeSeq_ = false;
+
 	seqNow_ = " seqRotating ";
 
 	return true;
@@ -209,121 +215,30 @@ bool Player::seqRotateCheck(const float delta_time) {
 // 移動を行うシーケンス
 bool Player::seqMoving(const float delta_time) {
 
-	// 移動量に応じて別の方向に移動
-	if (moveGrid_ == tnl::Vector2i{ 0, -1 }) {
-		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ 0, 0, moveVal_ });
-	}
-	else if (moveGrid_ == tnl::Vector2i{ 1, 0 }) {
-		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ moveVal_, 0, 0 });
-	}
-	else if (moveGrid_ == tnl::Vector2i{ 0, 1 }) {
-		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ 0, 0, -moveVal_ });
-	}
-	else if (moveGrid_ == tnl::Vector2i{ -1, 0 }) {
-		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ -moveVal_, 0, 0 });
-	}
+	Moving(delta_time);
 
-
-	// 移動先の座標と現在の座標の差が十分に小さい時(移動しきったとき)
-	if ( ( nextTransform_.getPos_() - nowTransform_.getPos_() ).length() < FLT_EPSILON) {
-
-		// 現在の座標を移動先の座標に合わせる
-		nowTransform_.setPos_(nextTransform_.getPos_());
-		// 現在のマス目を更新
-		gridPos_ = nextGridPos_;
-		// 移動する量をリセット
-		moveGrid_ = tnl::Vector2i{ 0, 0 };
-
-		// 待機中のシーケンスに切り替え
+	if (canChengeSeq_) {
 		seq_.change(&Player::seqIdle);
-
-		seqNow_ = " seqIdle ";
-
-		return true;
 	}
 
-
+	return true;
 }
+
 
 // 回転を行うシーケンス
 bool Player::seqRotating(const float delta_time) {
 
-	if (rotValMax_ > 0) {
+	Rotating(delta_time);
 
-		// 回転量分回す
-		nowTransform_.setRot3D_(nowTransform_.getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(rotValFrame_)));
-		// 回した分、残りの回転量から引く
-		rotValMax_ -= rotValFrame_;
-
-		// 回りすぎたとき
-		if (rotValMax_ < 0) {
-			// 回りすぎた分を戻す
-			nowTransform_.setRot3D_(nextTransform_.getRot3D_());
-
-			rotValMax_ = 0;
-		}
-
-	}
-	else if (rotValMax_ < 0) {
-
-		// 回転量分回す
-		nowTransform_.setRot3D_(nowTransform_.getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(-rotValFrame_)));
-		// 回した分残りの回転量に加算する
-		// (回転量がマイナスからのスタートのため)
-		rotValMax_ += rotValFrame_;
-		// 回りすぎた時
-		if (rotValMax_ > 0) {
-			// 回りすぎた分を戻す
-			nowTransform_.setRot3D_(nextTransform_.getRot3D_());
-
-			rotValMax_ = 0;
-		}
-
-	}
-
-	if (std::abs( rotValMax_ ) < FLT_EPSILON) {
-
-		frontDir_ += nextDir_;
-
-		nextDir_ = Enum::Dir4::UP;
+	if (canChengeSeq_) {
 
 		seq_.change(&Player::seqIdle);
-
 		seqNow_ = " seqIdle ";
 
-		return true;
 	}
+
+	return true;
 	
 }
 
 
-tnl::Vector2i Player::calcMoveGrid( Enum::Dir4 moveDir ) {
-
-	// 移動先の座標
-	// 戻り値で戻す用
-	tnl::Vector2i nextGridPos;
-
-	// 方向に応じて座標を計算
-	switch (moveDir) {
-	case Enum::Dir4::UP:
-		nextGridPos = { gridPos_.x, gridPos_.y - 1 };
-		break;
-
-	case Enum::Dir4::LEFT:
-		nextGridPos = { gridPos_.x - 1, gridPos_.y };
-		break;
-
-	case Enum::Dir4::DOWN:
-		nextGridPos = { gridPos_.x, gridPos_.y + 1 };
-		break;
-
-	case Enum::Dir4::RIGHT:
-		nextGridPos = { gridPos_.x + 1, gridPos_.y };
-		break;
-	}
-
-	// 次の移動量を計算
-	moveGrid_ = nextGridPos - gridPos_;
-
-	return nextGridPos;
-}

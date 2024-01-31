@@ -37,6 +37,8 @@ void Wall::CreateObj() {
 		// ‚±‚ê‚ğ‚‚³•ªÏ‚İd‚Ë‚Äg—p‚·‚é
 		std::shared_ptr<ito::Object3D> wallObj
 			= ObjectManager::GetInstance()->createCube(gridSize_, "wall");
+		wallObj->get_mesh_()->setSampleFilterMode(DX_DRAWMODE_NEAREST);
+		wallObj->get_mesh_()->setCullingMode(DX_CULLING_RIGHT);
 
 		wallObj->get_mesh_()->setTexture(wallTexture_);
 

@@ -24,8 +24,6 @@ CharacterBase::~CharacterBase() {
 
 void CharacterBase::update(float delta_time) {
 
-	seq_.update(delta_time);
-
 }
 
 
@@ -33,99 +31,21 @@ void CharacterBase::draw() {
 
 }
 
-// 待機中のシーケンス
-// 基本のシーケンスとなるので、他のシーケンスが終了したらこのシーケンスに戻す
-// ※継承先でそれぞれオーバーライドして使用すること
-bool CharacterBase::seqIdle(const float delta_time) {
-
-	return true;
-}
-
-
-// 移動を準備するシーケンス
-bool CharacterBase::seqMoveCheck(const float delta_time) {
-
-	// 移動先が配列外の場合移動しないようにするための処理
-	if (stage_->CheckGridPosInt(nextGridPos_) == -1) {
-		tnl::DebugTrace("配列外のため移動できません\n");
-
-		// seqNow_ = "seqIdle";
-
-		seq_.change(&CharacterBase::seqIdle);
-
-		return true;
-	}
-
-	// 移動先のマスが移動できないとき
-	if (!(stage_->CheckGridPosObj(nextGridPos_)->getCanMove())) {
-
-		// 次の座標を現在の座標に戻す
-		nextGridPos_ = gridPos_;
-		// シーケンスを待機中に戻す
-		seq_.change(&CharacterBase::seqIdle);
-
-		// seqNow_ = " seqIdle ";
-		// 処理を終了する
-		return true;
-	}
-	// 移動できるとき
-	else {
-
-		nextTransform_.setPos_({ nextGridPos_.x * gridSize_, gridSize_, -nextGridPos_.y * gridSize_ });
-
-		// 動作を行うシーケンスに切り替え
-		seq_.change(&CharacterBase::seqMoving);
-
-		// seqNow_ = " seqMoving ";
-
-		return true;
-	}
-
-}
-
-// 回転を準備するシーケンス
-bool CharacterBase::seqRotateCheck(const float delta_time) {
-
-	// 次の向きに応じて次の方向を変更する
-	// 左周りをプラスとする
-	if (nextDir_ == Enum::Dir4::LEFT) {
-		// 回転させる量を90度にする
-		rotValMax_ = -90;
-	}
-	else if (nextDir_ == Enum::Dir4::DOWN) {
-		// 回転させる量を180度にする
-		rotValMax_ = -180;
-	}
-	else if (nextDir_ == Enum::Dir4::RIGHT) {
-		// 回転させる量を-90度にする
-		rotValMax_ = 90;
-	}
-
-	// 次の角度を現在の角度から回転量分回転させる
-	nextTransform_.setRot3D_(nextTransform_.getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(rotValMax_)));
-
-	// 回転を行うシーケンスに切り替え
-	seq_.change(&CharacterBase::seqRotating);
-
-	// seqNow_ = " seqRotating ";
-
-	return true;
-}
-
-// 移動を行うシーケンス
-bool CharacterBase::seqMoving(const float delta_time) {
+// 移動を行う関数
+// Player, Enemy等の移動を行う際はこの関数を使用する
+void CharacterBase::Moving( float delta_time ) {
 
 	// 移動量に応じて別の方向に移動
-	if (moveGrid_ == tnl::Vector2i{ 0, -1 }) {
+	if (moveGrid_ == tnl::Vector2i::up) {
 		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ 0, 0, moveVal_ });
 	}
-	else if (moveGrid_ == tnl::Vector2i{ 1, 0 }) {
+	else if (moveGrid_ == tnl::Vector2i::right) {
 		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ moveVal_, 0, 0 });
 	}
-	else if (moveGrid_ == tnl::Vector2i{ 0, 1 }) {
+	else if (moveGrid_ == tnl::Vector2i::down) {
 		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ 0, 0, -moveVal_ });
 	}
-	else if (moveGrid_ == tnl::Vector2i{ -1, 0 }) {
+	else if (moveGrid_ == tnl::Vector2i::left) {
 		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ -moveVal_, 0, 0 });
 	}
 
@@ -140,19 +60,15 @@ bool CharacterBase::seqMoving(const float delta_time) {
 		// 移動する量をリセット
 		moveGrid_ = tnl::Vector2i{ 0, 0 };
 
-		// 待機中のシーケンスに切り替え
-		seq_.change(&CharacterBase::seqIdle);
-
-		// seqNow_ = " seqIdle ";
-
-		return true;
+		canChengeSeq_ = true;
 	}
-
 
 }
 
-// 回転を行うシーケンス
-bool CharacterBase::seqRotating(const float delta_time) {
+
+// 回転を行う関数
+// Plauer, Enemy等の回転を行う際はこの関数を使用する
+void CharacterBase::Rotating(float delta_time) {
 
 	if (rotValMax_ > 0) {
 
@@ -187,17 +103,46 @@ bool CharacterBase::seqRotating(const float delta_time) {
 
 	}
 
+
 	if (std::abs(rotValMax_) < FLT_EPSILON) {
 
 		frontDir_ += nextDir_;
 
 		nextDir_ = Enum::Dir4::UP;
 
-		seq_.change(&CharacterBase::seqIdle);
-
-		// seqNow_ = " seqIdle ";
-
-		return true;
+		canChengeSeq_ = true;
 	}
 
+}
+
+
+tnl::Vector2i CharacterBase::calcMoveGrid(Enum::Dir4 moveDir) {
+
+	// 移動先の座標
+	// 戻り値で戻す用
+	tnl::Vector2i nextGridPos;
+
+	// 方向に応じて座標を計算
+	switch (moveDir) {
+	case Enum::Dir4::UP:
+		nextGridPos = { gridPos_.x, gridPos_.y - 1 };
+		break;
+
+	case Enum::Dir4::LEFT:
+		nextGridPos = { gridPos_.x - 1, gridPos_.y };
+		break;
+
+	case Enum::Dir4::DOWN:
+		nextGridPos = { gridPos_.x, gridPos_.y + 1 };
+		break;
+
+	case Enum::Dir4::RIGHT:
+		nextGridPos = { gridPos_.x + 1, gridPos_.y };
+		break;
+	}
+
+	// 次の移動量を計算
+	moveGrid_ = nextGridPos - gridPos_;
+
+	return nextGridPos;
 }

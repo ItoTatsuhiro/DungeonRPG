@@ -14,6 +14,9 @@ ScenePlay::ScenePlay() {
 
 	// プレイヤーの作成
 	player_ = std::shared_ptr<Player>( new Player(gridSize_, { 0, 0 }) );
+
+	// プレイヤーのセット
+	stage_->setPlayer(player_);
 }
 
 
@@ -27,8 +30,8 @@ void ScenePlay::update(float delta_time) {
 	DrawGridGround(FPCamera_, 50, 20);
 
 	FPCamera_->pos_ = player_->getTransform().getPos_();
+	//FPCamera_->angle_ = tnl::ToRadian(15);
 
-	// camera_->target_ = player_->getTransform().getPos_();
 
 	FPCamera_->update( player_->getTransform().getRot3D_() );
 
