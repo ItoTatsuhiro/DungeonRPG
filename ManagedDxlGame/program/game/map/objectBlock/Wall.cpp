@@ -2,7 +2,6 @@
 
 #include "../../manager/ObjectManager.h"
 
-
 Wall::Wall(float gridSize, tnl::Vector3 pos) : ObjectBlockBase(gridSize, pos) {
 
 	CreateObj();
@@ -29,7 +28,9 @@ void Wall::draw(std::shared_ptr<dxe::Camera> camera) {
 void Wall::CreateObj() {
 
 
-	wallTexture_ = dxe::Texture::CreateFromFile("graphics/myGpc/kokeBrick_Box.png");
+	//wallTexture_ = dxe::Texture::CreateFromFile("graphics/myGpc/kokeBrick_Box.png");
+
+	wallTexture_ = ito::ResourceManager::GetInstance()->loadTexture("kokeBrick_Box.png");
 
 	for (int h = 0; h < height_; ++h) {
 

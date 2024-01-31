@@ -190,6 +190,7 @@
     <ClCompile Include="program\game\base\ObjectBlockBase.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\manager\ObjectManager.cpp" />
+    <ClCompile Include="program\game\manager\TurnManager.cpp" />
     <ClCompile Include="program\game\map\objectBlock\Floor.cpp" />
     <ClCompile Include="program\game\map\objectBlock\Wall.cpp" />
     <ClCompile Include="program\game\map\Stage.cpp" />
@@ -276,6 +277,7 @@
     <ClInclude Include="program\game\base\ObjectBlockBase.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\manager\ObjectManager.h" />
+    <ClInclude Include="program\game\manager\TurnManager.h" />
     <ClInclude Include="program\game\map\objectBlock\Floor.h" />
     <ClInclude Include="program\game\map\objectBlock\Wall.h" />
     <ClInclude Include="program\game\map\Stage.h" />

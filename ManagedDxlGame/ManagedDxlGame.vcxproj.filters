@@ -287,6 +287,9 @@
     <ClCompile Include="program\game\base\CharacterBase.cpp">
       <Filter>program\[003] game\base</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\manager\TurnManager.cpp">
+      <Filter>program\[003] game\manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -553,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="program\game\base\CharacterBase.h">
       <Filter>program\[003] game\base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\manager\TurnManager.h">
+      <Filter>program\[003] game\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

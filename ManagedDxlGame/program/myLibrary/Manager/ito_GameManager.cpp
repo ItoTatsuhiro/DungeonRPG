@@ -11,14 +11,14 @@ namespace ito {
 	ito::GameManager::GameManager(SceneBase* startScene) : nowScene_(startScene) {
 
 		// マネージャークラスのインスタンス化
-		ito::ResourceManager::GetInstance_();
+		ito::ResourceManager::GetInstance();
 
 	}
 
 	ito::GameManager::~GameManager() {
 
 		// マネージャークラスのインスタンスを削除
-		ito::ResourceManager::GetInstance_()->Destroy();
+		ito::ResourceManager::GetInstance()->Destroy();
 
 	}
 

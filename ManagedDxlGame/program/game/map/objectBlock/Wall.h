@@ -31,10 +31,4 @@ private :
 	// 壁を構成するオブジェクトのリスト
 	std::list<std::shared_ptr<ito::Object3D>> wallObjList_;
 
-	// 壁の1ブロック分のオブジェクト
-	// これを高さ分積み重ねて使用する
-	// std::shared_ptr<ito::Object3D> wallObj_ = nullptr;
-
-
-
 };

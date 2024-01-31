@@ -28,7 +28,8 @@ void Floor::draw(std::shared_ptr<dxe::Camera> camera) {
 
 void Floor::CreateObj() {
 
-	floorTexture_ = dxe::Texture::CreateFromFile("graphics/myGpc/tileStone_hibi.png");
+
+	floorTexture_ = ito::ResourceManager::GetInstance()->loadTexture("tileStone_hibi.png");
 
 
 	// 壁の1ブロック分のオブジェクト

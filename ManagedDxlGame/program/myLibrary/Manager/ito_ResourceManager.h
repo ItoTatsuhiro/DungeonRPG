@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 #include "../library/tnl_csv.h"
-
+#include "../../dxlib_ext/dxlib_ext.h"
 
 namespace ito {
 
@@ -23,7 +23,7 @@ namespace ito {
 	public:
 
 		// GraphicManagerをインスタンス化する関数
-		static ResourceManager* GetInstance_();
+		static ResourceManager* GetInstance();
 
 		// デストラクタ
 		~ResourceManager();
@@ -34,9 +34,9 @@ namespace ito {
 		// 画像関係
 
 		// 画像のパスのcsvの内容を読み込む用のvector
-		std::vector<std::vector<std::string>> graphics_csv_;
+		std::vector<std::vector<std::string>> gpcCsv_;
 		// 読み込んだ画像を保存する用のmap
-		std::unordered_map < std::string, int> graphics_map_;
+		std::unordered_map < std::string, int> gpcMap_;
 		// 画像のcsvの項目(x方向)
 		enum class GPC_CSV_ITEM {
 			FILE_NAME = 1,			// 画像のファイル名
@@ -48,9 +48,9 @@ namespace ito {
 		// アニメーション関係
 
 		// アニメーションのcsvを読み込む用のvector
-		std::vector<std::vector<tnl::CsvCell>> anim_csv_;
+		std::vector<std::vector<tnl::CsvCell>> animCsv_;
 		// 読み込んだアニメーション画像を保存する用のmap
-		std::unordered_map <std::string, std::shared_ptr<std::vector<int>>> animation_map_;
+		std::unordered_map <std::string, std::shared_ptr<std::vector<int>>> animMap_;
 		// アニメーションのcsvの項目(x方向)
 		enum class ANIM_CSV_ITEM {
 			FILE_NAME = 1,			// アニメーションのファイル名
@@ -68,15 +68,33 @@ namespace ito {
 		// サウンド関係
 
 		// サウンドのパスのcsvの内容を読み込む用のvector
-		std::vector<std::vector<std::string>> sounds_csv_;
+		std::vector<std::vector<std::string>> soundsCsv_;
 		// 読み込んだパスを保存する用のmap
-		std::unordered_map < std::string, int> sounds_map_;
+		std::unordered_map < std::string, int> soundsMap_;
 		// サウンドのcsvの項目(x方向)
 		enum class SOUND_CSV_ITEM {
 			FILE_NAME = 1,			// サウンドのファイル名
 			PATH,					// サウンドのパス
 			MAX						// 項目の数+1
 		};
+
+
+		//--------------------------------------------------------------------------------------------------------------------------
+		// テクスチャ関係
+
+		// テクスチャのパスのcsvの内容を読み込む用のvector
+		std::vector<std::vector<std::string>> textureCsv_;
+		// 読み込んだパスを保存する用のmap
+		std::unordered_map < std::string, std::shared_ptr<dxe::Texture> > textureMap_;
+		// テクスチャのcsvの項目(x方向)
+		enum class TEXTURE_CSV_ITEM {
+			FILE_NAME = 1,			// テクスチャ用画像のファイル名
+			PATH,					// テクスチャのパス
+			MAX						// 項目の数+1
+		};
+
+
+
 
 	public:
 
@@ -85,10 +103,10 @@ namespace ito {
 
 		// 画像を読み込む関数
 		// 引数：画像ファイルの名前(std::string型)
-		int loadGraph_(std::string graphFileName);
+		int loadGraph(std::string graphFileName);
 		// 画像を削除する関数
 		// 引数：画像の種類を表すenum class, GRAPHIC_TYPE型
-		void deleteGraph_(std::string graphFileName);
+		void deleteGraph(std::string graphFileName);
 
 
 		//--------------------------------------------------------------------------------------------------------------------------
@@ -107,10 +125,22 @@ namespace ito {
 
 		// サウンドを読み込む関数
 		// 引数：サウンドのファイル名(std::string型)
-		int loadSoundMem_(std::string soundFileName);
+		int loadSoundMem(std::string soundFileName);
 		// サウンドを削除する関数
 		// 引数：サウンドのファイル名(std::string型)
-		void deleteSoundMem_(std::string soundFileName);
+		void deleteSoundMem(std::string soundFileName);
+
+
+
+		//--------------------------------------------------------------------------------------------------------------------------
+		// テクスチャ関係の関数
+
+		// テクスチャを読み込む関数
+		// 引数：テクスチャのファイル名(std::string型)
+		std::shared_ptr<dxe::Texture> loadTexture(std::string soundFileName);
+		// 読み込んだテクスチャを削除する関数
+		// 引数：テクスチャの画像ファイル名(std::string型)
+		void deleteTexture(std::string soundFileName);
 
 
 		// リソースマネージャー自体をdestroyするための関数

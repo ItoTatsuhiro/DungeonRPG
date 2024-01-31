@@ -14,21 +14,21 @@ public :
 	// startGridPos...生成時の初期位置
 	Enemy(float gridSize, tnl::Vector2i startGridPos);
 
-	//// デストラクタ
-	//~Enemy();
+	// デストラクタ
+	~Enemy();
 
-	//// 毎フレーム実行する関数
-	//void update(float delta_time);
+	// 毎フレーム実行する関数
+	void update(float delta_time);
 
-	//// 描画用の関数
-	//void draw();
+	// 描画用の関数
+	void draw( std::shared_ptr<dxe::Camera> camera );
 
 
 private :
 
 	// EnemyのMesh
 	// 2Dの画像を貼り付けるPlaneを用意する用
-	std::shared_ptr<dxe::Mesh> enemyMesh_;
+	std::shared_ptr<ito::Object3D> enemyObj_;
 
 
 	//// プレイヤーの状態用のシーケンス

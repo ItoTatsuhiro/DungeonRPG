@@ -9,10 +9,10 @@ namespace ito {
 	ito::ResourceManager::ResourceManager() {
 
 		// リソースのcsvの読み込み
-		graphics_csv_ = tnl::LoadCsv<std::string>("csv/Resource/graphData.csv");
-		anim_csv_ = tnl::LoadCsv("csv/Resource/animData.csv");
-		sounds_csv_ = tnl::LoadCsv<std::string>("csv/Resource/soundData.csv");
-
+		gpcCsv_ = tnl::LoadCsv<std::string>("csv/Resource/graphData.csv");
+		animCsv_ = tnl::LoadCsv("csv/Resource/animData.csv");
+		soundsCsv_ = tnl::LoadCsv<std::string>("csv/Resource/soundData.csv");
+		textureCsv_ = tnl::LoadCsv<std::string>("csv/Resource/textureData.csv");
 	}
 
 	ito::ResourceManager::~ResourceManager() {
@@ -20,7 +20,7 @@ namespace ito {
 	}
 
 	// 
-	ResourceManager* ResourceManager::GetInstance_() {
+	ResourceManager* ResourceManager::GetInstance() {
 
 		static ResourceManager* instance(nullptr);
 		if (!instance) {
@@ -33,25 +33,25 @@ namespace ito {
 	//----------------------------------------------------------------------------------------
 	// 画像を読み込む関数
 	// 引数：読み込む画像のファイル名
-	int ito::ResourceManager::loadGraph_(std::string graphFileName) {
+	int ito::ResourceManager::loadGraph(std::string graphFileName) {
 
 		// file_pathに対応する画像ハンドルを探す
-		auto it = graphics_map_.find(graphFileName);
+		auto it = gpcMap_.find(graphFileName);
 
 		// 既にロードしてある場合、その画像ハンドルを返す
-		if (it != graphics_map_.end()) {
-			return graphics_map_[graphFileName];
+		if (it != gpcMap_.end()) {
+			return gpcMap_[graphFileName];
 		}
 
 		// 画像の読み込み
 		// int gpc_hdl = LoadGraph(graphics_csv_[static_cast<int>(gpc_type)][2].c_str(), true);
 
-		for (int y = 1; y < graphics_csv_.size(); ++y) {
-			if (graphics_csv_[y][static_cast<int>(GPC_CSV_ITEM::FILE_NAME)] == graphFileName) {
-				int gpc_hdl = LoadGraph(graphics_csv_[y][static_cast<int>(GPC_CSV_ITEM::PATH)].c_str(), true);
+		for (int y = 1; y < gpcCsv_.size(); ++y) {
+			if (gpcCsv_[y][static_cast<int>(GPC_CSV_ITEM::FILE_NAME)] == graphFileName) {
+				int gpc_hdl = LoadGraph(gpcCsv_[y][static_cast<int>(GPC_CSV_ITEM::PATH)].c_str(), true);
 
 				// graphics_map_に読み込んだ画像をパスと紐づけて保存
-				graphics_map_.insert(std::make_pair(graphFileName, gpc_hdl));
+				gpcMap_.insert(std::make_pair(graphFileName, gpc_hdl));
 
 				// 画像ハンドルを返す
 				return gpc_hdl;
@@ -64,17 +64,17 @@ namespace ito {
 	//----------------------------------------------------------------------------------------
 	// 画像を削除する関数
 	// 引数：削除する画像のファイル名
-	void ito::ResourceManager::deleteGraph_(std::string graphFileName) {
+	void ito::ResourceManager::deleteGraph(std::string graphFileName) {
 
 		// file_pathに対応する画像ハンドルを探す
-		auto it = graphics_map_.find(graphFileName);
+		auto it = gpcMap_.find(graphFileName);
 
 		// 画像ハンドルを解放
 		DeleteGraph(it->second);
 
 		// file_pathの画像パスを削除する
-		if (it != graphics_map_.end()) {
-			graphics_map_.erase(graphFileName);
+		if (it != gpcMap_.end()) {
+			gpcMap_.erase(graphFileName);
 		}
 
 	}
@@ -85,32 +85,32 @@ namespace ito {
 	std::shared_ptr<std::vector<int>> ito::ResourceManager::loadAnimGraph(std::string animFileName) {
 
 		// file_pathに対応する画像アニメーションハンドルを探す
-		auto it = animation_map_.find(animFileName);
+		auto it = animMap_.find(animFileName);
 
 
-		if (it != animation_map_.end()) {
-			return animation_map_[animFileName];
+		if (it != animMap_.end()) {
+			return animMap_[animFileName];
 		}
 
-		for (int y = 0; y < anim_csv_.size(); ++y) {
+		for (int y = 0; y < animCsv_.size(); ++y) {
 
-			if (anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::FILE_NAME)].getString() == animFileName) {
+			if (animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::FILE_NAME)].getString() == animFileName) {
 
 				// 画像アニメーションの読み込み
 				std::shared_ptr<std::vector<int>> anim_hdls
-					= std::make_shared<std::vector<int>>(anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::TOTAL_FRAMES)].getInt());
+					= std::make_shared<std::vector<int>>(animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::TOTAL_FRAMES)].getInt());
 
 				LoadDivGraph(
-					anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::PATH)].getString().c_str(),
-					anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::TOTAL_FRAMES)].getInt(),
-					anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::HOLIZONTAL_FRAMES)].getInt(),
-					anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::VERTICAL_FRAMES)].getInt(),
-					anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::WIDTH)].getInt(),
-					anim_csv_[y][static_cast<int>(ANIM_CSV_ITEM::HEIGHT)].getInt(),
+					animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::PATH)].getString().c_str(),
+					animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::TOTAL_FRAMES)].getInt(),
+					animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::HOLIZONTAL_FRAMES)].getInt(),
+					animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::VERTICAL_FRAMES)].getInt(),
+					animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::WIDTH)].getInt(),
+					animCsv_[y][static_cast<int>(ANIM_CSV_ITEM::HEIGHT)].getInt(),
 					anim_hdls->data() );
 
 				// 画像アニメーションをanimation_map_にパスと紐づけて保存
-				animation_map_.insert(std::make_pair(animFileName, anim_hdls));
+				animMap_.insert(std::make_pair(animFileName, anim_hdls));
 
 				// アニメーションハンドルを返す
 				return anim_hdls;
@@ -125,9 +125,9 @@ namespace ito {
 	void ResourceManager::deleteAnimGraph(std::string animFileName) {
 
 		// ANIM_CSV_OBJに対応する画像ハンドルを探す
-		auto it = animation_map_.find(animFileName);
+		auto it = animMap_.find(animFileName);
 
-		if (it != animation_map_.end()) {
+		if (it != animMap_.end()) {
 
 			std::shared_ptr<std::vector<int>> anim_hdls = it->second;
 
@@ -137,8 +137,8 @@ namespace ito {
 
 
 			// ANIM_CSV_OBJに対応するパスを削除する
-			if (it != animation_map_.end()) {
-				animation_map_.erase(animFileName);
+			if (it != animMap_.end()) {
+				animMap_.erase(animFileName);
 			}
 
 		}
@@ -148,25 +148,25 @@ namespace ito {
 	//----------------------------------------------------------------------------------------
 	// サウンドを読み込む関数
 	// 引数：サウンドのファイル名
-	int ResourceManager::loadSoundMem_(std::string soundFileName) {
+	int ResourceManager::loadSoundMem(std::string soundFileName) {
 
 		// SOUND_KINDSに対応するサウンドハンドルを探す
-		auto it = sounds_map_.find(soundFileName);
+		auto it = soundsMap_.find(soundFileName);
 
 		// 既にロードしてある場合、そのサウンドハンドルを返す
-		if (it != sounds_map_.end()) {
-			return sounds_map_[soundFileName];
+		if (it != soundsMap_.end()) {
+			return soundsMap_[soundFileName];
 		}
 
 		// csvに保存されたファイル名から同じものを探す
-		for (int y = 1; y < sounds_csv_.size(); ++y) {
-			if (sounds_csv_[y][static_cast<int>(SOUND_CSV_ITEM::FILE_NAME)] == soundFileName) {
+		for (int y = 1; y < soundsCsv_.size(); ++y) {
+			if (soundsCsv_[y][static_cast<int>(SOUND_CSV_ITEM::FILE_NAME)] == soundFileName) {
 
 				// サウンドの読み込み
-				int sound_hdl = LoadGraph(sounds_csv_[y][static_cast<int>(SOUND_CSV_ITEM::PATH)].c_str(), true);
+				int sound_hdl = LoadGraph(soundsCsv_[y][static_cast<int>(SOUND_CSV_ITEM::PATH)].c_str(), true);
 
 				// sounds_map_に読み込んだ画像をパスと紐づけて保存
-				sounds_map_.insert(std::make_pair(soundFileName, sound_hdl));
+				soundsMap_.insert(std::make_pair(soundFileName, sound_hdl));
 
 				// サウンドハンドルを返す
 				return sound_hdl;
@@ -180,18 +180,67 @@ namespace ito {
 	//----------------------------------------------------------------------------------------
 	// サウンドを削除する関数
 	// 引数：削除するサウンドのファイル名
-	void ResourceManager::deleteSoundMem_(std::string soundFileName) {
+	void ResourceManager::deleteSoundMem(std::string soundFileName) {
 
 		// SOUND_KINDSに対応する画像ハンドルを探す
-		auto it = sounds_map_.find(soundFileName);
+		auto it = soundsMap_.find(soundFileName);
 
 
 		// サウンドハンドルを解放
 		DeleteSoundMem(it->second);
 
 		// SOUND_KINDSに対応するパスを削除する
-		if (it != sounds_map_.end()) {
-			sounds_map_.erase(soundFileName);
+		if (it != soundsMap_.end()) {
+			soundsMap_.erase(soundFileName);
+		}
+
+	}
+
+
+	//----------------------------------------------------------------------------------------
+	// テクスチャを読み込む関数
+	// 引数：読み込むテクスチャ用画像のファイル名
+	std::shared_ptr<dxe::Texture> ito::ResourceManager::loadTexture(std::string graphFileName) {
+
+		// file_pathに対応する画像ハンドルを探す
+		auto it = textureMap_.find(graphFileName);
+
+		// 既にロードしてある場合、その画像ハンドルを返す
+		if (it != textureMap_.end()) {
+			return textureMap_[graphFileName];
+		}
+
+
+
+		for (int y = 1; y < textureCsv_.size(); ++y) {
+			if (textureCsv_[y][static_cast<int>(TEXTURE_CSV_ITEM::FILE_NAME)] == graphFileName) {
+				std::shared_ptr<dxe::Texture> textureHdl = dxe::Texture::CreateFromFile(textureCsv_[y][static_cast<int>(GPC_CSV_ITEM::PATH)].c_str());
+
+				// graphics_map_に読み込んだ画像をパスと紐づけて保存
+				textureMap_.insert(std::make_pair(graphFileName, textureHdl));
+
+				// 画像ハンドルを返す
+				return textureHdl;
+			}
+		}
+		// 読み込みできなかった場合はnullptrを返す
+		return nullptr;
+	}
+
+	//----------------------------------------------------------------------------------------
+	// テクスチャを削除する関数
+	// 引数：削除する画像のファイル名
+	void ito::ResourceManager::deleteTexture(std::string graphFileName) {
+
+		// file_pathに対応する画像ハンドルを探す
+		auto it = textureMap_.find(graphFileName);
+
+		// テクスチャハンドルを解放
+		it->second = nullptr;
+
+		// file_pathの画像パスを削除する
+		if (it != textureMap_.end()) {
+			textureMap_.erase(graphFileName);
 		}
 
 	}
@@ -199,7 +248,7 @@ namespace ito {
 
 	void ResourceManager::Destroy() {
 
-		delete GetInstance_();
+		delete GetInstance();
 	}
 
 }
