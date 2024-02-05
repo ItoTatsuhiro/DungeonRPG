@@ -20,13 +20,34 @@ public :
 
 	void update(float delta_time);
 
+	// シーケンスをWaitから次の処理に切り替える処理
+	void ChangeSeqFromWait();
 	
 private :
 
+	// デバッグ用の状態
+	// trueのときエネミーの処理を待たずに動ける
+	bool debugMode_ = false;
 
-	std::string seqNow_ = "seqIdle";
 
+	enum class SeqPlayer {
+		IDLE,			// 待機状態のシーケンス
+		MOVE_CHECK,		// 移動の確認のシーケンス
+		ROTATE_CHECK,	// 回転の確認のシーケンス
+		WAIT,			// 待機中のシーケンス
+		MOVING,			// 移動を行うシーケンス
+		ROTATING		// 回転を行うシーケンス
+		
+	};
 
+	// 実行中のシーケンス
+	SeqPlayer nowSeq_ = SeqPlayer::IDLE;
+
+	// 実行を行うシーケンス
+	// 基本はWaitで止めておく
+	// checkシーケンスからWaitに移動する際、Waitの後実行するシーケンスを入れておく
+	// この変数の値に応じてWaitからシーケンスを切り替える
+	SeqPlayer exequteSeq_ = SeqPlayer::WAIT;
 
 	// プレイヤーの状態用のシーケンス
 	tnl::Sequence<Player> seq_ = tnl::Sequence<Player>(this, &Player::seqIdle);
@@ -37,6 +58,8 @@ private :
 	bool seqMoveCheck(const float delta_time);
 	// 回転を準備するシーケンス
 	bool seqRotateCheck(const float delta_time);
+	// 待機するシーケンス
+	bool seqWait(const float delta_time);
 	// 移動を行うシーケンス
 	bool seqMoving(const float delta_time);
 	// 回転を行うシーケンス

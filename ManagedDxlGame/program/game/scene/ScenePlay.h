@@ -4,6 +4,7 @@
 
 #include "../map/Stage.h"
 #include "../object/Player.h"
+#include "../object/Enemy.h"
 
 #include "../other/TransformCamera.h"
 
@@ -23,7 +24,8 @@ public :
 
 private :
 
-
+	// プレイヤー、エネミーを生成する関数
+	void CreateCharacter();
 
 	// 一人称のカメラ
 	std::shared_ptr< TransformCamera > FPCamera_;
@@ -34,6 +36,10 @@ private :
 
 	// プレイヤーのクラス
 	std::shared_ptr<Player> player_ = nullptr;
+
+	// 敵キャラクターのクラス
+	std::shared_ptr<Enemy> enemy_ = nullptr;
+
 
 	// 1マスの縦横の大きさ
 	float gridSize_ = 50;

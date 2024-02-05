@@ -12,7 +12,7 @@ namespace ito {
 		gpcCsv_ = tnl::LoadCsv<std::string>("csv/Resource/graphData.csv");
 		animCsv_ = tnl::LoadCsv("csv/Resource/animData.csv");
 		soundsCsv_ = tnl::LoadCsv<std::string>("csv/Resource/soundData.csv");
-		textureCsv_ = tnl::LoadCsv<std::string>("csv/Resource/textureData.csv");
+		textureCsv_ = tnl::LoadCsv("csv/Resource/textureData.csv");
 	}
 
 	ito::ResourceManager::~ResourceManager() {
@@ -200,24 +200,24 @@ namespace ito {
 	//----------------------------------------------------------------------------------------
 	// テクスチャを読み込む関数
 	// 引数：読み込むテクスチャ用画像のファイル名
-	std::shared_ptr<dxe::Texture> ito::ResourceManager::loadTexture(std::string graphFileName) {
+	std::shared_ptr<dxe::Texture> ito::ResourceManager::loadTexture(std::string textureFileName) {
 
 		// file_pathに対応する画像ハンドルを探す
-		auto it = textureMap_.find(graphFileName);
+		auto it = textureMap_.find(textureFileName);
 
 		// 既にロードしてある場合、その画像ハンドルを返す
 		if (it != textureMap_.end()) {
-			return textureMap_[graphFileName];
+			return textureMap_[textureFileName];
 		}
 
 
 
 		for (int y = 1; y < textureCsv_.size(); ++y) {
-			if (textureCsv_[y][static_cast<int>(TEXTURE_CSV_ITEM::FILE_NAME)] == graphFileName) {
-				std::shared_ptr<dxe::Texture> textureHdl = dxe::Texture::CreateFromFile(textureCsv_[y][static_cast<int>(GPC_CSV_ITEM::PATH)].c_str());
+			if (textureCsv_[y][static_cast<int>(TEXTURE_CSV_ITEM::FILE_NAME)].getString().c_str() == textureFileName) {
+				std::shared_ptr<dxe::Texture> textureHdl = dxe::Texture::CreateFromFile(textureCsv_[y][static_cast<int>(GPC_CSV_ITEM::PATH)].getString().c_str());
 
 				// graphics_map_に読み込んだ画像をパスと紐づけて保存
-				textureMap_.insert(std::make_pair(graphFileName, textureHdl));
+				textureMap_.insert(std::make_pair(textureFileName, textureHdl));
 
 				// 画像ハンドルを返す
 				return textureHdl;
@@ -230,17 +230,37 @@ namespace ito {
 	//----------------------------------------------------------------------------------------
 	// テクスチャを削除する関数
 	// 引数：削除する画像のファイル名
-	void ito::ResourceManager::deleteTexture(std::string graphFileName) {
+	void ito::ResourceManager::deleteTexture(std::string textureFileName) {
 
 		// file_pathに対応する画像ハンドルを探す
-		auto it = textureMap_.find(graphFileName);
+		auto it = textureMap_.find(textureFileName);
 
 		// テクスチャハンドルを解放
 		it->second = nullptr;
 
 		// file_pathの画像パスを削除する
 		if (it != textureMap_.end()) {
-			textureMap_.erase(graphFileName);
+			textureMap_.erase(textureFileName);
+		}
+
+	}
+
+	//----------------------------------------------------------------------------------------
+	// 読み込んだテクスチャの分割数を取得する関数
+	// 引数：テクスチャの画像ファイル名(std::string型)
+	tnl::Vector2i ito::ResourceManager::getTextureCutNum(std::string textureFileName) {
+
+		for (int y = 1; y < textureCsv_.size(); ++y) {
+			if (textureCsv_[y][static_cast<int>(TEXTURE_CSV_ITEM::FILE_NAME)].getString().c_str() == textureFileName) {
+				
+				tnl::Vector2i textureCutNum;
+
+				textureCutNum = { textureCsv_[y][static_cast<int>(TEXTURE_CSV_ITEM::CUT_NUM_OF_U)].getInt(),
+									textureCsv_[y][static_cast<int>(TEXTURE_CSV_ITEM::CUT_NUM_OF_V)].getInt() };
+
+				// 画像ハンドルを返す
+				return textureCutNum;
+			}
 		}
 
 	}

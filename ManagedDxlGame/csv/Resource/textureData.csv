@@ -1,4 +1,4 @@
-,ファイル名,テクスチャ用画像のパス
-壁,kokeBrick_Box.png,graphics/myGpc/texture/kokeBrick_Box.png
-地面,tileStone_hibi.png,graphics/myGpc/texture/tileStone_hibi.png
-敵(wisp)1,wispAnim.png,graphics/myGpc/texture/wispAnim.png
+,ファイル名,テクスチャ用画像のパス,分割数U(x),分割数V(y)
+壁,kokeBrick_Box.png,graphics/myGpc/texture/kokeBrick_Box.png,,
+地面,tileStone_hibi.png,graphics/myGpc/texture/tileStone_hibi.png,,
+敵(wisp)1,wispAnimDir4.png,graphics/myGpc/texture/wispAnimDir4.png,4,4

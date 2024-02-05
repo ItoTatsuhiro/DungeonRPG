@@ -24,10 +24,10 @@ public :
 	virtual ~CharacterBase();
 
 	// 毎フレーム処理を行う関数
-	void update( float delta_time );
+	virtual void update( float delta_time );
 
 	// 描画処理の関数
-	void draw();
+	virtual void draw();
 
 	// プレイヤーのTransformを取得する関数
 	const ito::Transform getTransform() { return nowTransform_; }

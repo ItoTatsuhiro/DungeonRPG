@@ -9,14 +9,10 @@ ScenePlay::ScenePlay() {
 	FPCamera_ = std::make_shared< TransformCamera >(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
 	// ステージを管理するクラスの生成
-	// stage_ = std::shared_ptr<Stage>(new Stage("test", "csv/mapData.csv"));
 	stage_ = Stage::GetInstance("test", "csv/mapData.csv", gridSize_);
 
-	// プレイヤーの作成
-	player_ = std::shared_ptr<Player>( new Player(gridSize_, { 0, 0 }) );
+	CreateCharacter();
 
-	// プレイヤーのセット
-	stage_->setPlayer(player_);
 }
 
 
@@ -39,6 +35,8 @@ void ScenePlay::update(float delta_time) {
 	stage_->update(delta_time);
 
 	player_->update(delta_time);
+
+	enemy_->update(delta_time);
 }
 
 void ScenePlay::draw() {
@@ -46,5 +44,16 @@ void ScenePlay::draw() {
 	// ステージの描画
 	stage_->draw(FPCamera_);
 
+	enemy_->draw(FPCamera_);
+
 }
 
+
+void ScenePlay::CreateCharacter() {
+
+	// プレイヤーの作成
+	player_ = std::shared_ptr<Player>(new Player(gridSize_, { 0, 0 }));
+
+	enemy_ = std::shared_ptr<Enemy>(new Enemy(gridSize_, { 4, 1 }, player_));
+
+}

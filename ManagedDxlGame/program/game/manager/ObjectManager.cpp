@@ -61,7 +61,10 @@ std::shared_ptr<ito::Object3D> ObjectManager::createCube(float size, std::string
 // 同名のオリジナルが作成されていればクローンを返し、
 // 作成されていなければ作成してからクローンを返す
 // 引数：size...Planeの大きさ(z方向は不使用), name...オブジェクト名
-std::shared_ptr<ito::Object3D> ObjectManager::createPlane(tnl::Vector3 size, std::string name) {
+// ===========以下の変数はアニメーションを行う場合に使用===========
+// startPosOfCut...テクスチャの分割の開始地点(デフォルトは{ 0, 0, 0 })
+// endPosOfCut...テクスチャの分割の終了地点(デフォルトは{ 1, 1, 0 })
+std::shared_ptr<ito::Object3D> ObjectManager::createPlane(tnl::Vector3 size, std::string name, tnl::Vector3 startPosOfCut, tnl::Vector3 endPosOfCut) {
 
 	// 同名のオリジナルオブジェクトを探す
 	auto it = originObjList_.find(name);
@@ -75,7 +78,8 @@ std::shared_ptr<ito::Object3D> ObjectManager::createPlane(tnl::Vector3 size, std
 
 	// 保存されていなかった場合、オリジナルのオブジェクトを作成する
 	std::shared_ptr<ito::Object3D> planeObj = std::make_shared< ito::Object3D >();
-	planeObj->set_mesh_(dxe::Mesh::CreatePlaneMV(size));
+	planeObj->set_mesh_(dxe::Mesh::CreatePlaneMV(size, 10, 10, false, startPosOfCut, endPosOfCut));
+	planeObj->get_mesh_()->setName(name);
 	originObjList_.insert(std::make_pair(name, planeObj));
 
 	// オリジナルのクローンのメッシュを持つオブジェクトを作成する

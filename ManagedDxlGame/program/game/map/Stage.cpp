@@ -13,6 +13,8 @@ Stage::Stage(std::string startStage, std::string csvPath, float gridSize) : grid
 
 	LoadMap(startStage, csvPath);
 
+	CreateStage(startStage);
+
 	nowStage_ = startStage;
 	seq_.change(&Stage::seqStageChange);
 
@@ -58,12 +60,6 @@ void Stage::draw(std::shared_ptr<dxe::Camera> camera) {
 	if (!existNowStage_) return;
 
 
-	//// 現在のステージのオブジェクトを描画する
-	//for (int y = 0; y < stageObjMap_[nowStage_].size(); ++y) {
-	//	for (int x = 0; x < stageObjMap_[nowStage_][y].size(); ++x) {
-	//		stageObjMap_[nowStage_][y][x]->draw(camera);
-	//	}
-	//}
 
 
 	sortObjectList(camera);
@@ -128,9 +124,19 @@ int Stage::CheckGridPosInt(tnl::Vector2i checkGrid) {
 std::shared_ptr<ObjectBlockBase> Stage::CheckGridPosObj(tnl::Vector2i checkGrid) {
 
 	tnl::DebugTrace(" %d ", stageObjMap_[nowStage_][checkGrid.y][checkGrid.x]);
+
 	return stageObjMap_[nowStage_][checkGrid.y][checkGrid.x];
+
 }
 
+
+// 引数のマスの座標を取得する関数
+// 引数：grid...座標を確認するマスの要素番号
+tnl::Vector3 Stage::getGridObjPos(tnl::Vector2i grid) {
+
+	return tnl::Vector3(basePos_.x + grid.x * gridSize_, basePos_.y, basePos_.z - grid.y * gridSize_);
+
+}
 
 
 // 描画するオブジェクトを描画するlistに入れる関数
@@ -233,13 +239,35 @@ bool Stage::seqStageChange(const float delta_time) {
 		return true;
 	}
 
+	CreateStage(nowStage_);
+
+	// ステージを次のステージに切り替える
+	// nowStage_ = nextStage;
+	// 次のシーケンスに切り替える
+	seq_.change(&Stage::seqCheckNowStage);
+
+	return true;
+}
+
+// ステージのオブジェクトを作成する関数
+// 引数：stage...作成するステージ名
+void Stage::CreateStage(std::string stage) {
+
+	// 次のステージマップのオブジェクトを作成してあるか確認確認
+	auto itObj = stageObjMap_.find(nowStage_);
+	// 読み込んである場合
+	if (itObj != stageObjMap_.end()) {
+
+		return;
+	}
+
 	// 次のステージが作成されていない場合
 	// ステージの配列情報が読み込んであるか確認
 	auto itArray = stageArrayMap_.find(nowStage_);
 	if (itArray == stageArrayMap_.end()) {
-		tnl::DebugTrace("ステージの配列が読み込みできていません");
+		tnl::DebugTrace("ステージの配列が読み込みできていません\n");
 		seq_.change(&Stage::seqCheckNowStage);
-		return true;
+		return;
 	}
 
 	// マップのオブジェクトを保存する二重のvector
@@ -261,7 +289,7 @@ bool Stage::seqStageChange(const float delta_time) {
 			switch (stageArrayMap_[nowStage_][y][x]) {
 			case 0:
 
-				/*std::shared_ptr<ObjectBlockBase> */floorObj = std::shared_ptr<Floor>(new Floor( gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
+				floorObj = std::shared_ptr<Floor>(new Floor(gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
 				// x方向のvectorに生成したオブジェクトを追加
 				mapObjX.emplace_back(floorObj);
 
@@ -269,7 +297,7 @@ bool Stage::seqStageChange(const float delta_time) {
 
 			case 1:
 				// 1の時壁のオブジェクトを生成
-				std::shared_ptr<ObjectBlockBase> wallObj = std::shared_ptr<Wall>( new Wall( gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
+				std::shared_ptr<ObjectBlockBase> wallObj = std::shared_ptr<Wall>(new Wall(gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
 				// x方向のvectorに生成したオブジェクトを追加
 				mapObjX.emplace_back(wallObj);
 
@@ -288,10 +316,6 @@ bool Stage::seqStageChange(const float delta_time) {
 
 	drawObjectInList();
 
-	// ステージを次のステージに切り替える
-	// nowStage_ = nextStage;
-	// 次のシーケンスに切り替える
-	seq_.change(&Stage::seqCheckNowStage);
+	return;
 
-	return true;
 }

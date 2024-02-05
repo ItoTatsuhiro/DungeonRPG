@@ -31,6 +31,10 @@ public :
 
 	// canMoveのゲッター
 	bool getCanMove() const { return canMove_; }
+	
+	// 座標を取得するゲッター
+	// 継承先でメッシュの座標を取得できるよう関数を用意すること
+	// virtual tnl::Vector3 getMeshPos() = 0 { return tnl::Vector3{ -1, -1, -1 }; }
 
 	//-----------------------------------------------------------------------
 	// セッター

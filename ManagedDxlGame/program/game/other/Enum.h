@@ -31,4 +31,18 @@ namespace Enum {
 		return left;
 	}
 
+	// Dir4‚Ì-‰‰ŽZŽq
+	inline Dir4 operator-(const Dir4& left, const Dir4& right) {
+
+		return static_cast<Dir4>( std::abs(static_cast<int>(left) - static_cast<int>(right)) % static_cast<int>(Dir4::DIRMAX) );
+	}
+
+	// Dir4‚Ì-=‰‰ŽZŽq
+	inline Dir4 operator-=(Dir4& left, const Dir4& right) {
+
+		left = static_cast<Dir4>( std::abs(static_cast<int>(left) - static_cast<int>(right)) % static_cast<int>(Dir4::DIRMAX) );
+
+		return left;
+	}
+
 };

@@ -34,7 +34,7 @@ public :
 	void draw(std::shared_ptr<dxe::Camera> camera);
 
 	// プレイヤーをセットする関数
-	void setPlayer(std::shared_ptr<Player> player) { player_ = player; }
+	// void setPlayer(std::shared_ptr<Player> player) { player_ = player; }
 
 	// 新たにマップを読み込む関数
 	void LoadMap(std::string name, std::string csvPath);
@@ -52,6 +52,10 @@ public :
 	// 引数：checkGrid...マップの配列から確認する要素番号(x, y)
 	std::shared_ptr<ObjectBlockBase> CheckGridPosObj(tnl::Vector2i checkGrid);
 
+	// 引数のマスの座標を取得する関数
+	// 引数：grid...座標を確認するマスの要素番号
+	tnl::Vector3 getGridObjPos(tnl::Vector2i grid);
+
 	// 描画するオブジェクトを描画するlistに入れる関数
 	void drawObjectInList();
 
@@ -61,7 +65,7 @@ public :
 private :
 
 	// プレイヤー
-	std::shared_ptr<Player> player_ = nullptr;
+	// std::shared_ptr<Player> player_ = nullptr;
 
 	// 描画するオブジェクトのリスト
 	// 描画前に毎回カメラからの距離でソートする
@@ -99,7 +103,7 @@ private :
 	// 引数：nextStage...次に切り替えるステージ
 	bool seqStageChange(const float delta_time);
 
-
+	void CreateStage(std::string stage);
 
 	// ステージの配列を保存するunordered_map
 	// 引数：string...名前, std::vector～<int>>>...マップの配列

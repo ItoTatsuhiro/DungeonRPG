@@ -30,7 +30,7 @@ public :
 
 	// dir_のゲッター
 	// 戻り値：dir_...向いている方向
-	Enum::Dir4 getDir() { return frontDir_; }
+	Enum::Dir4 getFrontDir() { return frontDir_; }
 
 	//----------------------------------------------------------------------------------------
 	// セッター

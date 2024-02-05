@@ -83,13 +83,15 @@ namespace ito {
 		// テクスチャ関係
 
 		// テクスチャのパスのcsvの内容を読み込む用のvector
-		std::vector<std::vector<std::string>> textureCsv_;
+		std::vector<std::vector<tnl::CsvCell>> textureCsv_;
 		// 読み込んだパスを保存する用のmap
 		std::unordered_map < std::string, std::shared_ptr<dxe::Texture> > textureMap_;
 		// テクスチャのcsvの項目(x方向)
 		enum class TEXTURE_CSV_ITEM {
 			FILE_NAME = 1,			// テクスチャ用画像のファイル名
 			PATH,					// テクスチャのパス
+			CUT_NUM_OF_U,			// U方向の分割数
+			CUT_NUM_OF_V,			// V方向の分割数
 			MAX						// 項目の数+1
 		};
 
@@ -137,11 +139,13 @@ namespace ito {
 
 		// テクスチャを読み込む関数
 		// 引数：テクスチャのファイル名(std::string型)
-		std::shared_ptr<dxe::Texture> loadTexture(std::string soundFileName);
+		std::shared_ptr<dxe::Texture> loadTexture(std::string textureFileName);
 		// 読み込んだテクスチャを削除する関数
 		// 引数：テクスチャの画像ファイル名(std::string型)
-		void deleteTexture(std::string soundFileName);
-
+		void deleteTexture(std::string textureFileName);
+		// 読み込んだテクスチャの分割数を取得する関数
+		// 引数：テクスチャの画像ファイル名(std::string型)
+		tnl::Vector2i getTextureCutNum(std::string textureFileName);
 
 		// リソースマネージャー自体をdestroyするための関数
 		static void Destroy();
