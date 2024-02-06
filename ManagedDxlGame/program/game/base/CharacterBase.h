@@ -44,9 +44,9 @@ protected :
 	// Plauer, Enemy等の回転を行う際はこの関数を使用する
 	void Rotating(float delta_time);
 
-	// シーケンスを切り替えが可能かどうかのフラグ
+	// 行動が終了しているかどうかのフラグ
 	// Move, Rotate等の処理中はfalseにすること
-	bool canChengeSeq_ = true;
+	bool finishAction_ = true;
 
 	// 次に移動する移動先を計算する関数
 	// moveGrid_（マス目を移動する方向ベクトル）も計算

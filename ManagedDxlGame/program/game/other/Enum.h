@@ -45,4 +45,6 @@ namespace Enum {
 		return left;
 	}
 
+	
+
 };

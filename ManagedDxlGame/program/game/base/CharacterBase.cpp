@@ -60,7 +60,7 @@ void CharacterBase::Moving( float delta_time ) {
 		// ˆÚ“®‚·‚é—Ê‚ðƒŠƒZƒbƒg
 		moveGrid_ = tnl::Vector2i{ 0, 0 };
 
-		canChengeSeq_ = true;
+		finishAction_ = true;
 	}
 
 }
@@ -110,7 +110,7 @@ void CharacterBase::Rotating(float delta_time) {
 
 		nextDir_ = Enum::Dir4::UP;
 
-		canChengeSeq_ = true;
+		finishAction_ = true;
 	}
 
 }

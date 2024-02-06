@@ -3,6 +3,11 @@
 
 #include "../object/Enemy.h"
 
+// 前方宣言
+class Player;
+class Enemy;
+
+
 // ターンの処理を管理する用のクラス
 // プレイヤー、敵の処理状態を確認し、揃える役割
 class TurnManager {
@@ -20,19 +25,72 @@ public :
 	~TurnManager();
 
 	// 更新用の関数
-	void update();
+	void update(float delta_time);
 
+	// プレイヤーをセットする関数
+	// シーンで呼び出してセットする
+	// 引数：プレイヤー
+	void setPlayer(std::shared_ptr<Player> player) { player_ = player; };
+	// 敵のリストをセットする関数
+	// シーンで呼び出してセットする
+	// 引数：敵のリスト
+	void setEnemyList(std::list<std::shared_ptr<Enemy>> enemyList);
+
+	// プレイヤーが入力が行われた際に呼び出す関数
+	// 敵の処理を行うシーケンスに遷移するための関数
+	void ChangeSeqFromWaitPlayerInput();
+
+	// プレイヤーの行動が終了した際に呼び出す関数
+	// actionEndPlayer_をtrueにする
+	void ActionEndPlayer();
+
+	// 敵の行動が終了した際に呼び出す関数
+	// actionEndEnemyListのうち、falseを一つtrueにする関数
+	void ActionEndEnemy();
 
 private :
+	// プレイヤー
+	// シーンでsetPlayer関数を用いてセットする
+	// 座標等取得に必要
+	std::shared_ptr<Player> player_;
+
+	// 敵キャラクターのリスト
+	// シーンでsetEnemyList関数でセットする
+	// 座標取得に必要
+	std::list<std::shared_ptr<Enemy>> enemyList_;
+
+	// プレイヤーの行動が終了しているかどうかのフラグ
+	bool actionEndPlayer_ = false;
+
+
+	std::list<bool> actionEndEnemyList_;
+
+	// 敵キャラクターが動くかどうかのフラグ
+	bool canMoveEnemy_ = true;
 
 
 
-	// 管理を行う敵リスト
-	// 行動を行う敵キャラクター(オブジェクト)はこのリストに入れる
-	std::list< Enemy > enemyList_;
 
+	// ターンマネージャーのシーケンスを表す定数
+	enum class TurnManagerSeq {
+		WAIT_PLAYER_INPUT,
+		ENEMY_ACTION_DICADE,
+		CHECK_ACTION,
+		ACTION
+	};
 
-	
+	// 現在のシーケンス
+	TurnManagerSeq nowSeq_ = TurnManagerSeq::WAIT_PLAYER_INPUT;
 
+	// 動作を管理する用のシーケンス
+	tnl::Sequence<TurnManager> seq_ = tnl::Sequence<TurnManager>(this, &TurnManager::seqWaitPlayerInput);
 
+	// プレイヤーの入力待ちのシーケンス
+	bool seqWaitPlayerInput(const float delta_time);
+	// 敵キャラクターの行動を決定するシーケンス
+	bool seqEnemyActionDecade(const float delta_time);
+	// それぞれのキャラクターの行動を確認するシーケンス
+	bool seqCheckAction(const float delta_time);
+	// 行動を行うシーケンス
+	bool seqAction(const float delta_time);
 };

@@ -5,6 +5,7 @@
 #include "../map/Stage.h"
 #include "../object/Player.h"
 #include "../object/Enemy.h"
+#include "../manager/TurnManager.h"
 
 #include "../other/TransformCamera.h"
 
@@ -20,9 +21,17 @@ public :
 	// 描画の処理
 	void draw() override;
 
-
+	// ステージを取得する関数
+	std::shared_ptr<Stage> getStage() const { return stage_; }
+	// プレイヤーを取得する関数
+	std::shared_ptr<Player> getPlayer() const { return player_; }
+	// 敵キャラクターを取得する関数
+	std::shared_ptr<Enemy> getEnemy() const { return enemy_; }
 
 private :
+
+	
+	std::shared_ptr< TurnManager > turnManager_ = nullptr;
 
 	// プレイヤー、エネミーを生成する関数
 	void CreateCharacter();
@@ -39,6 +48,9 @@ private :
 
 	// 敵キャラクターのクラス
 	std::shared_ptr<Enemy> enemy_ = nullptr;
+
+	// 敵キャラクターのリスト
+	std::list<std::shared_ptr<Enemy>> enemyList_;
 
 
 	// 1マスの縦横の大きさ

@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "../manager/TurnManager.h"
+
 
 // コンストラクタ
 // 引数：cellSize...1マス分の大きさ, startGridPos...マップ上での初期座標
@@ -25,9 +27,6 @@ Player::~Player() {
 
 void Player::update(float delta_time) {
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
-		ChangeSeqFromWait();
-	}
 
 	if (tnl::Input::IsKeyDown(eKeys::KB_LCONTROL) && tnl::Input::IsKeyDownTrigger(eKeys::KB_Q)) {
 		debugMode_ = !debugMode_;
@@ -51,28 +50,29 @@ void Player::ChangeSeqFromWait() {
 
 	// 次の行動が決定している時以外以下を処理しない
 	// 
-	if (nowSeq_ != SeqPlayer::WAIT) {
+	if (nowSeq_ != PlayerSeq::WAIT) {
 		tnl::DebugTrace("プレイヤーのシーケンスを切り替えできませんでした\n");
+		// seq_.change(&Player::seqIdle);
 		return;
 	}
 
 	// 実行するシーケンスに応じて次のシーケンスに切り替える
-	switch (exequteSeq_) {
-	case SeqPlayer::MOVING :
+	switch (decadedSeq) {
+	case PlayerSeq::MOVING :
 
 		seq_.change(&Player::seqMoving);
-		nowSeq_ = SeqPlayer::MOVING;
+		nowSeq_ = PlayerSeq::MOVING;
 
-		exequteSeq_ = SeqPlayer::WAIT;
+		decadedSeq = PlayerSeq::WAIT;
 
 		break;
 
-	case SeqPlayer::ROTATING :
+	case PlayerSeq::ROTATING :
 
 		seq_.change(&Player::seqRotating);
-		nowSeq_ = SeqPlayer::ROTATING;
+		nowSeq_ = PlayerSeq::ROTATING;
 
-		exequteSeq_ = SeqPlayer::WAIT;
+		decadedSeq = PlayerSeq::WAIT;
 
 		break;
 
@@ -98,7 +98,7 @@ bool Player::seqIdle(const float delta_time) {
 
 		// 移動するシーケンスに移動
 		seq_.change(&Player::seqMoveCheck);
-		nowSeq_ = SeqPlayer::MOVE_CHECK;
+		nowSeq_ = PlayerSeq::MOVE_CHECK;
 	}
 
 
@@ -116,7 +116,7 @@ bool Player::seqIdle(const float delta_time) {
 
 			// 移動するシーケンスに移動
 			seq_.change(&Player::seqMoveCheck);
-			nowSeq_ = SeqPlayer::MOVE_CHECK;
+			nowSeq_ = PlayerSeq::MOVE_CHECK;
 		}
 		// 左向きに回転する処理
 		else {
@@ -125,7 +125,7 @@ bool Player::seqIdle(const float delta_time) {
 			// 回転するシーケンスに移動
 			seq_.change(&Player::seqRotateCheck);
 
-			nowSeq_ = SeqPlayer::ROTATE_CHECK;
+			nowSeq_ = PlayerSeq::ROTATE_CHECK;
 		}
 	}
 
@@ -140,7 +140,7 @@ bool Player::seqIdle(const float delta_time) {
 
 			// 移動するシーケンスに移動
 			seq_.change(&Player::seqMoveCheck);
-			nowSeq_ = SeqPlayer::MOVE_CHECK;
+			nowSeq_ = PlayerSeq::MOVE_CHECK;
 		}
 		// 右向きに回転する処理
 		else {
@@ -148,7 +148,7 @@ bool Player::seqIdle(const float delta_time) {
 			nextDir_ += Enum::Dir4::RIGHT;
 			// 回転するシーケンスに移動
 			seq_.change(&Player::seqRotateCheck);
-			nowSeq_ = SeqPlayer::ROTATE_CHECK;
+			nowSeq_ = PlayerSeq::ROTATE_CHECK;
 		}
 	}
 
@@ -163,7 +163,7 @@ bool Player::seqIdle(const float delta_time) {
 
 			// 移動するシーケンスに移動
 			seq_.change(&Player::seqMoveCheck);
-			nowSeq_ = SeqPlayer::MOVE_CHECK;
+			nowSeq_ = PlayerSeq::MOVE_CHECK;
 		}
 
 		else {
@@ -171,7 +171,7 @@ bool Player::seqIdle(const float delta_time) {
 			nextDir_ += Enum::Dir4::DOWN;
 			// 回転するシーケンスに移動
 			seq_.change(&Player::seqRotateCheck);
-			nowSeq_ = SeqPlayer::ROTATE_CHECK;
+			nowSeq_ = PlayerSeq::ROTATE_CHECK;
 		}
 	}
 
@@ -186,7 +186,7 @@ bool Player::seqMoveCheck(const float delta_time) {
 	if (stage_->CheckGridPosInt(nextGridPos_) == -1) {
 		tnl::DebugTrace("配列外のため移動できません\n");
 		
-		nowSeq_ = SeqPlayer::IDLE;		
+		nowSeq_ = PlayerSeq::IDLE;		
 		seq_.change(&Player::seqIdle);
 
 		return true;
@@ -199,7 +199,7 @@ bool Player::seqMoveCheck(const float delta_time) {
 		nextGridPos_ = gridPos_;
 		// シーケンスを待機中に戻す
 		seq_.change(&Player::seqIdle);
-		nowSeq_ = SeqPlayer::IDLE;
+		nowSeq_ = PlayerSeq::IDLE;
 		// 処理を終了する
 		return true;
 	}
@@ -208,16 +208,19 @@ bool Player::seqMoveCheck(const float delta_time) {
 		// 移動先の座標を設定
 		nextTransform_.setPos_( { nextGridPos_.x * gridSize_, gridSize_, -nextGridPos_.y * gridSize_ });
 
+		TurnManager::GetInstance()->ChangeSeqFromWaitPlayerInput();
+
+
 		// 待機を行うシーケンスに切り替え
 		seq_.change(&Player::seqWait);
 
 		// シーケンスの切り替えを制限
-		canChengeSeq_ = false;
+		finishAction_ = false;
 
 		// 状態を待機に切り替え
-		nowSeq_ = SeqPlayer::WAIT;
+		nowSeq_ = PlayerSeq::WAIT;
 		// 待機後の行動をMovingに設定
-		exequteSeq_ = SeqPlayer::MOVING;
+		decadedSeq = PlayerSeq::MOVING;
 
 		return true;
 	}
@@ -249,12 +252,12 @@ bool Player::seqRotateCheck(const float delta_time) {
 	seq_.change(&Player::seqWait);
 
 	// シーケンスの切り替えを制限
-	canChengeSeq_ = false;
+	finishAction_ = false;
 
 	// 現在のシーケンスをWaitに変更
-	nowSeq_ = SeqPlayer::WAIT;
+	nowSeq_ = PlayerSeq::WAIT;
 	// 待機後の行動をRotatingに設定
-	exequteSeq_ = SeqPlayer::ROTATING;
+	decadedSeq = PlayerSeq::ROTATING;
 
 	return true;
 }
@@ -263,6 +266,12 @@ bool Player::seqRotateCheck(const float delta_time) {
 // このシーケンス中にChangeSeqFromWait関数を実行することで、
 // 事前に確認を行ったシーケンス(MovingかRotating)に移動する
 bool Player::seqWait(const float delta_time) {
+
+	if (nowSeq_ != PlayerSeq::WAIT) { nowSeq_ = PlayerSeq::WAIT; }
+
+	if (decadedSeq == PlayerSeq::ROTATING) {
+		seq_.change(&Player::seqRotating);
+	}
 
 	if (debugMode_) {
 		ChangeSeqFromWait();
@@ -276,7 +285,9 @@ bool Player::seqMoving(const float delta_time) {
 
 	Moving(delta_time);
 
-	if (canChengeSeq_) {
+	if (finishAction_) {
+		TurnManager::GetInstance()->ActionEndPlayer();
+
 		seq_.change(&Player::seqIdle);
 	}
 
@@ -289,10 +300,10 @@ bool Player::seqRotating(const float delta_time) {
 
 	Rotating(delta_time);
 
-	if (canChengeSeq_) {
+	if (finishAction_) {
 
 		seq_.change(&Player::seqIdle);
-		nowSeq_ = SeqPlayer::IDLE;
+		nowSeq_ = PlayerSeq::IDLE;
 	}
 
 	return true;

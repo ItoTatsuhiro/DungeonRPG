@@ -23,6 +23,19 @@ public :
 	// シーケンスをWaitから次の処理に切り替える処理
 	void ChangeSeqFromWait();
 	
+
+	enum class PlayerSeq {
+		IDLE,			// 待機状態のシーケンス
+		MOVE_CHECK,		// 移動の確認のシーケンス
+		ROTATE_CHECK,	// 回転の確認のシーケンス
+		WAIT,			// 待機中のシーケンス
+		MOVING,			// 移動を行うシーケンス
+		ROTATING		// 回転を行うシーケンス
+
+	};
+
+	PlayerSeq getNowSeq() const { return nowSeq_; }
+
 private :
 
 	// デバッグ用の状態
@@ -30,24 +43,16 @@ private :
 	bool debugMode_ = false;
 
 
-	enum class SeqPlayer {
-		IDLE,			// 待機状態のシーケンス
-		MOVE_CHECK,		// 移動の確認のシーケンス
-		ROTATE_CHECK,	// 回転の確認のシーケンス
-		WAIT,			// 待機中のシーケンス
-		MOVING,			// 移動を行うシーケンス
-		ROTATING		// 回転を行うシーケンス
-		
-	};
+
 
 	// 実行中のシーケンス
-	SeqPlayer nowSeq_ = SeqPlayer::IDLE;
+	PlayerSeq nowSeq_ = PlayerSeq::IDLE;
 
-	// 実行を行うシーケンス
-	// 基本はWaitで止めておく
-	// checkシーケンスからWaitに移動する際、Waitの後実行するシーケンスを入れておく
-	// この変数の値に応じてWaitからシーケンスを切り替える
-	SeqPlayer exequteSeq_ = SeqPlayer::WAIT;
+	// 実行する行動
+	// WAITに移動する際に決定したシーケンスを入れる
+	// WAITから切り替える際にこれを参照して切り替える
+	// 行動が決定していないときはWAITにしておく
+	PlayerSeq decadedSeq = PlayerSeq::WAIT;
 
 	// プレイヤーの状態用のシーケンス
 	tnl::Sequence<Player> seq_ = tnl::Sequence<Player>(this, &Player::seqIdle);

@@ -104,8 +104,25 @@ void Stage::StageChange(std::string nextStage) {
 }
 
 //-------------------------------------------------------------------------------------
+// 引数のマスに移動できるか調べる関数
+// 移動できるときはtrue、できないときはfalseを返す
+// 引数：checkGrid...マップの配列から確認する要素番号(x, y)
+bool Stage::CheckGridCanMove(tnl::Vector2i checkGrid) {
+
+
+	// 以下の条件の時falseを返す
+	// １．配列の範囲外の時
+	// ２．移動先のマスのオブジェクトが移動できないとき
+	if (CheckGridPosInt(checkGrid) == -1 || !(CheckGridPosObj(checkGrid)->getCanMove())) { return false; }
+	// ↑の条件を満たさなかったときはtrueを返す
+	else return true;
+
+}
+
+//-------------------------------------------------------------------------------------
 // 引数の座標のマップの数値を調べる関数
 // 引数：checkGrid...マップの配列から確認する要素番号(x, y)
+// ※配列の範囲外のときは-1を返す
 int Stage::CheckGridPosInt(tnl::Vector2i checkGrid) {
 
 	// 配列の範囲外のとき、-1を返す

@@ -33,12 +33,28 @@ public :
 	// シーケンスをWaitから次の処理に切り替える処理
 	void ChangeSeqFromWait();
 
+	// 敵のシーケンスを表す定数
+	enum class EnemySeq {
+		IDLE,				// プレイヤーの入力待ち
+		ACTION_DICADE,		// 行動を決定
+		MOVE_CHECK,			// 移動の確認
+		ROT_CHECK,			// 回転の確認
+		WAIT,				// 待機
+		MOVING,				// 移動中
+		ROTATING			// 回転中
+	};
 
+	EnemySeq getNowSeqEnemy() const { return nowSeq_; }
 
 private :
-	// 前にいたマス
-	// 移動を決定する場合は行き止まり以外では前のマス以外に行くようにする
-	tnl::Vector2i beforeGrid_ = { 0, 0 };
+
+	// 特定のキーを押したときに敵だけで動くようにする
+	bool actDebugMove = false;
+
+
+	// 進行方向
+	// 壁等にぶつかるまでは進行方向に進み続ける
+	Enum::Dir4 moveDir_ = frontDir_;
 
 	// EnemyのMesh
 	// 2Dの画像を貼り付けるPlaneを用意する用
@@ -63,26 +79,32 @@ private :
 	std::shared_ptr<Player> player_ = nullptr;
 	
 
+	// 現在のシーケンス
+	EnemySeq nowSeq_ = EnemySeq::IDLE;
 
+	// 実行する行動
+	// WAITに移動する際に決定したシーケンスを入れる
+	// WAITから切り替える際にこれを参照して切り替える
+	// 行動が決定していないときはWAITにしておく
+	EnemySeq decadedSeq_ = EnemySeq::WAIT;
 
+	// 敵の状態用のシーケンス
+	tnl::Sequence<Enemy> seq_ = tnl::Sequence<Enemy>(this, &Enemy::seqIdle);
 
-	//// プレイヤーの状態用のシーケンス
-	//tnl::Sequence<Enemy> seq_ = tnl::Sequence<Enemy>(this, &Enemy::seqIdle);
-
-	//// 待機中のシーケンス
-	//bool seqIdle(const float delta_time);
-	//// 行動内容を決定するシーケンス
-	//bool seqActionDecide(const float delta_time);
-	//// 移動を準備するシーケンス
-	//bool seqMoveCheck(const float delta_time);
-	//// 回転を準備するシーケンス
-	//bool seqRotateCheck(const float delta_time);
-	//// 待機するシーケンス
-	//bool seqWait(const float delta_time);
-	//// 移動を行うシーケンス
-	//bool seqMoving(const float delta_time);
-	//// 回転を行うシーケンス
-	//bool seqRotating(const float delta_time);
+	// 待機中のシーケンス
+	bool seqIdle(const float delta_time);
+	// 行動内容を決定するシーケンス
+	bool seqActionDecide(const float delta_time);
+	// 移動を準備するシーケンス
+	bool seqMoveCheck(const float delta_time);
+	// 回転を準備するシーケンス
+	bool seqRotateCheck(const float delta_time);
+	// 行動待ちシーケンス
+	bool seqWait(const float delta_time);
+	// 移動を行うシーケンス
+	bool seqMoving(const float delta_time);
+	// 回転を行うシーケンス
+	bool seqRotating(const float delta_time);
 
 
 

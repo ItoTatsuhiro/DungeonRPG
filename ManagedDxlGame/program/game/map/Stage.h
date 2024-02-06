@@ -42,6 +42,9 @@ public :
 	// ステージを切り替える際に呼び出す関数
 	void StageChange(std::string nextStage);
 
+	// 引数のマスに移動できるか調べる関数
+	// 引数：checkGrid...マップの配列から確認する要素番号(x, y)
+	bool CheckGridCanMove(tnl::Vector2i checkGrid);
 
 	// 引数の座標のマップの数値を調べる関数
 	// 引数：checkGrid...マップの配列から確認する要素番号(x, y)
@@ -64,8 +67,6 @@ public :
 
 private :
 
-	// プレイヤー
-	// std::shared_ptr<Player> player_ = nullptr;
 
 	// 描画するオブジェクトのリスト
 	// 描画前に毎回カメラからの距離でソートする
