@@ -299,6 +299,9 @@
     <ClCompile Include="program\game\scene\SubScene\DungeonSubScene.cpp">
       <Filter>program\[003] game\scene\subScene</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\scene\SubScene\BattleSubScene.cpp">
+      <Filter>program\[003] game\scene\subScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -573,6 +576,9 @@
       <Filter>program\[003] game\base</Filter>
     </ClInclude>
     <ClInclude Include="program\game\scene\SubScene\DungeonSubScene.h">
+      <Filter>program\[003] game\scene\subScene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\SubScene\BattleSubScene.h">
       <Filter>program\[003] game\scene\subScene</Filter>
     </ClInclude>
   </ItemGroup>

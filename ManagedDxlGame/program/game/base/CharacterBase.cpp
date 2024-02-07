@@ -35,6 +35,12 @@ void CharacterBase::draw() {
 // Player, Enemy等の移動を行う際はこの関数を使用する
 void CharacterBase::Moving( float delta_time ) {
 
+	// 処理が終了しているにもかかわらず誤って呼び出してしまった際の処理
+	if (finishAction_) {
+		tnl::DebugTrace("既に処理は終了しています\n");
+		return;
+	}
+
 	// 移動量に応じて別の方向に移動
 	if (moveGrid_ == tnl::Vector2i::up) {
 		nowTransform_.setPos_(nowTransform_.getPos_() + tnl::Vector3{ 0, 0, moveVal_ });
@@ -68,7 +74,15 @@ void CharacterBase::Moving( float delta_time ) {
 
 // 回転を行う関数
 // Plauer, Enemy等の回転を行う際はこの関数を使用する
+// ※2024/02/08 現在、Enemyでの回転の処理はこれを使用していない
 void CharacterBase::Rotating(float delta_time) {
+
+	// 処理が終了しているにもかかわらず誤って呼び出してしまった際の処理
+	if (finishAction_) {
+		tnl::DebugTrace("既に処理は終了しています\n");
+		return;
+	}
+
 
 	if (rotValMax_ > 0) {
 
@@ -103,7 +117,7 @@ void CharacterBase::Rotating(float delta_time) {
 
 	}
 
-
+	// 残りの移動量がなくなったとき処理を終了するための処理
 	if (std::abs(rotValMax_) < FLT_EPSILON) {
 
 		frontDir_ += nextDir_;
@@ -115,7 +129,8 @@ void CharacterBase::Rotating(float delta_time) {
 
 }
 
-
+// 移送先のマスを計算する関数
+// 移動する量も計算しているため、移動する際はこれを一度呼び出すこと
 tnl::Vector2i CharacterBase::calcMoveGrid(Enum::Dir4 moveDir) {
 
 	// 移動先の座標

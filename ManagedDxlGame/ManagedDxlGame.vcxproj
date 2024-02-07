@@ -200,6 +200,7 @@
     <ClCompile Include="program\game\other\Enum.cpp" />
     <ClCompile Include="program\game\other\TransformCamera.cpp" />
     <ClCompile Include="program\game\scene\ScenePlay.cpp" />
+    <ClCompile Include="program\game\scene\SubScene\BattleSubScene.cpp" />
     <ClCompile Include="program\game\scene\SubScene\DungeonSubScene.cpp" />
     <ClCompile Include="program\library\json11.cpp" />
     <ClCompile Include="program\library\tnl_font_texture.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="program\game\other\Enum.h" />
     <ClInclude Include="program\game\other\TransformCamera.h" />
     <ClInclude Include="program\game\scene\ScenePlay.h" />
+    <ClInclude Include="program\game\scene\SubScene\BattleSubScene.h" />
     <ClInclude Include="program\game\scene\SubScene\DungeonSubScene.h" />
     <ClInclude Include="program\library\json11.hpp" />
     <ClInclude Include="program\library\stb_image.h" />
