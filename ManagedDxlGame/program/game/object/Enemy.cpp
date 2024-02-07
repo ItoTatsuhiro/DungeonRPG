@@ -205,19 +205,6 @@ bool Enemy::seqActionDecide(const float delta_time) {
 
 	// 次の進行方向
 	tnl::Vector2i nextGrid = gridPos_;
-	//// 次のマスを計算
-	//if (frontDir_ == Enum::Dir4::UP) {
-	//	nextGrid = gridPos_ + tnl::Vector2i::up;
-	//}
-	//else if (frontDir_ == Enum::Dir4::LEFT) {
-	//	nextGrid = gridPos_ + tnl::Vector2i::left;
-	//}
-	//else if (frontDir_ == Enum::Dir4::DOWN) {
-	//	nextGrid = gridPos_ + tnl::Vector2i::down;
-	//}
-	//else if (frontDir_ == Enum::Dir4::RIGHT) {
-	//	nextGrid = gridPos_ + tnl::Vector2i::right;
-	//}
 
 	// マスを計算
 	nextGrid = calcMoveGrid(frontDir_);
@@ -340,19 +327,21 @@ bool Enemy::seqMoveCheck(const float delta_time) {
 bool Enemy::seqRotateCheck(const float delta_time) {
 
 	// 次の向きに応じて次の方向を変更する
-// 左周りをプラスとする
-	if (nextDir_ == Enum::Dir4::LEFT) {
+	// 左周りをプラスとする
+	if (nextDir_ - frontDir_ == Enum::Dir4::LEFT) {
 		// 回転させる量を90度にする
 		rotValMax_ = -90;
 	}
-	else if (nextDir_ == Enum::Dir4::DOWN) {
+	else if (nextDir_ - frontDir_ == Enum::Dir4::DOWN) {
 		// 回転させる量を180度にする
 		rotValMax_ = -180;
 	}
-	else if (nextDir_ == Enum::Dir4::RIGHT) {
+	else if (nextDir_ - frontDir_ == Enum::Dir4::RIGHT) {
 		// 回転させる量を-90度にする
 		rotValMax_ = 90;
 	}
+
+
 
 	// 次の角度を現在の角度から回転量分回転させる
 	nextTransform_.setRot3D_(nextTransform_.getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(rotValMax_)));
@@ -407,7 +396,17 @@ bool Enemy::seqMoving(const float delta_time) {
 // 回転を行うシーケンス
 bool Enemy::seqRotating(const float delta_time) {
 
-	Rotating(delta_time);
+
+	// 現在のトランスフォームを次のトランスフォームに合わせる
+	nowTransform_.setRot3D_(nextTransform_.getRot3D_());
+	// 回転量のリセット
+	rotValMax_ = 0;
+	// 向きの情報を最新の状態にする
+	frontDir_ += nextDir_;
+	// 次の位置を正面にしておく
+	nextDir_ = Enum::Dir4::UP;
+	// 行動処理が終わった判定をtrueに
+	finishAction_ = true;
 
 	if (finishAction_) {
 

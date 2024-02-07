@@ -188,6 +188,7 @@
     <ClCompile Include="program\game\base\CharacterBase.cpp" />
     <ClCompile Include="program\game\base\EntityBase.cpp" />
     <ClCompile Include="program\game\base\ObjectBlockBase.cpp" />
+    <ClCompile Include="program\game\base\SubSceneBase.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\manager\ObjectManager.cpp" />
     <ClCompile Include="program\game\manager\TurnManager.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="program\game\other\Enum.cpp" />
     <ClCompile Include="program\game\other\TransformCamera.cpp" />
     <ClCompile Include="program\game\scene\ScenePlay.cpp" />
+    <ClCompile Include="program\game\scene\SubScene\DungeonSubScene.cpp" />
     <ClCompile Include="program\library\json11.cpp" />
     <ClCompile Include="program\library\tnl_font_texture.cpp" />
     <ClCompile Include="program\library\tnl_inclution_owner_locked.cpp" />
@@ -275,6 +277,7 @@
     <ClInclude Include="program\game\base\CharacterBase.h" />
     <ClInclude Include="program\game\base\EntityBase.h" />
     <ClInclude Include="program\game\base\ObjectBlockBase.h" />
+    <ClInclude Include="program\game\base\SubSceneBase.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\manager\ObjectManager.h" />
     <ClInclude Include="program\game\manager\TurnManager.h" />
@@ -286,6 +289,7 @@
     <ClInclude Include="program\game\other\Enum.h" />
     <ClInclude Include="program\game\other\TransformCamera.h" />
     <ClInclude Include="program\game\scene\ScenePlay.h" />
+    <ClInclude Include="program\game\scene\SubScene\DungeonSubScene.h" />
     <ClInclude Include="program\library\json11.hpp" />
     <ClInclude Include="program\library\stb_image.h" />
     <ClInclude Include="program\library\tnl_csv.h" />

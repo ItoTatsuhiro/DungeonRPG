@@ -69,6 +69,9 @@
     <Filter Include="program\[003] game\scene">
       <UniqueIdentifier>{678c8318-2a39-4150-8d71-6e2e5ddcdefe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\scene\subScene">
+      <UniqueIdentifier>{cf53e4c0-a49f-416c-b08b-36122d0f26f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -289,6 +292,12 @@
     </ClCompile>
     <ClCompile Include="program\game\manager\TurnManager.cpp">
       <Filter>program\[003] game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\base\SubSceneBase.cpp">
+      <Filter>program\[003] game\base</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\scene\SubScene\DungeonSubScene.cpp">
+      <Filter>program\[003] game\scene\subScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -559,6 +568,12 @@
     </ClInclude>
     <ClInclude Include="program\game\manager\TurnManager.h">
       <Filter>program\[003] game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\base\SubSceneBase.h">
+      <Filter>program\[003] game\base</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\SubScene\DungeonSubScene.h">
+      <Filter>program\[003] game\scene\subScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
