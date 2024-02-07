@@ -52,7 +52,6 @@ void Player::ChangeSeqFromWait() {
 	// 
 	if (nowSeq_ != PlayerSeq::WAIT) {
 		tnl::DebugTrace("プレイヤーのシーケンスを切り替えできませんでした\n");
-		// seq_.change(&Player::seqIdle);
 		return;
 	}
 

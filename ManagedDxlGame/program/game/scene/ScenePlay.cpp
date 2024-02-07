@@ -52,20 +52,12 @@ void ScenePlay::update(float delta_time) {
 	TurnManager::GetInstance()->update(delta_time);
 
 
-	// enemy_->update(delta_time);
-
-
-
-
-
 }
 
 void ScenePlay::draw() {
 
 	// ステージの描画
 	stage_->draw(FPCamera_);
-
-	// enemy_->draw(FPCamera_);
 
 	// 敵のリストの描画処理
 	auto it = enemyList_.begin();

@@ -95,6 +95,8 @@ void TurnManager::ActionEndEnemy() {
 
 
 // プレイヤーの入力待ちのシーケンス
+// ChangeSeqFromWaitPlayerInput()をプレイヤーが呼び出すことで、
+// 次のシーケンスに遷移する
 bool TurnManager::seqWaitPlayerInput(const float delta_time) {
 
 
@@ -168,7 +170,7 @@ bool TurnManager::seqAction(const float delta_time) {
 		auto it = enemyList_.begin();
 		while (it != enemyList_.end()) {
 			
-			if ((*it)->getNowSeqEnemy() == Enemy::EnemySeq::WAIT) {
+			if ((*it)->getNowSeqEnemy() != Enemy::EnemySeq::WAIT) {
 				return true;
 			}
 

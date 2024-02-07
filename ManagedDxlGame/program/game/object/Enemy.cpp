@@ -50,8 +50,8 @@ Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player>
 			tnl::DebugTrace(" (%d, %d) = 前(%f, %f), 後(%f, %f)\n", u, v, u * sizeU, v * sizeV, (u + 1) * sizeU, (v + 1) * sizeV);
 
 			// 向きを回転
-			enemyObj->get_mesh_()->rot_ *= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, 1), tnl::ToDegree(90));
-			enemyObj->get_mesh_()->rot_ *= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 1, 0), tnl::ToDegree(90));
+			enemyObj->get_mesh_()->rot_ *= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, 1), tnl::ToRadian(90));
+			enemyObj->get_mesh_()->rot_ *= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 1, 0), tnl::ToRadian(90));
 
 			// 表示設定を変更
 			enemyObj->get_mesh_()->setBlendMode(DX_BLENDMODE_ALPHA);
@@ -205,19 +205,22 @@ bool Enemy::seqActionDecide(const float delta_time) {
 
 	// 次の進行方向
 	tnl::Vector2i nextGrid = gridPos_;
-	// 次のマスを計算
-	if (frontDir_ == Enum::Dir4::UP) {
-		nextGrid = gridPos_ + tnl::Vector2i::up;
-	}
-	else if (frontDir_ == Enum::Dir4::LEFT) {
-		nextGrid = gridPos_ + tnl::Vector2i::left;
-	}
-	else if (frontDir_ == Enum::Dir4::DOWN) {
-		nextGrid = gridPos_ + tnl::Vector2i::down;
-	}
-	else if (frontDir_ == Enum::Dir4::RIGHT) {
-		nextGrid = gridPos_ + tnl::Vector2i::right;
-	}
+	//// 次のマスを計算
+	//if (frontDir_ == Enum::Dir4::UP) {
+	//	nextGrid = gridPos_ + tnl::Vector2i::up;
+	//}
+	//else if (frontDir_ == Enum::Dir4::LEFT) {
+	//	nextGrid = gridPos_ + tnl::Vector2i::left;
+	//}
+	//else if (frontDir_ == Enum::Dir4::DOWN) {
+	//	nextGrid = gridPos_ + tnl::Vector2i::down;
+	//}
+	//else if (frontDir_ == Enum::Dir4::RIGHT) {
+	//	nextGrid = gridPos_ + tnl::Vector2i::right;
+	//}
+
+	// マスを計算
+	nextGrid = calcMoveGrid(frontDir_);
 
 	// 進行方向のマスが移動できないとき
 	if (!(stage_->CheckGridCanMove(nextGrid))) {
@@ -400,6 +403,7 @@ bool Enemy::seqMoving(const float delta_time) {
 
 	return true;
 }
+
 // 回転を行うシーケンス
 bool Enemy::seqRotating(const float delta_time) {
 
