@@ -33,8 +33,6 @@ public :
 	// 描画の処理
 	void draw(std::shared_ptr<dxe::Camera> camera);
 
-	// プレイヤーをセットする関数
-	// void setPlayer(std::shared_ptr<Player> player) { player_ = player; }
 
 	// 新たにマップを読み込む関数
 	void LoadMap(std::string name, std::string csvPath);

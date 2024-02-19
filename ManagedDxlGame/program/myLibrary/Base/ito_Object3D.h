@@ -28,7 +28,7 @@ namespace ito {
 		// 仮想関数：オブジェクトの更新処理用関数
 		virtual void update(float delta_time) {}
 		// 仮想関数：オブジェクトの描画処理用関数
-		virtual void draw(){}
+		virtual void draw(std::shared_ptr<dxe::Camera> camera = nullptr){}
 
 		// ゲッター...オブジェクトのアクティブ状態を取得する関数
 		// 戻り値...isActive_(bool型、オブジェクトのアクティブ状態を示す)
@@ -40,7 +40,7 @@ namespace ito {
 
 		// ゲッター...オブジェクトのメッシュを取得する関数
 		// 戻り値...オブジェクトのメッシュ
-		std::shared_ptr< dxe::Mesh > get_mesh_() const { return mesh_; }
+		std::shared_ptr< dxe::Mesh > get_mesh_() { return mesh_; }
 
 		// セッター...オブジェクトのメッシュを設定する関数
 		// 引数：設定するメッシュ

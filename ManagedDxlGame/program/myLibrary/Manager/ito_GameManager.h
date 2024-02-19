@@ -35,24 +35,24 @@ namespace ito {
 
 		// コンストラクタ
 		// 引数：ゲームを開始する際に初めに実行するシーン
-		GameManager(SceneBase* startScene);
+		GameManager(std::shared_ptr<SceneBase> startScene);
 
 	public:
 
 		// ゲームマネージャーをインスタンス化する際に使用する関数。
 		// 引数：ゲームを開始する際に初めに実行するシーン
-		static GameManager* GetInstance_(SceneBase* startScene = nullptr);
+		static GameManager* GetInstance_(std::shared_ptr<SceneBase> startScene = nullptr);
 
 		~GameManager();
 
 		// シーン切り替え用関数
 		// 引数：遷移する先のシーン
-		void changeScene(SceneBase* nextScene);
+		void changeScene(std::shared_ptr<SceneBase> nextScene);
 
 		void update(float delta_time);
 
 		// 現在のシーンを取得する関数
-		SceneBase* get_nowScene() const { return nowScene_; }
+		std::shared_ptr<SceneBase> get_nowScene() const { return nowScene_; }
 
 		//--------------------------------------------------------------------------------------------------------------------------
 		// csvファイル読み込みに関する内容
@@ -81,9 +81,9 @@ namespace ito {
 	private:
 
 		// 現在実行中のシーンを入れる変数
-		SceneBase* nowScene_ = nullptr;
+		std::shared_ptr<SceneBase> nowScene_ = nullptr;
 		// 次に遷移するシーンを入れる変数
-		SceneBase* nextScene_ = nullptr;
+		std::shared_ptr<SceneBase> nextScene_ = nullptr;
 
 	};
 

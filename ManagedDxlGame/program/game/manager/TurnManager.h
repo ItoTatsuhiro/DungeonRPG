@@ -1,7 +1,7 @@
 #pragma once
 #include "../../dxlib_ext/dxlib_ext.h"
 
-#include "../object/Enemy.h"
+#include "../character/Dungeon/Enemy.h"
 
 // 前方宣言
 class Player;
@@ -49,6 +49,11 @@ public :
 	void ActionEndEnemy();
 
 private :
+
+	// キャラクターの位置を確認する関数
+	void CheckCharacterPos();
+
+
 	// プレイヤー
 	// シーンでsetPlayer関数を用いてセットする
 	// 座標等取得に必要
@@ -79,6 +84,11 @@ private :
 		ACTION
 	};
 
+	// シーンを切り替える際の暗転時間
+	float transTime_ = 0.1f;
+	// シーンを切り替える際の暗転用
+	int transGpc_ = 0;
+
 	// 現在のシーケンス
 	TurnManagerSeq nowSeq_ = TurnManagerSeq::WAIT_PLAYER_INPUT;
 
@@ -93,4 +103,6 @@ private :
 	bool seqCheckAction(const float delta_time);
 	// 行動を行うシーケンス
 	bool seqAction(const float delta_time);
+	// サブシーンを切り替えるシーケンス
+	bool seqChangeSubScene(const float delta_time);
 };

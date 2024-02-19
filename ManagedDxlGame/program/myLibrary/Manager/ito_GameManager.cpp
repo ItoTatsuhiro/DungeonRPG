@@ -8,7 +8,7 @@
 namespace ito {
 
 	// コンストラクタ
-	ito::GameManager::GameManager(SceneBase* startScene) : nowScene_(startScene) {
+	ito::GameManager::GameManager(std::shared_ptr<SceneBase> startScene) : nowScene_(startScene) {
 
 		// マネージャークラスのインスタンス化
 		ito::ResourceManager::GetInstance();
@@ -24,7 +24,7 @@ namespace ito {
 
 	// ゲームマネージャーをインスタンス化する際に使用する関数
 	// 引数：startScene...ゲームを開始する際に初めに実行するシーン
-	GameManager* GameManager::GetInstance_(SceneBase* startScene) {
+	GameManager* GameManager::GetInstance_(std::shared_ptr<SceneBase> startScene) {
 
 		static GameManager* instance(nullptr);
 		if (!instance) {
@@ -39,7 +39,7 @@ namespace ito {
 		if (nowScene_) nowScene_->draw();
 	}
 
-	void GameManager::changeScene(SceneBase* nextScene) {
+	void GameManager::changeScene(std::shared_ptr<SceneBase> nextScene) {
 		nextScene_ = nextScene;
 		nowScene_ = nullptr;
 		nowScene_ = nextScene_;

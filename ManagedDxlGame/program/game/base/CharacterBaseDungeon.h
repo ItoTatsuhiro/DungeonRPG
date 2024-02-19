@@ -12,16 +12,16 @@ class Stage;
 // プレイヤー・敵キャラクターに継承するベースクラス
 // 引数：gridSize...ステージのマスの大きさ
 // startPos...生成された際のマップ上での位置
-class CharacterBase : public EntityBase {
+class CharacterBaseDungeon : public EntityBase {
 public :
 
 	// コンストラクタ
 	// 引数：gridSize...ステージのマスの大きさ
 	// startPos...生成された際のマップ上での位置
-	CharacterBase( float gridSize, tnl::Vector2i startPos );
+	CharacterBaseDungeon( float gridSize, tnl::Vector2i startPos );
 
 	// デストラクタ
-	virtual ~CharacterBase();
+	virtual ~CharacterBaseDungeon();
 
 	// 毎フレーム処理を行う関数
 	virtual void update( float delta_time );
@@ -30,7 +30,7 @@ public :
 	virtual void draw();
 
 	// プレイヤーのTransformを取得する関数
-	const ito::Transform getTransform() { return nowTransform_; }
+	 ito::Transform getTransform() const { return nowTransform_; }
 
 	
 

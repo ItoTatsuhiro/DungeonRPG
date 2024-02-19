@@ -1,11 +1,13 @@
 #include "TurnManager.h"
-#include "../object/Player.h"
-#include "../object/Enemy.h"
+#include "../character/Dungeon/Player.h"
+#include "../character/Dungeon/Enemy.h"
 
+#include "SubSceneManager.h"
 
 // コンストラクタ
 TurnManager::TurnManager() {
-
+	// あとでCSVから読み込むように変更する
+	transGpc_ = LoadGraph("graphics/myGpc/black.png");
 }
 
 // ターンマネージャーのインスタンスを取得する関数
@@ -94,6 +96,26 @@ void TurnManager::ActionEndEnemy() {
 }
 
 
+// キャラクターの位置を確認する関数
+void TurnManager::CheckCharacterPos() {
+
+	tnl::Vector2i playerGrid = player_->getGridPos();
+
+	auto it = enemyList_.begin();
+
+	while (it != enemyList_.end()) {
+
+		if (playerGrid == (*it)->getGridPos()) {
+
+			// シーンを切り替えるためのシーケンスに変更
+			seq_.change(&TurnManager::seqChangeSubScene);
+		}
+		++it;
+	}
+	return;
+}
+
+
 // プレイヤーの入力待ちのシーケンス
 // ChangeSeqFromWaitPlayerInput()をプレイヤーが呼び出すことで、
 // 次のシーケンスに遷移する
@@ -155,15 +177,31 @@ bool TurnManager::seqCheckAction(const float delta_time) {
 	return true;
 
 
-
-
-
 }
 
 // 行動を行うシーケンス
 bool TurnManager::seqAction(const float delta_time) {
 
-	
+	if (actionEndPlayer_) {
+
+		auto it = actionEndEnemyList_.begin();
+		while (it != actionEndEnemyList_.end())
+		{
+			// 処理が終了していないものがあれば以下は行わない
+			if ((*it) == false) { break; }
+			++it;
+		}
+		// 処理が全て終了していれば初期のシーケンスに戻す
+		if (it == actionEndEnemyList_.end()) {
+
+			actionEndPlayer_ = false;
+
+			seq_.change(&TurnManager::seqWaitPlayerInput);
+			CheckCharacterPos();
+			
+		}
+		
+	}
 
 	if (player_->getNowSeq() == Player::PlayerSeq::WAIT ) {
 
@@ -202,26 +240,26 @@ bool TurnManager::seqAction(const float delta_time) {
 		}
 	}
 
-	if (actionEndPlayer_) {
-
-		auto it = actionEndEnemyList_.begin();
-		while (it != actionEndEnemyList_.end())
-		{
-			// 処理が終了していないものがあれば以下は行わない
-			if ((*it) == false) { break; }
-			++it;
-		}
-		// 処理が全て終了していれば初期のシーケンスに戻す
-		if (it == actionEndEnemyList_.end()) {
-
-
-
-			seq_.change(&TurnManager::seqWaitPlayerInput);
-		}
-
-	}
-
 
 	return true;
 }
 
+bool TurnManager::seqChangeSubScene(const float delta_time) {
+
+	int alpha = (seq_.getProgressTime() / transTime_ * 255.0f);
+	if (alpha >= 255) {
+
+		seq_.change(&TurnManager::seqWaitPlayerInput);
+
+		// シーンを切り替え
+		SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE);;
+		
+	}
+
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+	DrawRotaGraph(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT / 2, 1.0f, 0, transGpc_, true);
+	// DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, transGpc_, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+	return true;
+
+}

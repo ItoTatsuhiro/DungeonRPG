@@ -32,8 +32,7 @@ void Floor::CreateObj() {
 	floorTexture_ = ito::ResourceManager::GetInstance()->loadTexture("tileStone_hibi.png");
 
 
-	// 壁の1ブロック分のオブジェクト
-	// これを高さ分積み重ねて使用する
+
 	std::shared_ptr<ito::Object3D> floorObj
 		= ObjectManager::GetInstance()->createPlane(tnl::Vector3 (gridSize_), "floor");
 

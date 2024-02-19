@@ -1,7 +1,7 @@
 #include "Stage.h"
 #include "objectBlock/Wall.h"
 #include "objectBlock/Floor.h"
-#include "../object/Player.h"
+#include "../character/Dungeon/Player.h"
 
 // コンストラクタ
 // 引数：startStage	...初期ステージ
@@ -58,9 +58,6 @@ void Stage::draw(std::shared_ptr<dxe::Camera> camera) {
 
 	// 現在のステージが実行不可能なときはreturnする
 	if (!existNowStage_) return;
-
-
-
 
 	sortObjectList(camera);
 
@@ -175,18 +172,15 @@ void Stage::drawObjectInList() {
 
 }
 
-
+// ステージのオブジェクトを、カメラに近い順にソートする関数
 void Stage::sortObjectList(std::shared_ptr<dxe::Camera> camera ) {
 
-	//drawObjectList_.sort((camera->pos_ - player_->getTransform().getPos_()).length());
 	drawObjectList_.sort( [&](const std::shared_ptr<ObjectBlockBase>& left, const std::shared_ptr<ObjectBlockBase>& right){
 		float l1 = (camera->pos_ - left->getPos_()).length();
 		float l2 = (camera->pos_ - right->getPos_()).length();
 		return (l1 > l2);
 	});
 
-	//int a = 0;
-	//a++;
 
 }
 

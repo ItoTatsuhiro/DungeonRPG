@@ -1,6 +1,6 @@
 #pragma once
-#include "../../dxlib_ext/dxlib_ext.h"
-#include "../base/CharacterBase.h"
+#include "../../../dxlib_ext/dxlib_ext.h"
+#include "../../base/CharacterBaseDungeon.h"
 
 
 // 前方宣言
@@ -9,7 +9,7 @@ class Player;
 // ステージ上での敵キャラクターのクラス
 // 引数：cellSize...ステージの1マスの大きさ
 // startGridPos...生成時の初期位置
-class Enemy : public CharacterBase {
+class Enemy : public CharacterBaseDungeon {
 public :
 	// コンストラクタ
 	// cellSize_(マップの1マス分の大きさ)とgridPos_(存在している座標)を初期化

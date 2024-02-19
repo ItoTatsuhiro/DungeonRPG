@@ -1,16 +1,16 @@
-#include "../../dxlib_ext/dxlib_ext.h"
+#include "../../../dxlib_ext/dxlib_ext.h"
 #include "Enemy.h"
 
-#include "../map/Stage.h"
-#include "../manager/ObjectManager.h"
+#include "../../map/Stage.h"
+#include "../../manager/ObjectManager.h"
 #include "Player.h"
-#include "../manager/TurnManager.h"
+#include "../../manager/TurnManager.h"
 
 // コンストラクタ
 // cellSize_(マップの1マス分の大きさ)とgridPos_(存在している座標)を初期化
 // 引数：cellSize...ステージの1マスの大きさ
 // startGridPos...生成時の初期位置
-Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player> player) : player_(player), CharacterBase(gridSize, startGridPos) {
+Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player> player) : player_(player), CharacterBaseDungeon(gridSize, startGridPos) {
 
 	// 向きをランダムに決定
 	frontDir_ = static_cast<Enum::Dir4>(rand() % static_cast<int>(Enum::Dir4::DIRMAX));

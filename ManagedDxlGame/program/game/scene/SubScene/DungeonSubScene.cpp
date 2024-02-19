@@ -1,7 +1,7 @@
 #include "DungeonSubScene.h"
 #include "../../map/Stage.h"
-#include "../../object/Player.h"
-#include "../../object/Enemy.h"
+#include "../../character/Dungeon/Player.h"
+#include "../../character/Dungeon/Enemy.h"
 #include "../../manager/TurnManager.h"
 #include "../../other/TransformCamera.h"
 
@@ -31,7 +31,7 @@ DungeonSubScene::~DungeonSubScene() {
 void DungeonSubScene::update(float delta_time){
 
 	// 線の描画
-	DrawGridGround(FPCamera_, 50, 20);
+	// DrawGridGround(FPCamera_, 50, 20);
 
 	// カメラの座標をプレイヤーの座標に合わせる
 	FPCamera_->pos_ = player_->getTransform().getPos_();
@@ -79,6 +79,10 @@ void DungeonSubScene::CreateCharacter() {
 
 	// プレイヤーの作成
 	player_ = std::shared_ptr<Player>(new Player(gridSize_, { 0, 0 }));
+
+	// 90度回転した状態で開始
+	player_->getTransform().setRot3D_(player_->getTransform().getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(90)));
+
 	// プレイヤーのセット
 	TurnManager::GetInstance()->setPlayer(player_);
 

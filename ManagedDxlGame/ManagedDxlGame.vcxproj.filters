@@ -60,9 +60,6 @@
     <Filter Include="program\[003] game\map\objectBlock">
       <UniqueIdentifier>{6911b8af-5a63-49cf-a130-fdb6c68f92d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="program\[003] game\object">
-      <UniqueIdentifier>{7bd58733-c833-4420-b6d8-6dd5dbeb79a7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="program\[003] game\other">
       <UniqueIdentifier>{b275e6e6-d3c9-4714-a678-9e42977e70fc}</UniqueIdentifier>
     </Filter>
@@ -71,6 +68,18 @@
     </Filter>
     <Filter Include="program\[003] game\scene\subScene">
       <UniqueIdentifier>{cf53e4c0-a49f-416c-b08b-36122d0f26f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\character">
+      <UniqueIdentifier>{7bd58733-c833-4420-b6d8-6dd5dbeb79a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\character\Dungeon">
+      <UniqueIdentifier>{f6821821-aa95-474c-8511-ded74fbca6d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\character\Battle">
+      <UniqueIdentifier>{18dc2846-3dca-45a7-af81-e114eb685dee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\character\Battle\attack">
+      <UniqueIdentifier>{490c6abf-ba14-413a-8e0c-13e93523ff5d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -269,9 +278,6 @@
     <ClCompile Include="program\game\map\objectBlock\Wall.cpp">
       <Filter>program\[003] game\map\objectBlock</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\object\Player.cpp">
-      <Filter>program\[003] game\object</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\other\Enum.cpp">
       <Filter>program\[003] game\other</Filter>
     </ClCompile>
@@ -284,10 +290,7 @@
     <ClCompile Include="program\game\map\objectBlock\Floor.cpp">
       <Filter>program\[003] game\map\objectBlock</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\object\Enemy.cpp">
-      <Filter>program\[003] game\object</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\base\CharacterBase.cpp">
+    <ClCompile Include="program\game\base\CharacterBaseDungeon.cpp">
       <Filter>program\[003] game\base</Filter>
     </ClCompile>
     <ClCompile Include="program\game\manager\TurnManager.cpp">
@@ -301,6 +304,24 @@
     </ClCompile>
     <ClCompile Include="program\game\scene\SubScene\BattleSubScene.cpp">
       <Filter>program\[003] game\scene\subScene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Dungeon\Enemy.cpp">
+      <Filter>program\[003] game\character\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Dungeon\Player.cpp">
+      <Filter>program\[003] game\character\Dungeon</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\BattlePlayer.cpp">
+      <Filter>program\[003] game\character\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\manager\InputManager.cpp">
+      <Filter>program\[003] game\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\attack\Attack.cpp">
+      <Filter>program\[003] game\character\Battle\attack</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\manager\SubSceneManager.cpp">
+      <Filter>program\[003] game\manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -548,9 +569,6 @@
     <ClInclude Include="program\game\map\objectBlock\Wall.h">
       <Filter>program\[003] game\map\objectBlock</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\object\Player.h">
-      <Filter>program\[003] game\object</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\other\Enum.h">
       <Filter>program\[003] game\other</Filter>
     </ClInclude>
@@ -563,10 +581,7 @@
     <ClInclude Include="program\game\map\objectBlock\Floor.h">
       <Filter>program\[003] game\map\objectBlock</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\object\Enemy.h">
-      <Filter>program\[003] game\object</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\base\CharacterBase.h">
+    <ClInclude Include="program\game\base\CharacterBaseDungeon.h">
       <Filter>program\[003] game\base</Filter>
     </ClInclude>
     <ClInclude Include="program\game\manager\TurnManager.h">
@@ -580,6 +595,24 @@
     </ClInclude>
     <ClInclude Include="program\game\scene\SubScene\BattleSubScene.h">
       <Filter>program\[003] game\scene\subScene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Dungeon\Enemy.h">
+      <Filter>program\[003] game\character\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Dungeon\Player.h">
+      <Filter>program\[003] game\character\Dungeon</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\BattlePlayer.h">
+      <Filter>program\[003] game\character\Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\manager\InputManager.h">
+      <Filter>program\[003] game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\attack\Attack.h">
+      <Filter>program\[003] game\character\Battle\attack</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\manager\SubSceneManager.h">
+      <Filter>program\[003] game\manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,13 +1,13 @@
 #pragma once
-#include "../../dxlib_ext/dxlib_ext.h"
+#include "../../../dxlib_ext/dxlib_ext.h"
 
-#include "../other/Enum.h"
-#include "../base/CharacterBase.h"
-#include "../map/Stage.h"
+#include "../../other/Enum.h"
+#include "../../base/CharacterBaseDungeon.h"
+#include "../../map/Stage.h"
 
 // 操作を行うプレイヤーのクラス
 // 引数：
-class Player final : public CharacterBase {
+class Player final : public CharacterBaseDungeon {
 public :
 
 	// プレイヤークラスのコンストラクタ

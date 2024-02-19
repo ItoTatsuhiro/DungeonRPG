@@ -1,9 +1,9 @@
-#include "CharacterBase.h"
+#include "CharacterBaseDungeon.h"
 #include "../../dxlib_ext/dxlib_ext.h"
 #include "../map/Stage.h"
 
 
-CharacterBase::CharacterBase(float gridSize, tnl::Vector2i startPos) : EntityBase(startPos, gridSize) {
+CharacterBaseDungeon::CharacterBaseDungeon(float gridSize, tnl::Vector2i startPos) : EntityBase(startPos, gridSize) {
 
 	// 生成済のステージのインスタンスを取得
 	stage_ = Stage::GetInstance();
@@ -17,23 +17,23 @@ CharacterBase::CharacterBase(float gridSize, tnl::Vector2i startPos) : EntityBas
 }
 
 
-CharacterBase::~CharacterBase() {
+CharacterBaseDungeon::~CharacterBaseDungeon() {
 
 }
 
 
-void CharacterBase::update(float delta_time) {
+void CharacterBaseDungeon::update(float delta_time) {
 
 }
 
 
-void CharacterBase::draw() {
+void CharacterBaseDungeon::draw() {
 
 }
 
 // 移動を行う関数
 // Player, Enemy等の移動を行う際はこの関数を使用する
-void CharacterBase::Moving( float delta_time ) {
+void CharacterBaseDungeon::Moving( float delta_time ) {
 
 	// 処理が終了しているにもかかわらず誤って呼び出してしまった際の処理
 	if (finishAction_) {
@@ -75,7 +75,7 @@ void CharacterBase::Moving( float delta_time ) {
 // 回転を行う関数
 // Plauer, Enemy等の回転を行う際はこの関数を使用する
 // ※2024/02/08 現在、Enemyでの回転の処理はこれを使用していない
-void CharacterBase::Rotating(float delta_time) {
+void CharacterBaseDungeon::Rotating(float delta_time) {
 
 	// 処理が終了しているにもかかわらず誤って呼び出してしまった際の処理
 	if (finishAction_) {
@@ -131,7 +131,7 @@ void CharacterBase::Rotating(float delta_time) {
 
 // 移送先のマスを計算する関数
 // 移動する量も計算しているため、移動する際はこれを一度呼び出すこと
-tnl::Vector2i CharacterBase::calcMoveGrid(Enum::Dir4 moveDir) {
+tnl::Vector2i CharacterBaseDungeon::calcMoveGrid(Enum::Dir4 moveDir) {
 
 	// 移動先の座標
 	// 戻り値で戻す用

@@ -1,10 +1,10 @@
 #include "Player.h"
-#include "../manager/TurnManager.h"
+#include "../../manager/TurnManager.h"
 
 
 // コンストラクタ
 // 引数：cellSize...1マス分の大きさ, startGridPos...マップ上での初期座標
-Player::Player(float gridSize, tnl::Vector2i startGridPos) : CharacterBase(gridSize, startGridPos) {
+Player::Player(float gridSize, tnl::Vector2i startGridPos) : CharacterBaseDungeon(gridSize, startGridPos) {
 
 	// 生成済のステージのインスタンスを取得
 	stage_ = Stage::GetInstance();
@@ -28,6 +28,7 @@ Player::~Player() {
 void Player::update(float delta_time) {
 
 
+
 	if (tnl::Input::IsKeyDown(eKeys::KB_LCONTROL) && tnl::Input::IsKeyDownTrigger(eKeys::KB_Q)) {
 		debugMode_ = !debugMode_;
 		tnl::DebugTrace("debugMode_ = %d", debugMode_);
@@ -35,14 +36,15 @@ void Player::update(float delta_time) {
 
 	seq_.update(delta_time);
 
-	DrawStringEx(900, 100, -1, " nowPos =  %d, %d", gridPos_.x, gridPos_.y);
-	DrawStringEx(900, 200, -1, " nextPos =  %d, %d", nextGridPos_.x, nextGridPos_.y);
+	// デバッグ用
+	//DrawStringEx(900, 100, -1, " nowPos =  %d, %d", gridPos_.x, gridPos_.y);
+	//DrawStringEx(900, 200, -1, " nextPos =  %d, %d", nextGridPos_.x, nextGridPos_.y);
 
-	DrawStringEx(900, 300, -1, " nowPos =  %f, %f, %f", nowTransform_.getPos_().x, nowTransform_.getPos_().y, nowTransform_.getPos_().z);
-	DrawStringEx(900, 400, -1, " nextPos =  %f, %f, %f", nextTransform_.getPos_().x, nextTransform_.getPos_().y, nextTransform_.getPos_().z);
+	//DrawStringEx(900, 300, -1, " nowPos =  %f, %f, %f", nowTransform_.getPos_().x, nowTransform_.getPos_().y, nowTransform_.getPos_().z);
+	//DrawStringEx(900, 400, -1, " nextPos =  %f, %f, %f", nextTransform_.getPos_().x, nextTransform_.getPos_().y, nextTransform_.getPos_().z);
 
-	DrawStringEx(100, 200, -1, "%d", nowSeq_);
-	DrawStringEx(100, 300, -1, "%d", frontDir_);
+	//DrawStringEx(100, 200, -1, "%d", nowSeq_);
+	//DrawStringEx(100, 300, -1, "%d", frontDir_);
 }
 
 
