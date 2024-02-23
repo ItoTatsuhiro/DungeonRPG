@@ -50,8 +50,8 @@ void Stage::update(float delta_time) {
 	if (!existNowStage_) return;
 
 	seq_.update(delta_time);
-	DrawStringEx(50, 50, -1, "%s", nowStage_.c_str());
-	DrawStringEx(100, 100, -1, "%s", nowSeq_.c_str());
+	//DrawStringEx(50, 50, -1, "%s", nowStage_.c_str());
+	//DrawStringEx(100, 100, -1, "%s", nowSeq_.c_str());
 }
 
 void Stage::draw(std::shared_ptr<dxe::Camera> camera) {
@@ -69,7 +69,6 @@ void Stage::draw(std::shared_ptr<dxe::Camera> camera) {
 
 		++it;
 	}
-
 
 }
 

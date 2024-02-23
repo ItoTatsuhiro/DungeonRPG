@@ -124,13 +124,13 @@ void Enemy::update(float delta_time) {
 // 描画用の関数
 void Enemy::draw( std::shared_ptr<dxe::Camera> camera ) {
 
-	// デバッグ用表示
-	DrawStringEx(500, 100, -1, "表示中 = %d, %d", displayObj_.x, displayObj_.y);
-	DrawStringEx(500, 200, -1, "表示座標 = %f, %f", enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_.x, enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_.z);
-	DrawStringEx(500, 250, -1, "nowTransform = %f, %f", nowTransform_.getPos_().x, nowTransform_.getPos_().z);
-	DrawStringEx(500, 300, -1, "name = %s", enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->getName().c_str());
-	DrawStringEx(650, 100, -1, "正面：敵 = %d, プレイヤー = %d", frontDir_, player_->getFrontDir());
-	DrawStringEx(500, 350, -1, "frontDir_ - (player_->getFrontDir() = %d", frontDir_ - (player_->getFrontDir()));
+	//// デバッグ用表示
+	//DrawStringEx(500, 100, -1, "表示中 = %d, %d", displayObj_.x, displayObj_.y);
+	//DrawStringEx(500, 200, -1, "表示座標 = %f, %f", enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_.x, enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_.z);
+	//DrawStringEx(500, 250, -1, "nowTransform = %f, %f", nowTransform_.getPos_().x, nowTransform_.getPos_().z);
+	//DrawStringEx(500, 300, -1, "name = %s", enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->getName().c_str());
+	//DrawStringEx(650, 100, -1, "正面：敵 = %d, プレイヤー = %d", frontDir_, player_->getFrontDir());
+	//DrawStringEx(500, 350, -1, "frontDir_ - (player_->getFrontDir() = %d", frontDir_ - (player_->getFrontDir()));
 
 	enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->render(camera);
 

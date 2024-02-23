@@ -323,6 +323,9 @@
     <ClCompile Include="program\game\manager\SubSceneManager.cpp">
       <Filter>program\[003] game\manager</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\base\SpriteObjectBase.cpp">
+      <Filter>program\[003] game\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -613,6 +616,9 @@
     </ClInclude>
     <ClInclude Include="program\game\manager\SubSceneManager.h">
       <Filter>program\[003] game\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\base\SpriteObjectBase.h">
+      <Filter>program\[003] game\base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

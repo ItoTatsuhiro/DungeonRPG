@@ -188,6 +188,7 @@
     <ClCompile Include="program\game\base\CharacterBaseDungeon.cpp" />
     <ClCompile Include="program\game\base\EntityBase.cpp" />
     <ClCompile Include="program\game\base\ObjectBlockBase.cpp" />
+    <ClCompile Include="program\game\base\SpriteObjectBase.cpp" />
     <ClCompile Include="program\game\base\SubSceneBase.cpp" />
     <ClCompile Include="program\game\character\Battle\attack\Attack.cpp" />
     <ClCompile Include="program\game\character\Battle\BattlePlayer.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="program\game\base\CharacterBaseDungeon.h" />
     <ClInclude Include="program\game\base\EntityBase.h" />
     <ClInclude Include="program\game\base\ObjectBlockBase.h" />
+    <ClInclude Include="program\game\base\SpriteObjectBase.h" />
     <ClInclude Include="program\game\base\SubSceneBase.h" />
     <ClInclude Include="program\game\character\Battle\attack\Attack.h" />
     <ClInclude Include="program\game\character\Battle\BattlePlayer.h" />

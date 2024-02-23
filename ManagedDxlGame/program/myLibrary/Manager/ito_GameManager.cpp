@@ -34,15 +34,22 @@ namespace ito {
 
 	}
 
+	// 現在実行中のシーンを更新する関数
 	void GameManager::update(float delta_time) {
 		if (nowScene_) nowScene_->update(delta_time);
 		if (nowScene_) nowScene_->draw();
 	}
 
+	// シーンを切り替える関数
 	void GameManager::changeScene(std::shared_ptr<SceneBase> nextScene) {
 		nextScene_ = nextScene;
 		nowScene_ = nullptr;
 		nowScene_ = nextScene_;
+	}
+
+	// インスタンスを削除する関数
+	void GameManager::Destroy() {
+		delete GetInstance_();
 	}
 
 	//void GameManager::Load_CsvAddress() {
