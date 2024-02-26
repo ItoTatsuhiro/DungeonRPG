@@ -30,7 +30,7 @@ namespace ito {
 
 	class SceneBase;
 
-	class GameManager {
+	class GameManager final{
 	private :
 
 		// コンストラクタ

@@ -10,7 +10,7 @@ class Enemy;
 
 // ターンの処理を管理する用のクラス
 // プレイヤー、敵の処理状態を確認し、揃える役割
-class TurnManager {
+class TurnManager final{
 private :
 
 	// コンストラクタ

@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "../../manager/TurnManager.h"
-
+#include "../../manager/InputManager.h"
 
 // コンストラクタ
 // 引数：cellSize...1マス分の大きさ, startGridPos...マップ上での初期座標
@@ -19,7 +19,6 @@ Player::Player(float gridSize, tnl::Vector2i startGridPos) : CharacterBaseDungeo
 
 
 // デストラクタ
-//
 Player::~Player() {
 
 }
@@ -91,8 +90,8 @@ bool Player::seqIdle(const float delta_time) {
 	//----------------------------------------------------------------------
 	// 正面に前進する処理
 
-	// Wを押したとき
-	if (tnl::Input::IsKeyDown(eKeys::KB_W)) {
+	// 前に移動するキーを押したとき
+	if ( InputManager::GetInstance()->KeyDownUp() ) {
 
 		// 次に移動する座標を計算する
 		nextGridPos_ = calcMoveGrid(frontDir_);
@@ -107,7 +106,7 @@ bool Player::seqIdle(const float delta_time) {
 	// 正面移動以外の処理
 
 	// Aを押したとき
-	else if (tnl::Input::IsKeyDown(eKeys::KB_A)) {
+	else if ( InputManager::GetInstance()->KeyDownLeft() ) {
 
 		// 左に平行移動する処理
 		if (tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)) {
@@ -131,7 +130,7 @@ bool Player::seqIdle(const float delta_time) {
 	}
 
 	// Dを押したとき
-	else if (tnl::Input::IsKeyDown(eKeys::KB_D)) {
+	else if (InputManager::GetInstance()->KeyDownRight()) {
 
 		// 右に平行移動する処理
 		if (tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)) {
@@ -154,7 +153,7 @@ bool Player::seqIdle(const float delta_time) {
 	}
 
 	// Sを押したとき
-	else if (tnl::Input::IsKeyDown(eKeys::KB_S)) {
+	else if (InputManager::GetInstance()->KeyDownDown()) {
 
 		// 後ろに平行移動する処理
 		if (tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)) {
@@ -184,6 +183,7 @@ bool Player::seqIdle(const float delta_time) {
 bool Player::seqMoveCheck(const float delta_time) {
 
 	// 移動先が配列外の場合移動しないようにするための処理
+	// -1がかえって来たときは確認したマスが配列外となる
 	if (stage_->CheckGridPosInt(nextGridPos_) == -1) {
 		tnl::DebugTrace("配列外のため移動できません\n");
 		

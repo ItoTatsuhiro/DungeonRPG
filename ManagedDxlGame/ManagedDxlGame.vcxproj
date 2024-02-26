@@ -191,9 +191,12 @@
     <ClCompile Include="program\game\base\SpriteObjectBase.cpp" />
     <ClCompile Include="program\game\base\SubSceneBase.cpp" />
     <ClCompile Include="program\game\character\Battle\attack\Attack.cpp" />
+    <ClCompile Include="program\game\character\Battle\BattleEnemy.cpp" />
     <ClCompile Include="program\game\character\Battle\BattlePlayer.cpp" />
     <ClCompile Include="program\game\character\Dungeon\Enemy.cpp" />
     <ClCompile Include="program\game\character\Dungeon\Player.cpp" />
+    <ClCompile Include="program\game\character\other\BattleCharacterBase.cpp" />
+    <ClCompile Include="program\game\character\other\StatusCharacter.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\manager\InputManager.cpp" />
     <ClCompile Include="program\game\manager\ObjectManager.cpp" />
@@ -286,9 +289,12 @@
     <ClInclude Include="program\game\base\SpriteObjectBase.h" />
     <ClInclude Include="program\game\base\SubSceneBase.h" />
     <ClInclude Include="program\game\character\Battle\attack\Attack.h" />
+    <ClInclude Include="program\game\character\Battle\BattleEnemy.h" />
     <ClInclude Include="program\game\character\Battle\BattlePlayer.h" />
     <ClInclude Include="program\game\character\Dungeon\Enemy.h" />
     <ClInclude Include="program\game\character\Dungeon\Player.h" />
+    <ClInclude Include="program\game\character\other\BattleCharacterBase.h" />
+    <ClInclude Include="program\game\character\other\StatusCharacter.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\manager\InputManager.h" />
     <ClInclude Include="program\game\manager\ObjectManager.h" />

@@ -2,17 +2,19 @@
 #include "ito_transform.h"
 
 
-
+// 画像用のクラス
 class Graphic : public ito::Transform{
 public :
 
 	Graphic(tnl::Vector3 pos, int hdl, int width, int height);
 
-	const int get_hdl_() const { return hdl_; }
+	virtual ~Graphic() {};
 
-	const int get_width_() const { return width_; }
+	inline const int get_hdl_() const { return hdl_; }
 
-	const int get_height_() const { return height_; }
+	inline const int get_width_() const { return width_; }
+
+	inline const int get_height_() const { return height_; }
 
 protected :
 	// 画像ハンドル

@@ -29,6 +29,8 @@ void CharacterBaseDungeon::update(float delta_time) {
 
 void CharacterBaseDungeon::draw() {
 
+	
+
 }
 
 // ˆÚ“®‚ğs‚¤ŠÖ”

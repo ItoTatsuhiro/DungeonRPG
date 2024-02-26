@@ -2,7 +2,7 @@
 #include "../../dxlib_ext/dxlib_ext.h"
 #include "../scene/ScenePlay.h"
 
-class SubSceneManager {
+class SubSceneManager final{
 private :
 
 	SubSceneManager();

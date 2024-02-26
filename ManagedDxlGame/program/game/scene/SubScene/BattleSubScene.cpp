@@ -22,8 +22,10 @@ BattleSubScene::BattleSubScene() {
 	startPosEnemy_ = { static_cast<float>(battleStageArray_[0].size()) * 2 / 3 * gridSize_, 0, static_cast<float>(battleStageArray_[0].size()) / 2 * -gridSize_ };
 
 	// プレイヤーを生成
-	player_ = std::shared_ptr<BattlePlayer>(new BattlePlayer(startPosPlayer_));
+	player_ = std::shared_ptr<BattlePlayer>(new BattlePlayer(startPosPlayer_, gridSize_, "player"));
 
+
+	
 
 	// カメラの座標を設定
 	TPCamera_->pos_ = { basePos_.x + (battleStageArray_[0].size() / 2) * gridSize_, gridSize_ * 2, gridSize_ * (-15) };
@@ -43,12 +45,14 @@ BattleSubScene::~BattleSubScene() {
 // 更新用関数
 void BattleSubScene::update(float delta_time) {
 
-	player_->update(delta_time);
+
+	if (player_) {
+		player_->update(delta_time);
+	}
 
 	posCorrection();
 
 	TPCamera_->update();
-
 	
 }
 
@@ -72,8 +76,11 @@ void BattleSubScene::draw() {
 
 		++it;
 	}
+
 	// プレイヤーの描画
-	player_->draw(TPCamera_);
+	if (player_) {
+		player_->draw(TPCamera_);
+	}
 
 }
 
@@ -141,10 +148,10 @@ void BattleSubScene::CreateStage() {
 			- tnl::Vector3{ 1.0f, 0, -1.0f } * gridSize_);
 	stageSizeMax_.y = floorHeight_;
 
-	// カメラの向きを設定
-	tnl::Vector3 targetPos = { battleStageObjArray_[battleStageArray_.size() / 2][battleStageArray_[0].size() / 2]->getPos_() };
 
-	TPCamera_->target_ = targetPos;
+	cameraTargetPos_ = { battleStageObjArray_[battleStageArray_.size() / 2][battleStageArray_[0].size() / 2]->getPos_() };
+
+	TPCamera_->target_ = cameraTargetPos_;
 
 }
 

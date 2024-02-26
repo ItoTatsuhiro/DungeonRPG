@@ -4,7 +4,7 @@
 
 #include "../../base/ObjectBlockBase.h"
 
-class Wall : public ObjectBlockBase{
+class Wall final : public ObjectBlockBase{
 public :
 	// 壁クラスのコンストラクタ
 	// 引数：オブジェクトの座標

@@ -9,7 +9,7 @@ class BattlePlayer;
 
 // バトルシーンのサブクラス
 // ScenePlay内で必要に応じてupdate, drawする
-class BattleSubScene : public SubSceneBase {
+class BattleSubScene final : public SubSceneBase {
 public :
 	// コンストラクタ
 	BattleSubScene();
@@ -42,6 +42,10 @@ private :
 
 	// バトルシーン用のカメラ(ThirdPersonCamera)
 	std::shared_ptr< dxe::Camera > TPCamera_ = nullptr;
+
+
+	// カメラのターゲットの座標
+	tnl::Vector3 cameraTargetPos_ = { 0, 0, 0 };
 
 	// バトルシーン用のステージの配列
 	std::vector<std::vector<int>> battleStageArray_;

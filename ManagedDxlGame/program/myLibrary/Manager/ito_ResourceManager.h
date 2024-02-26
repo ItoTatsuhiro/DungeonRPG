@@ -12,7 +12,7 @@ namespace ito {
 	// それぞれを読み込むための関数あり
 	// コンストラクタ等でそれぞれの情報を保管するcsvを読み込む必要あり
 
-	class ResourceManager {
+	class ResourceManager final{
 	private:
 
 		// コンストラクタ

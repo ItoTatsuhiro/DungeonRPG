@@ -14,7 +14,7 @@ class TransformCamera;
 
 // ダンジョン上での操作を行うサブシーン
 // シーンプレイ内で必要に応じてupdate,drawする
-class DungeonSubScene : public SubSceneBase {
+class DungeonSubScene final : public SubSceneBase {
 public :
 
 	// コンストラクタ

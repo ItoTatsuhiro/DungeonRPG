@@ -5,60 +5,19 @@
 #include "../Battle/attack/Attack.h"
 
 // コンストラクタ
-// 引数：開始位置
+// 引数：tnl::Vector3 startPos...開始位置, float objSize...オブジェクトの大きさ, std::string objectName...オブジェクト名
 // 移動前の座標は開始位置で初期化
-BattlePlayer::BattlePlayer(tnl::Vector3 startPos) : beforePos_(startPos){
-	// 当たり判定用のメッシュの作成
-	hitBox_ = ObjectManager::GetInstance()->createCube(meshSize_, "playerHitBox");
-	// 引数の開始位置の座標で初期化
-	// 高さはメッシュの大きさの半分とする
-	hitBox_->get_mesh_()->pos_ = (startPos + tnl::Vector3{0, meshSize_ / 5, 0});
-
-	// テクスチャの読み込み
-	playerTexture_ = ito::ResourceManager::GetInstance()->loadTexture("travellerAnim.png");
-	// テクスチャの分割数の読み込み
-	textureCutNum_ = ito::ResourceManager::GetInstance()->getTextureCutNum("travellerAnim.png");
+BattlePlayer::BattlePlayer(tnl::Vector3 startPos, float objSize, std::string objectName) 
+	: attackSize_(meshSize_ * 2), BattleCharacterBase(startPos, objSize, objectName){
 
 
-	// テクスチャの一つ分の大きさを計算
-	float sizeU = 1.0 / textureCutNum_.x;
-	float sizeV = 1.0 / textureCutNum_.y;
+	// SpriteObjectBaseクラスの関数
+	// テクスチャを表示する用のplaneの配列を作成する
+	CreateSpriteObjArray("travellerAnim.png");
 
-	// デバッグ用表示
-	tnl::DebugTrace("sizeU = %f, sizeV = %f\n", sizeU, sizeV);
-
-	// テクスチャを貼り付ける用のメッシュを生成
-	for (int v = 0; v < textureCutNum_.y; ++v) {
-
-		std::vector<std::shared_ptr<ito::Object3D>> objArray;
-
-		for (int u = 0; u < textureCutNum_.x; ++u) {
-
-			std::string objName = "enemy" + std::to_string(u) + std::to_string(v);
-
-			std::shared_ptr<ito::Object3D> playerObj
-				= ObjectManager::GetInstance()->createPlane(tnl::Vector3{ meshSize_, meshSize_, meshSize_ }, objName, { u * sizeU, v * sizeV, 0 }, { (u + 1) * sizeU, (v + 1) * sizeV, 0 });
-
-			// デバッグ用表示
-			tnl::DebugTrace(" (%d, %d) = 前(%f, %f), 後(%f, %f)\n", u, v, u * sizeU, v * sizeV, (u + 1) * sizeU, (v + 1) * sizeV);
-
-
-			// 表示設定を変更
-			playerObj->get_mesh_()->setBlendMode(DX_BLENDMODE_ALPHA);
-			playerObj->get_mesh_()->setSampleFilterMode(DX_DRAWMODE_NEAREST);
-			playerObj->get_mesh_()->setCullingMode(DX_CULLING_RIGHT);
-
-			// テクスチャの貼り付け
-			playerObj->get_mesh_()->setTexture(playerTexture_);
-
-			objArray.emplace_back(playerObj);
-		}
-		playerObjArray_.emplace_back(objArray);
-	}
-
+	// 表示するメッシュの初期設定
 	displayObj_ = tnl::Vector2i( 1, textureCutNum_.y - 2);
 
-	attackSize_ = meshSize_ * 2;
 
 	return;
 }
@@ -75,21 +34,8 @@ void BattlePlayer::update(float delta_time) {
 
 	seq_.update(delta_time);
 
-	auto it = attackList_.begin();
-	while (it != attackList_.end()) {
-		(*it)->update(delta_time);
-
-		if ((*it)->get_isActive_() == false) {
-
-			it = attackList_.erase(it);
-
-		}
-		else{
-			++it;
-		}
-		
-	}
-
+	// キャラクターベースの更新
+	BattleCharacterBase::update(delta_time);
 
 	return;
 }
@@ -100,9 +46,9 @@ void BattlePlayer::draw( std::shared_ptr<dxe::Camera> camera) {
 	// DrawStringEx(100, 100, -1, "playerPos = x : %f, y : %f, z : %f", hitBox_->get_mesh_()->pos_.x, hitBox_->get_mesh_()->pos_.y, hitBox_->get_mesh_()->pos_.z);
 
 	// 表示する画像用のメッシュの座標を当たり判定用のメッシュの位置に更新
-	playerObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_ = hitBox_->get_mesh_()->pos_;
+	spriteObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_ = hitBox_->get_mesh_()->pos_;
 
-	playerObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->render(camera);
+	spriteObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->render(camera);
 
 
 	auto it = attackList_.begin();
@@ -129,13 +75,6 @@ void BattlePlayer::Move(float delta_time) {
 		// アニメーションのカウントを0にする
 		animChangeCount_ = 0;
 
-		/*if (frontDir == Enum::Dir4::LEFT) {
-			displayObj_ = tnl::Vector2i( 1, 3 );
-		}
-		else if (frontDir == Enum::Dir4::RIGHT) {
-			displayObj_ = tnl::Vector2i(1, 2);
-		}*/
-
 		displayObj_.x = 1;
 
 		// 以下を処理しない
@@ -148,22 +87,22 @@ void BattlePlayer::Move(float delta_time) {
 	// 押したキーに応じて座標をずらす
 	if (InputManager::GetInstance()->KeyDownUp()) {
 		hitBox_->get_mesh_()->pos_.z += moveValue_;
-		frontDir = Enum::Dir4::UP;
+		frontDir_ = Enum::Dir4::UP;
 	}
 	if (InputManager::GetInstance()->KeyDownDown()) {
 		hitBox_->get_mesh_()->pos_.z -= moveValue_;
-		frontDir = Enum::Dir4::DOWN;
+		frontDir_ = Enum::Dir4::DOWN;
 	}
 	if (InputManager::GetInstance()->KeyDownLeft()) {
 		hitBox_->get_mesh_()->pos_.x -= moveValue_;
-		animFrontDir = Enum::Dir4::LEFT;
-		frontDir = Enum::Dir4::LEFT;
+		animFrontDir_ = Enum::Dir4::LEFT;
+		frontDir_ = Enum::Dir4::LEFT;
 		displayObj_.y = 3;
 	}
 	if (InputManager::GetInstance()->KeyDownRight()) {
 		hitBox_->get_mesh_()->pos_.x += moveValue_;
-		animFrontDir = Enum::Dir4::RIGHT;
-		frontDir = Enum::Dir4::RIGHT;
+		animFrontDir_ = Enum::Dir4::RIGHT;
+		frontDir_ = Enum::Dir4::RIGHT;
 		displayObj_.y = 2;
 	}
 
@@ -193,25 +132,25 @@ void BattlePlayer::OnAttackKey() {
 		animChangeCount_ = 0;
 
 		// 向きに応じて表示する画像の向きを変更
-		displayObj_.y = (animFrontDir == Enum::Dir4::LEFT) ? 1 : 0;
+		displayObj_.y = (animFrontDir_ == Enum::Dir4::LEFT) ? 1 : 0;
 		displayObj_.x = 0;
 
 		tnl::Vector3 attackPos;
 
-		if (frontDir == Enum::Dir4::UP) {
+		if (frontDir_ == Enum::Dir4::UP) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ 0, 0, attackSize_ };
 		}
-		else if (frontDir == Enum::Dir4::DOWN) {
+		else if (frontDir_ == Enum::Dir4::DOWN) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ 0, 0, -attackSize_ };
 		}
-		else if (frontDir == Enum::Dir4::LEFT) {
+		else if (frontDir_ == Enum::Dir4::LEFT) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ -attackSize_ , 0, 0 };
 		}
-		else if (frontDir == Enum::Dir4::RIGHT) {
+		else if (frontDir_ == Enum::Dir4::RIGHT) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ attackSize_ , 0, 0 };
 		}
 
-		attackList_.emplace_back(std::shared_ptr<Attack>(new Attack(attackPos, attackSize_, "slashAnim.png", animFrontDir)));
+		attackList_.emplace_back(std::shared_ptr<Attack>(new Attack(attackPos, attackSize_, "slashAnim.png", animFrontDir_)));
 	}
 
 	return;
@@ -247,7 +186,7 @@ bool BattlePlayer::seqAttack(const float delta_time) {
 
 			// 表示するメッシュを切り替え
 			displayObj_.x = 0;
-			displayObj_.y = (animFrontDir == Enum::Dir4::LEFT) ? 3 : 2;
+			displayObj_.y = (animFrontDir_ == Enum::Dir4::LEFT) ? 3 : 2;
 
 			seq_.change(&BattlePlayer::seqIdle);
 		}

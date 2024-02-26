@@ -11,7 +11,7 @@ public :
 	// コンストラクタ
 	SubSceneBase(){}
 	// デストラクタ
-	~SubSceneBase(){}
+	virtual ~SubSceneBase(){}
 
 	// 更新用の関数
 	// 純粋仮想関数

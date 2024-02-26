@@ -15,6 +15,7 @@ public :
 	// デストラクタ
 	virtual ~SpriteObjectBase();
 
+
 	// 更新用の関数
 	virtual void update(float delta_time) = 0;
 
@@ -26,7 +27,19 @@ public :
 	// 引数：textureFileName...貼り付けるテクスチャのファイル名
 	void CreateSpriteObjArray(std::string textureFileName);
 
+	// ******************************************************************************
+	// 以下ゲッター
+
+	// isActive_のゲッター
+	bool getIsActive() const { return isActive_; }
+
+	// hitBox_のゲッター
+	inline std::shared_ptr<ito::Object3D> getHitBox() const { return hitBox_; }
+
 protected :
+
+	// オブジェクトのアクティブ状態のフラグ
+	bool isActive_ = true;
 
 	// オブジェクトの名前
 	std::string objName_;
@@ -63,7 +76,7 @@ protected :
 	Enum::Dir4 frontDir_ = Enum::Dir4::UP;
 	// アニメーションの方向
 	// アニメーションが左右の絵しかない場合等、これで管理する
-	Enum::Dir4 animDir_ = Enum::Dir4::UP;
+	Enum::Dir4 animFrontDir_ = Enum::Dir4::UP;
 
 
 
