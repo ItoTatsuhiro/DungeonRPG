@@ -2,62 +2,37 @@
 
 #include "../manager/TurnManager.h"
 
+#include "../base/SubSceneBase.h"
 #include "SubScene/DungeonSubScene.h"
 #include "SubScene/BattleSubScene.h"
 
 
 ScenePlay::ScenePlay() {
 
-	// ダンジョンのサブシーンを生成
-	dungeonSubScene_ = std::shared_ptr<DungeonSubScene>(new DungeonSubScene());
 
-	// 初期のシーンをダンジョンシーンに設定
-	// nowSubScene_ = dungeonSubScene_;
+	SubSceneManager::GetInstance();
 
-
-	battleSubScene_ = std::shared_ptr<BattleSubScene>(new BattleSubScene());
-
-	// デバッグ用
-	// バトルシーンを実行
-	// nowSubScene_ = battleSubScene_;
-
-	nowSubScene_ = dungeonSubScene_;
 }
 
 
 ScenePlay::~ScenePlay() {
 
+	SubSceneManager::GetInstance()->Destroy();
+	TurnManager::GetInstance()->Destroy();
+
 }
 
-
+// 更新用の関数
 void ScenePlay::update(float delta_time) {
 
-	nowSubScene_->update(delta_time);
+	SubSceneManager::GetInstance()->update(delta_time);
 
 }
 
+// 描画用の関数
 void ScenePlay::draw() {
 
-	nowSubScene_->draw();
+	SubSceneManager::GetInstance()->draw();
 
 }
 
-void ScenePlay::ChangeSubScene(std::shared_ptr<SubSceneBase> nextSubScene) {
-
-	nowSubScene_ = nextSubScene;
-
-	return;
-}
-
-
-// ダンジョンのサブシーンに切り替え
-void ScenePlay::ChangeSubSceneToDungeon() {
-
-	nowSubScene_ = dungeonSubScene_;
-
-}
-// バトルのサブシーンに切り替え
-void ScenePlay::ChangeSubSceneToBattle() {
-
-	nowSubScene_ = battleSubScene_;
-}

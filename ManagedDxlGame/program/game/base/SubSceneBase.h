@@ -15,9 +15,9 @@ public :
 
 	// 更新用の関数
 	// 純粋仮想関数
-	virtual void update(float delta_time) = 0 {};
+	virtual void update(float delta_time){};
 	// 描画用の関数
 	// 純粋仮想関数
-	virtual void draw() = 0 {};
+	virtual void draw(){};
 
 };

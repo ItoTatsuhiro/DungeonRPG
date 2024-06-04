@@ -17,10 +17,16 @@ public :
 
 
 	// 更新用の関数
+	// *********************************************************************
+	// 継承先のupdate関数でも、このクラスのupdate関数を呼び出すこと!!
+	// *********************************************************************
 	virtual void update(float delta_time) = 0;
 
 	// 描画用の関数
 	// 引数：描画用のカメラ、デフォルトはnullptrに設定しているが基本入れること
+	// *********************************************************************
+	// 継承先のdraw関数でも、このクラスのdraw関数を呼び出すこと!!
+	// *********************************************************************
 	virtual void draw(std::shared_ptr<dxe::Camera> camera = nullptr) = 0;
 
 	// spriteObjArray_の中身を生成する関数
@@ -31,10 +37,35 @@ public :
 	// 以下ゲッター
 
 	// isActive_のゲッター
-	bool getIsActive() const { return isActive_; }
+	inline bool getIsActive() const { return isActive_; }
+
+	// transform_を取得するゲッター
+	inline ito::Transform getTransform() const { return transform_; }
+
+	// transform_のpos_要素を取得するゲッター
+	inline tnl::Vector3 getPos() const { return transform_.getPos_(); }
 
 	// hitBox_のゲッター
 	inline std::shared_ptr<ito::Object3D> getHitBox() const { return hitBox_; }
+
+	// frontDir_のゲッター
+	inline Enum::Dir4 getFrontDir() const { return frontDir_; }
+
+	// meshSize_のゲッター
+	inline float getMeshSize() const { return meshSize_; }
+
+	// ******************************************************************************
+	// 以下セッター
+
+	// transformのセッター
+	inline void setTransform(ito::Transform transform) { transform_ = transform; }
+
+	// transformのpos_要素のセッター
+	inline void setPos(tnl::Vector3 newPos) { transform_.setPos_(newPos); }
+
+	// frontDirのセッター
+	inline void setFrontDir(Enum::Dir4 frontDir) { frontDir_ = frontDir; }
+
 
 protected :
 
@@ -45,6 +76,7 @@ protected :
 	std::string objName_;
 
 	// オブジェクトの座標等の情報
+	// これを変更すると、hitBox_とspriteObj_の座標も変更できるようにする
 	ito::Transform transform_;
 
 	// 当たり判定用のBox

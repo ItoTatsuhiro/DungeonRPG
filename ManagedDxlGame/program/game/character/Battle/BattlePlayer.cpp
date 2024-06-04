@@ -5,15 +5,15 @@
 #include "../Battle/attack/Attack.h"
 
 // コンストラクタ
-// 引数：tnl::Vector3 startPos...開始位置, float objSize...オブジェクトの大きさ, std::string objectName...オブジェクト名
+// 引数：tnl::Vector3 startPos...開始位置, float objSize...オブジェクトの大きさ, std::string fileName...テクスチャのファイル名
 // 移動前の座標は開始位置で初期化
-BattlePlayer::BattlePlayer(tnl::Vector3 startPos, float objSize, std::string objectName) 
-	: attackSize_(meshSize_ * 2), BattleCharacterBase(startPos, objSize, objectName){
+BattlePlayer::BattlePlayer(tnl::Vector3 startPos, float objSize, std::string fileName)
+	: /*attackSize_(meshSize_ * 2), */BattleCharacterBase(startPos, objSize, fileName){
 
 
 	// SpriteObjectBaseクラスの関数
 	// テクスチャを表示する用のplaneの配列を作成する
-	CreateSpriteObjArray("travellerAnim.png");
+	// CreateSpriteObjArray("travellerAnim.png");
 
 	// 表示するメッシュの初期設定
 	displayObj_ = tnl::Vector2i( 1, textureCutNum_.y - 2);
@@ -45,18 +45,8 @@ void BattlePlayer::draw( std::shared_ptr<dxe::Camera> camera) {
 	// デバッグ用
 	// DrawStringEx(100, 100, -1, "playerPos = x : %f, y : %f, z : %f", hitBox_->get_mesh_()->pos_.x, hitBox_->get_mesh_()->pos_.y, hitBox_->get_mesh_()->pos_.z);
 
-	// 表示する画像用のメッシュの座標を当たり判定用のメッシュの位置に更新
-	spriteObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->pos_ = hitBox_->get_mesh_()->pos_;
-
-	spriteObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->render(camera);
-
-
-	auto it = attackList_.begin();
-	while (it != attackList_.end()) {
-		(*it)->draw(camera);
-
-		++it;
-	}
+	// 
+	BattleCharacterBase::draw(camera);
 
 	return;
 }
@@ -82,25 +72,27 @@ void BattlePlayer::Move(float delta_time) {
 	}
 
 	// 移動前に座標を記録する
-	beforePos_ = hitBox_->get_mesh_()->pos_;
+	// beforePos_ = hitBox_->get_mesh_()->pos_;
+	beforePos_ = transform_.getPos_();
 
 	// 押したキーに応じて座標をずらす
 	if (InputManager::GetInstance()->KeyDownUp()) {
-		hitBox_->get_mesh_()->pos_.z += moveValue_;
+		MoveCharacter(tnl::Vector3{ 0, 0, 1 });
 		frontDir_ = Enum::Dir4::UP;
 	}
 	if (InputManager::GetInstance()->KeyDownDown()) {
-		hitBox_->get_mesh_()->pos_.z -= moveValue_;
+		MoveCharacter(tnl::Vector3{ 0, 0, -1 });
 		frontDir_ = Enum::Dir4::DOWN;
 	}
 	if (InputManager::GetInstance()->KeyDownLeft()) {
-		hitBox_->get_mesh_()->pos_.x -= moveValue_;
+		MoveCharacter(tnl::Vector3{ -1, 0, 0 });
 		animFrontDir_ = Enum::Dir4::LEFT;
 		frontDir_ = Enum::Dir4::LEFT;
 		displayObj_.y = 3;
 	}
+
 	if (InputManager::GetInstance()->KeyDownRight()) {
-		hitBox_->get_mesh_()->pos_.x += moveValue_;
+		MoveCharacter(tnl::Vector3{ 1, 0, 0 });
 		animFrontDir_ = Enum::Dir4::RIGHT;
 		frontDir_ = Enum::Dir4::RIGHT;
 		displayObj_.y = 2;
@@ -150,8 +142,9 @@ void BattlePlayer::OnAttackKey() {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ attackSize_ , 0, 0 };
 		}
 
-		attackList_.emplace_back(std::shared_ptr<Attack>(new Attack(attackPos, attackSize_, "slashAnim.png", animFrontDir_)));
+		activeAttackList_.emplace_back(std::shared_ptr<Attack>(new Attack(attackPos, attackSize_, "slashAnim.png", animFrontDir_)));
 	}
+
 
 	return;
 }

@@ -9,7 +9,7 @@ namespace ito {
 	ito::ResourceManager::ResourceManager() {
 
 		// ÉäÉ\Å[ÉXÇÃcsvÇÃì«Ç›çûÇ›
-		gpcCsv_ = tnl::LoadCsv<std::string>("csv/Resource/graphData.csv");
+		gpcCsv_ = tnl::LoadCsv<std::string>("csv/Resource/gpcData.csv");
 		animCsv_ = tnl::LoadCsv("csv/Resource/animData.csv");
 		soundsCsv_ = tnl::LoadCsv<std::string>("csv/Resource/soundData.csv");
 		textureCsv_ = tnl::LoadCsv("csv/Resource/textureData.csv");

@@ -1,6 +1,5 @@
 #pragma once
-#include "../library/tnl_vector3.h"
-#include "../../library/tnl_quaternion.h"
+#include "../../dxlib_ext/dxlib_ext.h"
 
 namespace ito {
 
@@ -22,38 +21,38 @@ namespace ito {
 
 		// 座標を取得するための関数
 		// 戻り値：pos_(座標)
-		const tnl::Vector3& getPos_() const { return pos_; }
+		inline const tnl::Vector3& getPos_() const { return pos_; }
 
 		// 回転量(2D用)を取得する関数
 		// 戻り値：rot2D_（回転量）
-		const tnl::Vector3& getRot2D_() const { return rot2D_; }
+		inline const tnl::Vector3& getRot2D_() const { return rot2D_; }
 
 		// 回転量(3D用)を取得する関数
 		// 戻り値：rot3D_(3D用回転量)
-		const tnl::Quaternion& getRot3D_() const { return rot3D_; }
+		inline const tnl::Quaternion& getRot3D_() const { return rot3D_; }
 
 		// 大きさの倍率を取得する関数
 		// 戻り値：scale_（倍率）
-		const tnl::Vector3& getScale_() const { return scale_; }
+		inline const tnl::Vector3& getScale_() const { return scale_; }
 
 		//---------------------------------------------------------------
 		// セッター
 
 		// 座標を設定するための関数
 		// 引数：new_pos(新しい座標、tnl::Vector3型)
-		void setPos_(const tnl::Vector3& new_pos) { pos_ = new_pos; }
+		inline void setPos_(const tnl::Vector3& new_pos) { pos_ = new_pos; }
 
 		// 回転量(2D用)を設定するための関数
 		// 引数：new_rotate(新しい回転量、tnl::Vector3型)
-		void setRot2D_(const tnl::Vector3& newRot2D) { rot2D_ = newRot2D; }
+		inline void setRot2D_(const tnl::Vector3& newRot2D) { rot2D_ = newRot2D; }
 
 		// 回転量(3D用)を設定するための関数
 		// 引数：new_rotate(新しい回転量、tnl::Vector3型)
-		void setRot3D_(const tnl::Quaternion& newRotate3D) { rot3D_ = newRotate3D; }
+		inline void setRot3D_(const tnl::Quaternion& newRotate3D) { rot3D_ = newRotate3D; }
 
 		// 大きさを設定するための関数
 		// 引数：new_scale(新しい大きさ、tnl::Vector3型)
-		void setScale_(const tnl::Vector3& new_scale) { scale_ = new_scale; }
+		inline void setScale_(const tnl::Vector3& new_scale) { scale_ = new_scale; }
 
 	protected:
 

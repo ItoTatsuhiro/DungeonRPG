@@ -57,6 +57,9 @@ public :
 	// 引数：grid...座標を確認するマスの要素番号
 	tnl::Vector3 getGridObjPos(tnl::Vector2i grid);
 
+	// ゴールの座標を取得する関数
+	tnl::Vector2i getGoalPos();
+
 	// 描画するオブジェクトを描画するlistに入れる関数
 	void drawObjectInList();
 

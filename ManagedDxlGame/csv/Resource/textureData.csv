@@ -4,3 +4,5 @@
 敵(wisp)1,wispAnimDir4.png,graphics/myGpc/texture/wispAnimDir4.png,4,4
 プレイヤー,travellerAnim.png,graphics/myGpc/texture/travellerAnim.png,4,4
 斬撃エフェクト,slashAnim.png,graphics/myGpc/texture/slashAnim.png,4,2
+敵(slime),slimeIdle.png,graphics/myGpc/texture/slimeIdle.png,4,2
+ゴール,GoalTexture.png,graphics/myGpc/texture/GoalTexture.png,0,3

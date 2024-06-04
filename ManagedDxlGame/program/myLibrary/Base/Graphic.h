@@ -1,27 +1,49 @@
 #pragma once
 #include "ito_transform.h"
 
+namespace ito {
 
-// 画像用のクラス
-class Graphic : public ito::Transform{
-public :
+	// 画像用のクラス
+	class Graphic : public ito::Transform {
+	public:
 
-	Graphic(tnl::Vector3 pos, int hdl, int width, int height);
+		// コンストラクタ
+		// 継承しているTransformの座標は相対座標として用いる
+		Graphic(int hdl, float sizeMag = 1, tnl::Vector3 pos = { 0, 0, 0 });
 
-	virtual ~Graphic() {};
+		virtual ~Graphic() {};
 
-	inline const int get_hdl_() const { return hdl_; }
+		// 描画用の関数
+		// 引数：basePos...ベースとなる座標。この座標を元にして描画する
+		void draw(tnl::Vector3 basePos );
 
-	inline const int get_width_() const { return width_; }
 
-	inline const int get_height_() const { return height_; }
+		//-----------------------------------------------------------------------
+		// ゲッター
 
-protected :
-	// 画像ハンドル
-	int hdl_ = 0;
-	// 画像の横幅
-	int width_ = 0;
-	// 画像の縦幅
-	int height_ = 0;
+		// 画像ハンドルを取得
+		inline int getHdl() const { return hdl_; }
 
-};
+		// 画像の大きさの倍率を取得
+		inline float getSizeMag() const { return sizeMag_; }
+
+		//-----------------------------------------------------------------------
+		// セッター
+
+		// 画像ハンドルをセットする
+		inline void setHdl(int hdl) { hdl_ = hdl; }
+
+		// 画像の大きさの倍率をセットする
+		inline void setSizeMag(float sizeMag) { sizeMag_ = sizeMag; }
+
+
+
+	protected:
+		// 画像ハンドル
+		int hdl_ = 0;
+		// 画像の大きさの倍率
+		float sizeMag_ = 1.0f;
+
+	};
+
+}

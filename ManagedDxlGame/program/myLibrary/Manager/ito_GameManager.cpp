@@ -43,7 +43,7 @@ namespace ito {
 	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚éŠÖ”
 	void GameManager::changeScene(std::shared_ptr<SceneBase> nextScene) {
 		nextScene_ = nextScene;
-		nowScene_ = nullptr;
+		nowScene_.reset();
 		nowScene_ = nextScene_;
 	}
 

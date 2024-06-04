@@ -4,9 +4,11 @@
 
 
 // コンストラクタ
-// 引数：座標、大きさ、ファイル名、正面の方向(LEFTかRIGHT)
+// 引数：座標、大きさ、ファイル名、正面の方向(LEFTかRIGHT), ダメージ
 // Object3Dのメッシュを当たり判定用のメッシュとして作成する
-Attack::Attack(tnl::Vector3 pos, float size, std::string fileName, Enum::Dir4 front) : SpriteObjectBase(pos, size, fileName) {
+Attack::Attack(tnl::Vector3 pos, float size, std::string fileName, Enum::Dir4 front, float damage)
+	: SpriteObjectBase(pos, size, fileName) , damage_(damage)
+{
 
 	CreateSpriteObjArray(fileName);
 

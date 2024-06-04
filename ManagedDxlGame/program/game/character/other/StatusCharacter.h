@@ -8,7 +8,7 @@ public :
 	// 引数：lv...レベル, hp...体力, atk...攻撃力, def...防御力, spd...速度, crt...会心率
 	// 生成した際に設定する値がある場合は初期化子で入れる
 	// 初期値を入れない場合はデフォルトの値が入るようにする
-	StatusCharacter(float lv = 1, float hp = 50, float atk = 10, float def = 5, float spd = 10, float crt = 0.1);
+	StatusCharacter(int lv = 1, float hp = 6, float atk = 1, float def = 0, float spd = 5, float crt = 0.1);
 	// デストラクタ
 	~StatusCharacter();
 
@@ -17,9 +17,11 @@ public :
 	// ゲッター
 
 	// レベルのゲッター
-	inline const float getLv() const { return lv_; }
+	inline const int getLv() const { return lv_; }
 	// 体力のゲッター
 	inline const float getHp() const { return hp_; }
+	// 最大体力のゲッター
+	inline const float getHpMax() const { return hpMax_; }
 	// 攻撃力のゲッター
 	inline const float getAtk() const { return atk_; }
 	// 防御力のゲッター
@@ -34,9 +36,11 @@ public :
 	// セッター
 
 	// レベルのセッター
-	inline void setLv(float lv) { lv_ = lv; }
+	inline void setLv(int lv) { lv_ = lv; }
 	// 体力のセッター
 	inline void setHp(float hp) { hp_ = hp; }
+	// 最大体力のセッター
+	inline void setHpMax(float hpMax) { hpMax_ = hpMax; }
 	// 攻撃力のセッター
 	inline void setAtk(float atk) { atk_ = atk; }
 	// 防御力のセッター
@@ -55,9 +59,11 @@ protected :
 	//**********************************************
 
 	// レベル
-	float lv_;
+	int lv_;
 	// 体力
 	float hp_;
+	// 最大体力
+	float hpMax_;
 	// 攻撃力
 	float atk_;
 	// 防御力

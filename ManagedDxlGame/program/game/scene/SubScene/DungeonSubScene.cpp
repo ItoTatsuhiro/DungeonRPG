@@ -3,7 +3,24 @@
 #include "../../character/Dungeon/Player.h"
 #include "../../character/Dungeon/Enemy.h"
 #include "../../manager/TurnManager.h"
+#include "../../manager/SubSceneManager.h"
 #include "../../other/TransformCamera.h"
+
+
+// DungeonSubSceneクラスのインスタンスを取得する関数
+std::shared_ptr<DungeonSubScene> DungeonSubScene::GetInstance() {
+
+	// DungeonSubSceneクラスのインスタンス
+	static std::shared_ptr<DungeonSubScene> instance = nullptr;
+
+	// 既に生成されていないときのみ新しく生成
+	if (!instance) {
+		instance = std::shared_ptr<DungeonSubScene>(new DungeonSubScene());
+	}
+
+	return instance;
+
+}
 
 
 // コンストラクタ
@@ -14,6 +31,9 @@ DungeonSubScene::DungeonSubScene() {
 
 	// ステージを管理するクラスの生成
 	stage_ = Stage::GetInstance("test", "csv/mapData.csv", gridSize_);
+
+	// ターンマネージャーの生成とサブシーンマネージャーのセット
+	//TurnManager::GetInstance()->setSubSceneManager( SubSceneManager::GetInstance() );
 
 
 	CreateCharacter();
@@ -74,20 +94,41 @@ void DungeonSubScene::draw() {
 }
 
 
+// 敵を消す関数
+void DungeonSubScene::DeleteEnemy(std::shared_ptr<Enemy> deleteEnemy) {
+
+
+	auto it = enemyList_.begin();
+
+	while (it != enemyList_.end()) {
+
+		if ((*it) == deleteEnemy) {
+
+			enemyList_.erase(it);
+
+			break;
+		}
+
+		++it;
+	}
+
+}
+
+
 // プレイヤー、敵キャラクターを作成する処理
 void DungeonSubScene::CreateCharacter() {
 
 	// プレイヤーの作成
-	player_ = std::shared_ptr<Player>(new Player(gridSize_, { 0, 0 }));
+	player_ = std::shared_ptr<Player>(new Player(gridSize_, { 1, 1 }, stage_->getGridObjPos( {1, 1} ) ));
 
-	// 90度回転した状態で開始
-	player_->getTransform().setRot3D_(player_->getTransform().getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(90)));
+	//// 90度回転した状態で開始
+	//player_->getTransform().setRot3D_(player_->getTransform().getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(90)));
 
 	// プレイヤーのセット
 	TurnManager::GetInstance()->setPlayer(player_);
 
 	// 敵キャラクターの作成
-	enemy_ = std::shared_ptr<Enemy>(new Enemy(gridSize_, { 4, 1 }, player_));
+	enemy_ = std::shared_ptr<Enemy>(new Enemy(gridSize_, { 5, 2 }, player_));
 	// リストに入れる
 	enemyList_.emplace_back(enemy_);
 	// 敵のリストをセット

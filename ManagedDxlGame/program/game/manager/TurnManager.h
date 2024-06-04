@@ -6,6 +6,7 @@
 // 前方宣言
 class Player;
 class Enemy;
+class SubSceneManager;
 
 
 // ターンの処理を管理する用のクラス
@@ -36,6 +37,11 @@ public :
 	// 引数：敵のリスト
 	void setEnemyList(std::list<std::shared_ptr<Enemy>> enemyList);
 
+	// サブシーンマネージャーをセットする関数
+	// シーンで呼び出してセット
+	// 引数：サブシーンマネージャー
+	void setSubSceneManager(std::shared_ptr<SubSceneManager> subSceneManager) { subSceneManager_ = subSceneManager; }
+
 	// プレイヤーが入力が行われた際に呼び出す関数
 	// 敵の処理を行うシーケンスに遷移するための関数
 	void ChangeSeqFromWaitPlayerInput();
@@ -48,11 +54,17 @@ public :
 	// actionEndEnemyListのうち、falseを一つtrueにする関数
 	void ActionEndEnemy();
 
+	// 自身を削除する関数
+	void Destroy();
+
 private :
 
 	// キャラクターの位置を確認する関数
 	void CheckCharacterPos();
 
+	// サブシーンマネージャーのインスタンス
+	// ターンマネージャーが生成された際に引数で入れる
+	std::shared_ptr<SubSceneManager> subSceneManager_ = nullptr;
 
 	// プレイヤー
 	// シーンでsetPlayer関数を用いてセットする
@@ -88,6 +100,10 @@ private :
 	float transTime_ = 0.1f;
 	// シーンを切り替える際の暗転用
 	int transGpc_ = 0;
+
+	tnl::Vector2i goalPos_;
+
+	std::shared_ptr< Enemy > battlingEnemy_ = nullptr;
 
 	// 現在のシーケンス
 	TurnManagerSeq nowSeq_ = TurnManagerSeq::WAIT_PLAYER_INPUT;

@@ -7,6 +7,7 @@
 #include "../character/Dungeon/Enemy.h"
 #include "../manager/TurnManager.h"
 #include "../base/SubSceneBase.h"
+#include "../manager/SubSceneManager.h"
 
 #include "../other/TransformCamera.h"
 
@@ -28,29 +29,19 @@ public :
 	// 描画の処理
 	void draw() override;
 
-	// 一旦未使用
-	// サブシーンを切り替える関数
-	void ChangeSubScene( std::shared_ptr<SubSceneBase> nextSubScene );
 
-	// ダンジョンのサブシーンに切り替え
-	void ChangeSubSceneToDungeon();
-	// バトルのサブシーンに切り替え
-	void ChangeSubSceneToBattle();
 
-	// サブシーンのゲッター
-	// 上の関数で切り替える際に引数として使用
-
-	std::shared_ptr<DungeonSubScene> getDungeonSubScene() { return dungeonSubScene_; }
-	std::shared_ptr<BattleSubScene> getBattleSubScene() { return battleSubScene_; }
 
 private :
-	// 実行するサブシーン
-	// この変数に入れているサブシーンを実行する
-	std::shared_ptr<SubSceneBase> nowSubScene_ = nullptr;
-	// ダンジョンのサブシーン
-	std::shared_ptr<DungeonSubScene> dungeonSubScene_ = nullptr;
-	// バトルのサブシーン
-	std::shared_ptr<BattleSubScene> battleSubScene_ = nullptr;
+
+	// 以下のサブシーンは、サブシーン内でサブシーンを切り替えるため、
+	// シングルトンで生成している
+	// ScenePlayが持ってはいるが、
+	// インスタンスを取得する際はGetInstance()関数で取得する
+
+	//// サブシーンを管理する用のマネージャー
+	//// サブシーンはこちらに持たせる
+	//std::shared_ptr< SubSceneManager > subSceneManager_ = nullptr;
 
 
 

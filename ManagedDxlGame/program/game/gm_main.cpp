@@ -5,6 +5,7 @@
 #include "../dxlib_ext/dxlib_ext.h"
 #include "gm_main.h"
 #include "scene/ScenePlay.h"
+#include "scene/SceneTitle.h"
 
 #include "manager/SubSceneManager.h"
 
@@ -14,10 +15,12 @@ void gameStart() {
 	srand(time(0));
 	SetBackgroundColor(32, 32, 32);
 
-	std::shared_ptr<ScenePlay> scene = std::shared_ptr<ScenePlay>( new ScenePlay() );
-	SubSceneManager::GetInstance()->setScenePlay(scene);
+	//std::shared_ptr<ScenePlay> scene = std::shared_ptr<ScenePlay>( new ScenePlay() );
 
-	// ito::GameManager::GetInstance_(new ScenePlay());
+	
+	std::shared_ptr<SceneTitle> scene = std::shared_ptr<SceneTitle>(new SceneTitle());
+
+
 	ito::GameManager::GetInstance_(scene);
 
 }
@@ -30,7 +33,7 @@ void gameMain(float delta_time) {
 	ito::GameManager::GetInstance_()->update(delta_time);
 
 
-	DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
+	//DrawFpsIndicator({ 10, DXE_WINDOW_HEIGHT - 10, 0 }, delta_time);
 
 }
 

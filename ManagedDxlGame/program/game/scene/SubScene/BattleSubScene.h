@@ -4,8 +4,11 @@
 // 前方宣言
 class ObjectBlockBase;
 class TransformCamera;
+class BattleCharacterBase;
 class BattlePlayer;
-
+class BattleEnemy;
+class SubSceneManager;
+class UiHP;
 
 // バトルシーンのサブクラス
 // ScenePlay内で必要に応じてupdate, drawする
@@ -24,28 +27,56 @@ public :
 
 private :
 
-
 	// ステージを生成する関数
 	void CreateStage();
 
 	// ステージのオブジェクトをソートする関数
+	// 最初に一回実行する
 	void SortObject(std::shared_ptr<dxe::Camera> camera);
+
+	// キャラクターをソートする関数
+	// 毎フレーム実行
+	void SortCharacter(std::shared_ptr<dxe::Camera> camera);
 
 	// キャラクターの座標を補正する関数
 	// ステージの範囲外に出た場合範囲内に補正する
-	void posCorrection();
+	void PosCorrection();
+
+	// 攻撃判定が当たっているかどうか確認する関数
+	void CheckHitAttack();
+
+	// バトルシーンが終了しているかどうかを確認する関数
+	void CheckBattleEnd();
 
 
+	// バトル中かどうかを判別するためのフラグ
+	bool isBattling_ = true;
+
+	//-------------------------------------------------------
+	// キャラクター
+
+	// プレイヤーのキャラクター
 	std::shared_ptr<BattlePlayer> player_ = nullptr;
+	// 敵のキャラクター
+	std::shared_ptr<BattleEnemy> enemy_ = nullptr;
+
+	// 描画するキャラクターのリスト
+	// 描画前にこれをソートして順番に描画する
+	std::list< std::shared_ptr<BattleCharacterBase> > displayCharaList_;
 
 
+	//-------------------------------------------------------
+	// カメラ
 
 	// バトルシーン用のカメラ(ThirdPersonCamera)
 	std::shared_ptr< dxe::Camera > TPCamera_ = nullptr;
 
-
 	// カメラのターゲットの座標
 	tnl::Vector3 cameraTargetPos_ = { 0, 0, 0 };
+
+
+	//-------------------------------------------------------
+	// ステージ関係
 
 	// バトルシーン用のステージの配列
 	std::vector<std::vector<int>> battleStageArray_;
@@ -84,10 +115,52 @@ private :
 	// yは床のオブジェクトの座標
 	tnl::Vector3 stageSizeMax_;
 
+
+	//-----------------------------------------------------------------------
+	// 表示する画像関係
+
+
+	// UI関係を生成する関数
+	void CreateBattleUI();
+
+	// バトルのUIを表示するための関数
+	// draw関数内で呼び出す
+	void DisplayBattleUI();
+
+	// プレイヤーのHPを表示するUI
+	std::shared_ptr< UiHP > playerHpUi_;
+	// プレイヤーのHPの表示位置
+	tnl::Vector3 playerHpPos_ = {180, 60, 0};
+
+	// 敵キャラクターのHPを表示するUI
+	std::shared_ptr< UiHP > enemyHpUi_;
+	// 敵キャラクターのHPの表示位置
+	tnl::Vector3 enemyHpPos_ = { 600, 550, 0 };
+
+	// メインで表示する画像の位置
+	tnl::Vector3 mainGpcPos_ = { DXE_WINDOW_WIDTH >> 1, DXE_WINDOW_HEIGHT >> 1, 0 };
+
+	// 描画を行う画像のリスト
+	std::list< std::shared_ptr<ito::Graphic> > gpcList_;
+
+
+	//-------------------------------------------------------
+	// シーン切り替え関係
+
+	// シーンを切り替えるまでの時間をカウントする用
+	float sceneChangeCount_ = 0;
+	// シーンを切り替える時間
+	float sceneChangeTime_ = 3.0f;
+
+	//-----------------------------------------------------------------------
+	// シーケンス関係
+
 	// 動作を管理する用のシーケンス
 	tnl::Sequence<BattleSubScene> seq_ = tnl::Sequence<BattleSubScene>(this, &BattleSubScene::seqBattle);
 
 	// 戦闘を行えるシーケンス
 	bool seqBattle(const float delta_time);
 
+	// バトルシーンを終了させるシーケンス
+	bool seqBattleEnd(const float delta_time);
 };

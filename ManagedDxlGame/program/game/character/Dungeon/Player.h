@@ -13,7 +13,7 @@ public :
 	// プレイヤークラスのコンストラクタ
 	// cellSize_(マップの1マス分の大きさ)とgridPos_(存在している座標)を初期化
 	// 引数：cellSize, startGridPos
-	Player( float gridSize, tnl::Vector2i startGridPos );
+	Player( float gridSize, tnl::Vector2i startGridPos, tnl::Vector3 startPos );
 
 	// プレイヤークラスのデストラクタ
 	~Player();

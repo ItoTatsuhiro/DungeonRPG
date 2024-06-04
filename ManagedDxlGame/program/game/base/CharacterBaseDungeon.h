@@ -32,7 +32,8 @@ public :
 	// プレイヤーのTransformを取得する関数
 	 ito::Transform getTransform() const { return nowTransform_; }
 
-	
+	// 次の移動先のマスを取得する関数
+	 tnl::Vector2i getNextGridPos() const { return nextGridPos_; }
 
 protected :
 

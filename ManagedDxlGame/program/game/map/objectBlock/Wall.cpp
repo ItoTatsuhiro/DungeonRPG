@@ -28,7 +28,6 @@ void Wall::draw(std::shared_ptr<dxe::Camera> camera) {
 void Wall::CreateObj() {
 
 
-	//wallTexture_ = dxe::Texture::CreateFromFile("graphics/myGpc/kokeBrick_Box.png");
 
 	wallTexture_ = ito::ResourceManager::GetInstance()->loadTexture("kokeBrick_Box.png");
 

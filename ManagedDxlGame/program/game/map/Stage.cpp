@@ -1,6 +1,7 @@
 #include "Stage.h"
 #include "objectBlock/Wall.h"
 #include "objectBlock/Floor.h"
+#include "objectBlock/Goal.h"
 #include "../character/Dungeon/Player.h"
 
 // コンストラクタ
@@ -141,6 +142,29 @@ std::shared_ptr<ObjectBlockBase> Stage::CheckGridPosObj(tnl::Vector2i checkGrid)
 	return stageObjMap_[nowStage_][checkGrid.y][checkGrid.x];
 
 }
+
+
+
+tnl::Vector2i Stage::getGoalPos() {
+
+
+
+	for (int y = 0; y < stageArrayMap_[nowStage_].size(); ++y) {
+
+		for (int x = 0; x < stageArrayMap_[nowStage_][y].size(); ++x) {
+
+			// ステージの配列がゴールの番号のとき処理
+			// ※※※※※※あとで配列の番号をenum等に修正※※※※※※
+			if (stageArrayMap_[nowStage_][y][x] == 2) {
+
+				return tnl::Vector2i{ x, y };
+
+			}
+		}
+	}
+
+}
+
 
 
 // 引数のマスの座標を取得する関数
@@ -293,6 +317,8 @@ void Stage::CreateStage(std::string stage) {
 		for (int x = 0; x < stageArrayMap_[nowStage_][0].size(); ++x) {
 
 			std::shared_ptr<ObjectBlockBase> floorObj;
+			std::shared_ptr<ObjectBlockBase> wallObj;
+			std::shared_ptr<ObjectBlockBase> goalObj;
 
 			// マップの情報によって生成するオブジェクトを変更する処理
 			// もし要素を追加する場合はcaseを追加する
@@ -307,12 +333,17 @@ void Stage::CreateStage(std::string stage) {
 
 			case 1:
 				// 1の時壁のオブジェクトを生成
-				std::shared_ptr<ObjectBlockBase> wallObj = std::shared_ptr<Wall>(new Wall(gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
+				wallObj = std::shared_ptr<Wall>(new Wall(gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
 				// x方向のvectorに生成したオブジェクトを追加
 				mapObjX.emplace_back(wallObj);
 
 				break;
 
+			case 2:
+				// 2の時ゴールのオブジェクトを生成
+				goalObj = std::shared_ptr<Goal>(new Goal(gridSize_, tnl::Vector3(basePos_.x + x * gridSize_, basePos_.y, basePos_.z - y * gridSize_)));
+				// x方向のvectorに生成したオブジェクトを追加
+				mapObjX.emplace_back(goalObj);
 			}
 
 		}

@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include "../library/tnl_csv.h"
 #include "../../dxlib_ext/dxlib_ext.h"
 
 namespace ito {

@@ -2,15 +2,20 @@
 #include "../character/Dungeon/Player.h"
 #include "../character/Dungeon/Enemy.h"
 
+#include "../map/Stage.h"
 #include "SubSceneManager.h"
+#include "../scene/SceneClear.h"
 
 // コンストラクタ
 TurnManager::TurnManager() {
 	// あとでCSVから読み込むように変更する
 	transGpc_ = LoadGraph("graphics/myGpc/black.png");
+
+	goalPos_ = Stage::GetInstance()->getGoalPos();
+
 }
 
-// ターンマネージャーのインスタンスを取得する関数
+ // ターンマネージャーのインスタンスを取得する関数
 std::shared_ptr<TurnManager> TurnManager::GetInstance() {
 
 	// TurnManagerクラスのインスタンス
@@ -22,7 +27,6 @@ std::shared_ptr<TurnManager> TurnManager::GetInstance() {
 	}
 
 	return instance;
-
 }
 
 
@@ -96,6 +100,15 @@ void TurnManager::ActionEndEnemy() {
 }
 
 
+// 自身を削除する関数
+void TurnManager::Destroy() {
+
+	GetInstance().reset();
+
+}
+
+
+
 // キャラクターの位置を確認する関数
 void TurnManager::CheckCharacterPos() {
 
@@ -107,11 +120,26 @@ void TurnManager::CheckCharacterPos() {
 
 		if (playerGrid == (*it)->getGridPos()) {
 
+
+			battlingEnemy_ = (*it);
+
 			// シーンを切り替えるためのシーケンスに変更
 			seq_.change(&TurnManager::seqChangeSubScene);
+
+			return;
 		}
 		++it;
 	}
+
+	if (playerGrid == goalPos_) {
+		
+		// シーンを切り替え
+		ito::GameManager::GetInstance_()->changeScene( std::shared_ptr< SceneClear >(new SceneClear()) );
+
+		Destroy();
+
+	}
+	
 	return;
 }
 
@@ -137,6 +165,7 @@ bool TurnManager::seqEnemyActionDecade(const float delta_time) {
 
 		(*it)->ChangeSeqFromIdle();
 		++it;
+
 	}
 
 	seq_.change(&TurnManager::seqCheckAction);
@@ -148,7 +177,9 @@ bool TurnManager::seqEnemyActionDecade(const float delta_time) {
 bool TurnManager::seqCheckAction(const float delta_time) {
 
 	// それぞれが次に移動するマス目を取得
-	tnl::Vector2i nextPlayerPos = player_->getGridPos();
+	tnl::Vector2i nextPlayerPos = (player_->/*getGridPos()*/ getNextGridPos());
+
+
 	// 敵の現在のマス目のリスト
 	std::list<tnl::Vector2i> enemyPosList;
 
@@ -251,9 +282,12 @@ bool TurnManager::seqChangeSubScene(const float delta_time) {
 
 		seq_.change(&TurnManager::seqWaitPlayerInput);
 
-		// シーンを切り替え
-		SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE);;
 		
+		// シーンを切り替え
+		//subSceneManager_->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE);
+		SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE, battlingEnemy_);
+
+		battlingEnemy_ = nullptr;
 	}
 
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);

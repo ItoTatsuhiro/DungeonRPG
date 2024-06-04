@@ -35,9 +35,9 @@ protected :
 	void OnAttackKey();
 
 
-	// 攻撃の大きさ
-	// コンストラクタで初期化
-	float attackSize_;
+	//// 攻撃の大きさ
+	//// コンストラクタで初期化
+	//float attackSize_;
 
 	// シーケンス処理用の変数
 	tnl::Sequence<BattlePlayer> seq_ = tnl::Sequence<BattlePlayer>(this, &BattlePlayer::seqIdle);

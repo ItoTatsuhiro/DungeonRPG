@@ -9,6 +9,7 @@ class Stage;
 class Player;
 class Enemy;
 class TurnManager;
+class SubSceneManager;
 class TransformCamera;
 
 
@@ -17,8 +18,13 @@ class TransformCamera;
 class DungeonSubScene final : public SubSceneBase {
 public :
 
+	// インスタンスを取得する用
+	// シーンマネージャー等で同じインスタンスを取得する用
+	std::shared_ptr<DungeonSubScene> GetInstance();
+
 	// コンストラクタ
 	DungeonSubScene();
+
 	// デストラクタ
 	~DungeonSubScene();
 
@@ -27,6 +33,10 @@ public :
 
 	// 描画用の関数
 	void draw() override;
+
+	// 敵を消す関数
+	void DeleteEnemy( std::shared_ptr<Enemy> deleteEnemy );
+
 
 	// ステージを取得する関数
 	std::shared_ptr<Stage> getStage() const { return stage_; }
@@ -37,8 +47,6 @@ public :
 
 private:
 
-
-	std::shared_ptr< TurnManager > turnManager_ = nullptr;
 
 	// プレイヤー、エネミーを生成する関数
 	void CreateCharacter();

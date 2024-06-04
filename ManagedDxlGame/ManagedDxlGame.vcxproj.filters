@@ -90,6 +90,18 @@
     <Filter Include="program\[003] game\character\other">
       <UniqueIdentifier>{7a9441f6-0d47-4095-a285-19eaaafa56e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="program\[003] game\character\Battle\action">
+      <UniqueIdentifier>{425d341e-c79e-4f9a-8ea1-2f1f6b849cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\character\Battle\action\enemyAction">
+      <UniqueIdentifier>{24b88626-323e-489d-a388-ea94225ad732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\character\Battle\Enemy">
+      <UniqueIdentifier>{d41ceeae-6f00-4da7-bf31-2463a2eefe32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="program\[003] game\ui">
+      <UniqueIdentifier>{08f13b41-ce8b-4be1-8a2e-887f3c686227}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ManagedDxlGame.cpp">
@@ -343,6 +355,30 @@
     </ClCompile>
     <ClCompile Include="program\game\character\other\StatusCharacter.cpp">
       <Filter>program\[003] game\character\other</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\action\BattleActionBase.cpp">
+      <Filter>program\[003] game\character\Battle\action</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionMove.cpp">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\Enemy\Enemy_Escape.cpp">
+      <Filter>program\[003] game\character\Battle\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionWait.cpp">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\ui\UiHP.cpp">
+      <Filter>program\[003] game\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\map\objectBlock\Goal.cpp">
+      <Filter>program\[003] game\map\objectBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\scene\SceneClear.cpp">
+      <Filter>program\[003] game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\scene\SceneTitle.cpp">
+      <Filter>program\[003] game\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +682,30 @@
     </ClInclude>
     <ClInclude Include="program\game\character\other\StatusCharacter.h">
       <Filter>program\[003] game\character\other</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\action\BattleActionBase.h">
+      <Filter>program\[003] game\character\Battle\action</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionMove.h">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\Enemy\Enemy_Escape.h">
+      <Filter>program\[003] game\character\Battle\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionWait.h">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\ui\UiHP.h">
+      <Filter>program\[003] game\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\map\objectBlock\Goal.h">
+      <Filter>program\[003] game\map\objectBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\SceneClear.h">
+      <Filter>program\[003] game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\SceneTitle.h">
+      <Filter>program\[003] game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -4,14 +4,14 @@
 
 // コンストラクタ
 // 引数：cellSize...1マス分の大きさ, startGridPos...マップ上での初期座標
-Player::Player(float gridSize, tnl::Vector2i startGridPos) : CharacterBaseDungeon(gridSize, startGridPos) {
+Player::Player(float gridSize, tnl::Vector2i startGridPos, tnl::Vector3 startPos) : CharacterBaseDungeon(gridSize, startGridPos) {
 
 	// 生成済のステージのインスタンスを取得
 	stage_ = Stage::GetInstance();
 
 
 	// 座標を設定
-	nowTransform_.setPos_(tnl::Vector3(gridPos_.x, 1, gridPos_.y) * gridSize_ );
+	nowTransform_.setPos_(startPos + tnl::Vector3{0, gridSize_, 0});
 
 	// 1フレームの移動量を初期化
 	moveVal_ = gridSize_ / 10;

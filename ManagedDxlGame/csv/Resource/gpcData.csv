@@ -1,0 +1,16 @@
+,ファイル名,画像パス
+文字「LIFE」青,LIFE.png,graphics/myGpc/LIFE.png
+文字「LIFE」赤,LIFE_red.png,graphics/myGpc/LIFE_red.png
+体力表示用ブロック（青）,blockLong_Blue-Green.png,graphics/myGpc/blockLong_Blue-Green.png
+体力表示用ブロック（赤）,blockLong_Red-Blue.png,graphics/myGpc/blockLong_Red-Blue.png
+削れ表示用ボール（青),ball_Blue-Green.png,graphics/myGpc/ball_Blue-Green.png
+削れ表示用ボール（赤),ball_Red-Blue.png,graphics/myGpc/ball_Red-Blue.png
+勝利時表示テキスト,CRUSH!.png,graphics/myGpc/CRUSH!.png
+敗北時表示テキスト,CRUSHED....png,graphics/myGpc/CRUSHED....png
+開始前テキスト1,READY.png,graphics/myGpc/READY.png
+開始前テキスト2,READY..png,graphics/myGpc/READY..png
+開始前テキスト3,READY...png,graphics/myGpc/READY...png
+開始前テキスト4,READY….png,graphics/myGpc/READY….png
+タイトルロゴ,DungeonCrawl_Title.png,graphics/myGpc/DungeonCrawl_Title.png
+背景_街道,kaidou0331_800b.jpg,graphics/kaidou0331_800b.jpg
+背景_草原,grass.png,graphics/grass.png
