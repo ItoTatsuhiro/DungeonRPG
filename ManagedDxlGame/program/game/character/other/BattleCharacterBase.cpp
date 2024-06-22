@@ -41,7 +41,7 @@ void BattleCharacterBase::update(float delta_time) {
 	while (it != activeAttackList_.end()) {
 		(*it)->update(delta_time);
 
-		if (!((*it)->getIsActive())) {
+		if (!((*it)->getIsEnd())) {
 
 			it = activeAttackList_.erase(it);
 
@@ -130,12 +130,12 @@ void BattleCharacterBase::draw(std::shared_ptr<dxe::Camera> camera ) {
 // キャラクターを移動させる関数
 // 継承先のそれぞれのキャラクタークラスでキャラクターを動かす際にこの関数を用いて動かす
 // 
-// 引数：moveVector...移動方向
-void BattleCharacterBase::MoveCharacter(tnl::Vector3 moveVector) {
+// 引数：moveVector...移動方向, moveVectorMag...移動量の倍率、特定の行動の時のみ移動速度を上げたい場合に使用、デフォルトで1倍
+void BattleCharacterBase::MoveCharacter(tnl::Vector3 moveVector, float moveVectorMag) {
 
 	// 現在の座標に対して移動量を加算する処理
-	// 移動量は移動方向と移動量をかけ合わせて計算
-	transform_.setPos_(transform_.getPos_() + moveVector * moveValue_);
+	// 移動量は移動方向と移動量（と倍率）をかけ合わせて計算
+	transform_.setPos_(transform_.getPos_() + moveVector * moveValue_ * moveVectorMag);
 
 	return;
 }

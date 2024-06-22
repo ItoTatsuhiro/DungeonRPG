@@ -2,6 +2,8 @@
 #include "../../dxlib_ext/dxlib_ext.h"
 #include "../other/Enum.h"
 
+
+
 // 当たり判定用のBoxと、テクスチャを貼り付けて画面に表示する用のplaneの配列を持つクラス
 // 使用箇所：キャラクター、攻撃のエフェクト等
 // これをさらに用途に応じて継承して使用
@@ -56,6 +58,10 @@ public :
 
 	// ******************************************************************************
 	// 以下セッター
+
+
+	// isActive_のセッター
+	inline void setIsActive(bool isActive) { isActive_ = isActive; }
 
 	// transformのセッター
 	inline void setTransform(ito::Transform transform) { transform_ = transform; }

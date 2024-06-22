@@ -10,12 +10,10 @@ class Enemy;
 
 
 class SubSceneManager final{
+public :
 
-private :
 
 	SubSceneManager();
-
-public :
 
 	// この関数でインスタンスを取得
 	// インスタンスを取得する際は引数なしでOK
@@ -48,13 +46,24 @@ public :
 	// ダンジョンから遷移する際はサブシーン切り替え前にこれでバトルシーンを作成する
 	void ChangeBattleScene( std::shared_ptr<Enemy> battlingEnemy);
 
+	// 初期設定を行う関数
+	void SetUp();
+
 	// インスタンスを削除する関数
 	void Destroy();
 
 private:
+
 	// 実行するサブシーン
 	// この変数に入れているサブシーンを実行する
 	std::shared_ptr<SubSceneBase> nowSubScene_ = nullptr;
+
+
+	// 次に実行するサブシーン
+	// サブシーン切り替えの際に使用
+	ScenePlaySubScene nextSubScene_;
+
+
 
 	// バトル中の敵キャラクター
 	// バトルシーンに移動したときセットし、バトルシーンからかえって来た際に該当のキャラクターを消す
@@ -66,4 +75,26 @@ private:
 	// バトルのサブシーン
 	std::shared_ptr<BattleSubScene> battleSubScene_ = nullptr;
 
+
+	// サブシーン切り替えの時間
+	float transTime_ = 1.5f;
+	// サブシーン切り替え時に表示する画像
+	// 基本的に黒でフェードイン、フェードアウトさせる
+	int transGpc_ = 0;
+
+
+	bool debugMode_ = false;
+
+
+	std::shared_ptr<dxe::ScreenEffect> screenEffect_ = nullptr;
+
+	// シーケンス
+	tnl::Sequence<SubSceneManager> seq_ = tnl::Sequence<SubSceneManager>(this, &SubSceneManager::seqSubSceneUpdate);
+
+	// サブシーンをupdateするシーケンス
+	bool seqSubSceneUpdate(const float delta_time);
+	// サブシーンを切り替える際のシーケンス
+	bool seqSubSceneChange(const float delta_time);
+	// サブシーンを開始するシーケンス
+	bool seqSubSceneStart(const float delta_time);
 };

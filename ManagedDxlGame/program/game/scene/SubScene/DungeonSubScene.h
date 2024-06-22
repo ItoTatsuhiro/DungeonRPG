@@ -11,6 +11,7 @@ class Enemy;
 class TurnManager;
 class SubSceneManager;
 class TransformCamera;
+class TurnManager;
 
 
 // ダンジョン上での操作を行うサブシーン
@@ -18,12 +19,9 @@ class TransformCamera;
 class DungeonSubScene final : public SubSceneBase {
 public :
 
-	// インスタンスを取得する用
-	// シーンマネージャー等で同じインスタンスを取得する用
-	std::shared_ptr<DungeonSubScene> GetInstance();
 
 	// コンストラクタ
-	DungeonSubScene();
+	DungeonSubScene(/* std::shared_ptr<SubSceneManager> subSceneManager */);
 
 	// デストラクタ
 	~DungeonSubScene();
@@ -47,13 +45,17 @@ public :
 
 private:
 
+	//// サブシーンを管理するマネージャー
+	//std::shared_ptr< SubSceneManager > subSceneManager_;
+
+	// ターンを管理するマネージャー
+	std::shared_ptr< TurnManager > turnManager_;
 
 	// プレイヤー、エネミーを生成する関数
 	void CreateCharacter();
 
 	// 一人称のカメラ
 	std::shared_ptr< TransformCamera > FPCamera_;
-
 
 	// ステージを管理するクラス
 	std::shared_ptr<Stage> stage_ = nullptr;
@@ -70,6 +72,7 @@ private:
 
 	// 1マスの縦横の大きさ
 	float gridSize_ = 50;
+
 
 
 };

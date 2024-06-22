@@ -42,7 +42,7 @@ public :
 
 	// キャラクターを移動させる関数
 	// 継承先のそれぞれのキャラクタークラスでキャラクターを動かす際にこの関数を用いて動かす
-	void MoveCharacter(tnl::Vector3 moveValue);
+	void MoveCharacter(tnl::Vector3 moveVector, float moveVectorMag = 1.0f);
 
 	// ダメージを受ける関数
 	// 引数：damage...受けるダメージ
@@ -91,7 +91,7 @@ protected :
 	float invincibleTimeCount_ = 0.0f;
 	// 無敵時間の最大時間
 	// ダメージを受けたときカウントをこの時間にする
-	float invincibleTimeMax_ = 0.5f;
+	float invincibleTimeMax_ = 1.0f;
 
 	// 点滅時間のカウント
 	float invincibleBlinkCount_ = 0.0f;

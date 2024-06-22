@@ -4,7 +4,9 @@
 
 // コンストラクタ
 // 引数：cellSize...1マス分の大きさ, startGridPos...マップ上での初期座標
-Player::Player(float gridSize, tnl::Vector2i startGridPos, tnl::Vector3 startPos) : CharacterBaseDungeon(gridSize, startGridPos) {
+Player::Player(float gridSize, tnl::Vector2i startGridPos, tnl::Vector3 startPos, std::shared_ptr< TurnManager > turnManager)
+	: CharacterBaseDungeon(gridSize, startGridPos), turnManager_(turnManager)
+{
 
 	// 生成済のステージのインスタンスを取得
 	stage_ = Stage::GetInstance();
@@ -80,6 +82,16 @@ void Player::ChangeSeqFromWait() {
 
 
 }
+
+
+
+// 自身を削除する関数
+void Player::Destroy() {
+
+	delete this;
+
+}
+
 
 
 // 待機中のシーケンス
@@ -209,7 +221,7 @@ bool Player::seqMoveCheck(const float delta_time) {
 		// 移動先の座標を設定
 		nextTransform_.setPos_( { nextGridPos_.x * gridSize_, gridSize_, -nextGridPos_.y * gridSize_ });
 
-		TurnManager::GetInstance()->ChangeSeqFromWaitPlayerInput();
+		turnManager_->ChangeSeqFromWaitPlayerInput();
 
 
 		// 待機を行うシーケンスに切り替え
@@ -287,7 +299,7 @@ bool Player::seqMoving(const float delta_time) {
 	Moving(delta_time);
 
 	if (finishAction_) {
-		TurnManager::GetInstance()->ActionEndPlayer();
+		turnManager_->ActionEndPlayer();
 
 		seq_.change(&Player::seqIdle);
 	}

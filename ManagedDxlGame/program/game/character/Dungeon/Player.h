@@ -4,6 +4,7 @@
 #include "../../other/Enum.h"
 #include "../../base/CharacterBaseDungeon.h"
 #include "../../map/Stage.h"
+#include "../../manager/TurnManager.h"
 
 // 操作を行うプレイヤーのクラス
 // 引数：
@@ -12,8 +13,8 @@ public :
 
 	// プレイヤークラスのコンストラクタ
 	// cellSize_(マップの1マス分の大きさ)とgridPos_(存在している座標)を初期化
-	// 引数：cellSize, startGridPos
-	Player( float gridSize, tnl::Vector2i startGridPos, tnl::Vector3 startPos );
+	// 引数：gridSize...マスの大きさ, startGridPos...開始マス, startPos...開始座標, turnManager...ターン管理用マネージャー
+	Player( float gridSize, tnl::Vector2i startGridPos, tnl::Vector3 startPos, std::shared_ptr< TurnManager > turnManager);
 
 	// プレイヤークラスのデストラクタ
 	~Player();
@@ -23,6 +24,8 @@ public :
 	// シーケンスをWaitから次の処理に切り替える処理
 	void ChangeSeqFromWait();
 	
+	// 自身を削除する関数
+	void Destroy();
 
 	enum class PlayerSeq {
 		IDLE,			// 待機状態のシーケンス
@@ -42,8 +45,9 @@ private :
 	// trueのときエネミーの処理を待たずに動ける
 	bool debugMode_ = false;
 
-
-
+	// ターン管理用のマネージャー
+	// サブシーンで作成したものを入れてくる
+	std::shared_ptr< TurnManager > turnManager_;
 
 	// 実行中のシーケンス
 	PlayerSeq nowSeq_ = PlayerSeq::IDLE;

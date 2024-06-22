@@ -5,7 +5,7 @@
 #include "../../character/other/BattleCharacterBase.h"
 #include "../../character/Battle/BattlePlayer.h"
 #include "../../character/Battle/BattleEnemy.h"
-#include "../../character/Battle/Enemy/Enemy_Escape.h"
+#include "../../character/Battle/Enemy/EnemyEscape.h"
 #include "../../manager/SubSceneManager.h"
 #include "../../ui/UiHP.h"
 
@@ -78,10 +78,6 @@ void BattleSubScene::update(float delta_time) {
 // 描画用関数
 void BattleSubScene::draw() {
 
-	// 線の描画
-	// DrawGridGround(TPCamera_, 50, 20);
-
-	DrawStringEx(600, 600, -1, "enemylife = %f", enemy_->status_->getHp());
 
 
 	// 描画するキャラクターをソート
@@ -428,6 +424,8 @@ bool BattleSubScene::seqBattle(const float delta_time) {
 	// 終了しているかどうかの確認
 	CheckBattleEnd();
 
+	//// カメラの更新
+	//TPCamera_->update();
 
 	return true;
 }

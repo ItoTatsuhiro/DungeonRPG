@@ -7,11 +7,11 @@
 #include "../character/Dungeon/Enemy.h"
 #include "../manager/TurnManager.h"
 #include "../base/SubSceneBase.h"
-#include "../manager/SubSceneManager.h"
 
 #include "../other/TransformCamera.h"
 
-
+// 前方宣言
+class SubSceneManager;
 class DungeonSubScene;
 class BattleSubScene;
 
@@ -34,14 +34,10 @@ public :
 
 private :
 
-	// 以下のサブシーンは、サブシーン内でサブシーンを切り替えるため、
-	// シングルトンで生成している
-	// ScenePlayが持ってはいるが、
-	// インスタンスを取得する際はGetInstance()関数で取得する
 
-	//// サブシーンを管理する用のマネージャー
-	//// サブシーンはこちらに持たせる
-	//std::shared_ptr< SubSceneManager > subSceneManager_ = nullptr;
+	// サブシーンを管理する用のマネージャー
+	// サブシーンはこちらに持たせる
+	std::shared_ptr< SubSceneManager > subSceneManager_ = nullptr;
 
 
 

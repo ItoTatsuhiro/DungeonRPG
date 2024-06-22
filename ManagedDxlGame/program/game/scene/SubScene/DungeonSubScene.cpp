@@ -7,22 +7,6 @@
 #include "../../other/TransformCamera.h"
 
 
-// DungeonSubSceneクラスのインスタンスを取得する関数
-std::shared_ptr<DungeonSubScene> DungeonSubScene::GetInstance() {
-
-	// DungeonSubSceneクラスのインスタンス
-	static std::shared_ptr<DungeonSubScene> instance = nullptr;
-
-	// 既に生成されていないときのみ新しく生成
-	if (!instance) {
-		instance = std::shared_ptr<DungeonSubScene>(new DungeonSubScene());
-	}
-
-	return instance;
-
-}
-
-
 // コンストラクタ
 DungeonSubScene::DungeonSubScene() {
 
@@ -32,18 +16,20 @@ DungeonSubScene::DungeonSubScene() {
 	// ステージを管理するクラスの生成
 	stage_ = Stage::GetInstance("test", "csv/mapData.csv", gridSize_);
 
-	// ターンマネージャーの生成とサブシーンマネージャーのセット
-	//TurnManager::GetInstance()->setSubSceneManager( SubSceneManager::GetInstance() );
 
+	turnManager_ = std::shared_ptr<TurnManager>(new TurnManager());
 
 	CreateCharacter();
-
 
 }
 
 // デストラクタ
 DungeonSubScene::~DungeonSubScene() {
 
+	turnManager_.reset();
+	player_.reset();
+
+	enemyList_.clear();
 
 }
 
@@ -73,7 +59,7 @@ void DungeonSubScene::update(float delta_time){
 	}
 
 	// ターンマネージャーの更新
-	TurnManager::GetInstance()->update(delta_time);
+	turnManager_->update(delta_time);
 
 
 }
@@ -106,6 +92,8 @@ void DungeonSubScene::DeleteEnemy(std::shared_ptr<Enemy> deleteEnemy) {
 
 			enemyList_.erase(it);
 
+			turnManager_->setEnemyList(enemyList_);
+
 			break;
 		}
 
@@ -119,19 +107,17 @@ void DungeonSubScene::DeleteEnemy(std::shared_ptr<Enemy> deleteEnemy) {
 void DungeonSubScene::CreateCharacter() {
 
 	// プレイヤーの作成
-	player_ = std::shared_ptr<Player>(new Player(gridSize_, { 1, 1 }, stage_->getGridObjPos( {1, 1} ) ));
+	player_ = std::shared_ptr<Player>(new Player(gridSize_, { 1, 1 }, stage_->getGridObjPos( {1, 1} ), turnManager_ ));
 
-	//// 90度回転した状態で開始
-	//player_->getTransform().setRot3D_(player_->getTransform().getRot3D_() * tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(90)));
 
 	// プレイヤーのセット
-	TurnManager::GetInstance()->setPlayer(player_);
+	turnManager_->setPlayer(player_);
 
 	// 敵キャラクターの作成
-	enemy_ = std::shared_ptr<Enemy>(new Enemy(gridSize_, { 5, 2 }, player_));
+	enemy_ = std::shared_ptr<Enemy>(new Enemy(gridSize_, { 5, 2 }, player_, turnManager_));
 	// リストに入れる
 	enemyList_.emplace_back(enemy_);
 	// 敵のリストをセット
-	TurnManager::GetInstance()->setEnemyList(enemyList_);
+	turnManager_->setEnemyList(enemyList_);
 
 }

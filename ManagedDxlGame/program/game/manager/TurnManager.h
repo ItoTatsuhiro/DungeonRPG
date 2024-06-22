@@ -12,15 +12,11 @@ class SubSceneManager;
 // ターンの処理を管理する用のクラス
 // プレイヤー、敵の処理状態を確認し、揃える役割
 class TurnManager final{
-private :
+public :
 
 	// コンストラクタ
 	TurnManager();
 
-public :
-
-	// ターンマネージャーのインスタンスを取得する関数
-	static std::shared_ptr<TurnManager> GetInstance();
 
 	// デストラクタ
 	~TurnManager();
@@ -96,8 +92,11 @@ private :
 		ACTION
 	};
 
+	// ターンを切り替える際のフラグ
+	bool isSceneChange_ = false;
+
 	// シーンを切り替える際の暗転時間
-	float transTime_ = 0.1f;
+	float transTime_ = 0.5f;
 	// シーンを切り替える際の暗転用
 	int transGpc_ = 0;
 

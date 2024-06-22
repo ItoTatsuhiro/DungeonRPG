@@ -15,13 +15,9 @@ void gameStart() {
 	srand(time(0));
 	SetBackgroundColor(32, 32, 32);
 
-	//std::shared_ptr<ScenePlay> scene = std::shared_ptr<ScenePlay>( new ScenePlay() );
-
-	
-	std::shared_ptr<SceneTitle> scene = std::shared_ptr<SceneTitle>(new SceneTitle());
 
 
-	ito::GameManager::GetInstance_(scene);
+	ito::GameManager::GetInstance_(std::shared_ptr<SceneTitle>(new SceneTitle()));
 
 }
 

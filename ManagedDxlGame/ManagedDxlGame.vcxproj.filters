@@ -362,7 +362,7 @@
     <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionMove.cpp">
       <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\character\Battle\Enemy\Enemy_Escape.cpp">
+    <ClCompile Include="program\game\character\Battle\Enemy\EnemyEscape.cpp">
       <Filter>program\[003] game\character\Battle\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionWait.cpp">
@@ -379,6 +379,15 @@
     </ClCompile>
     <ClCompile Include="program\game\scene\SceneTitle.cpp">
       <Filter>program\[003] game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\Enemy\EnemyMelee.cpp">
+      <Filter>program\[003] game\character\Battle\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionMeleeAttack.cpp">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\action\ActionAttackBase.cpp">
+      <Filter>program\[003] game\character\Battle\action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -689,7 +698,7 @@
     <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionMove.h">
       <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\character\Battle\Enemy\Enemy_Escape.h">
+    <ClInclude Include="program\game\character\Battle\Enemy\EnemyEscape.h">
       <Filter>program\[003] game\character\Battle\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionWait.h">
@@ -706,6 +715,15 @@
     </ClInclude>
     <ClInclude Include="program\game\scene\SceneTitle.h">
       <Filter>program\[003] game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\Enemy\EnemyMelee.h">
+      <Filter>program\[003] game\character\Battle\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionMeleeAttack.h">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\action\ActionAttackBase.h">
+      <Filter>program\[003] game\character\Battle\action</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

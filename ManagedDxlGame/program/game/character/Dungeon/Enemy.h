@@ -5,6 +5,7 @@
 
 // 前方宣言
 class Player;
+class TurnManager;
 
 // ステージ上での敵キャラクターのクラス
 // 引数：cellSize...ステージの1マスの大きさ
@@ -13,9 +14,9 @@ class Enemy : public CharacterBaseDungeon {
 public :
 	// コンストラクタ
 	// cellSize_(マップの1マス分の大きさ)とgridPos_(存在している座標)を初期化
-	// 引数：cellSize...ステージの1マスの大きさ
+	// 引数：gridSize...ステージの1マスの大きさ
 	// startGridPos...生成時の初期位置
-	Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player> player);
+	Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player> player, std::shared_ptr<TurnManager> turnManager);
 
 	// デストラクタ
 	~Enemy();
@@ -26,6 +27,8 @@ public :
 	// 描画用の関数
 	void draw( std::shared_ptr<dxe::Camera> camera );
 
+	// 自身を削除する関数
+	void Destroy();
 
 	// シーケンスをIdleから切り替える処理
 	void ChangeSeqFromIdle();
@@ -47,6 +50,10 @@ public :
 	EnemySeq getNowSeqEnemy() const { return nowSeq_; }
 
 private :
+
+	// ターン管理用のクラス
+	// サブシーンで作成し引数で渡してくる
+	std::shared_ptr<TurnManager> turnManager_;
 
 	// 特定のキーを押したときに敵だけで動くようにする
 	bool actDebugMove = false;

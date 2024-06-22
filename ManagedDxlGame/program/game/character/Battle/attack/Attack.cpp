@@ -7,7 +7,7 @@
 // 引数：座標、大きさ、ファイル名、正面の方向(LEFTかRIGHT), ダメージ
 // Object3Dのメッシュを当たり判定用のメッシュとして作成する
 Attack::Attack(tnl::Vector3 pos, float size, std::string fileName, Enum::Dir4 front, float damage)
-	: SpriteObjectBase(pos, size, fileName) , damage_(damage)
+	: SpriteObjectBase(pos, size, fileName) , damage_(damage), isLoop_(false), isEnd_(false)
 {
 
 	CreateSpriteObjArray(fileName);
@@ -37,10 +37,12 @@ void Attack::update(float delta_time) {
 		animChangeCount_ = 0;
 
 		// 攻撃が終わった際に表示しない状態にする
-		if (displayObj_.x >= textureCutNum_.x) {
+		if (displayObj_.x >= textureCutNum_.x && !isLoop_ ) {
 
+			// 状態を無効にする
 			isActive_ = false;
-
+			// 終了フラグをtrueにする
+			isEnd_ = true;
 		}
 
 	}

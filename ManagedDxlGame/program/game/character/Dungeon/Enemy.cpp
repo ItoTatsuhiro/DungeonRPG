@@ -8,9 +8,10 @@
 
 // コンストラクタ
 // cellSize_(マップの1マス分の大きさ)とgridPos_(存在している座標)を初期化
-// 引数：cellSize...ステージの1マスの大きさ
+// 引数：gridSize...ステージの1マスの大きさ
 // startGridPos...生成時の初期位置
-Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player> player) : player_(player), CharacterBaseDungeon(gridSize, startGridPos) {
+Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player> player, std::shared_ptr<TurnManager> turnManager)
+	: player_(player), CharacterBaseDungeon(gridSize, startGridPos), turnManager_(turnManager) {
 
 	// 向きをランダムに決定
 	frontDir_ = static_cast<Enum::Dir4>(rand() % static_cast<int>(Enum::Dir4::DIRMAX));
@@ -47,7 +48,7 @@ Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player>
 				= ObjectManager::GetInstance()->createPlane(tnl::Vector3(gridSize * 1.5 ), objName, { u * sizeU, v * sizeV, 0 }, { (u + 1) * sizeU, (v + 1) * sizeV, 0 });
 
 			// デバッグ用表示
-			tnl::DebugTrace(" (%d, %d) = 前(%f, %f), 後(%f, %f)\n", u, v, u * sizeU, v * sizeV, (u + 1) * sizeU, (v + 1) * sizeV);
+			//tnl::DebugTrace(" (%d, %d) = 前(%f, %f), 後(%f, %f)\n", u, v, u * sizeU, v * sizeV, (u + 1) * sizeU, (v + 1) * sizeV);
 
 			// 向きを回転
 			enemyObj->get_mesh_()->rot_ *= tnl::Quaternion::RotationAxis(tnl::Vector3(0, 0, 1), tnl::ToRadian(90));
@@ -134,10 +135,16 @@ void Enemy::draw( std::shared_ptr<dxe::Camera> camera ) {
 
 	enemyObjArray_[displayObj_.y][displayObj_.x]->get_mesh_()->render(camera);
 
-	
-
-
 }
+
+
+// 自身を削除する関数
+void Enemy::Destroy() {
+
+
+	delete this;
+}
+
 
 // Idle状態からシーケンスを切り替えるための関数
 // TurnManagerから呼び出して使用する
@@ -384,7 +391,7 @@ bool Enemy::seqMoving(const float delta_time) {
 	Moving(delta_time);
 
 	if (finishAction_) {
-		TurnManager::GetInstance()->ActionEndEnemy();
+		turnManager_->ActionEndEnemy();
 
 		seq_.change(&Enemy::seqIdle);
 		nowSeq_ = EnemySeq::IDLE;
@@ -410,7 +417,7 @@ bool Enemy::seqRotating(const float delta_time) {
 
 	if (finishAction_) {
 
-		TurnManager::GetInstance()->ActionEndEnemy();
+		turnManager_->ActionEndEnemy();
 
 		seq_.change(&Enemy::seqIdle);
 		nowSeq_ = EnemySeq::IDLE;

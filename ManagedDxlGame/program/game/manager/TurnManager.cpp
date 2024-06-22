@@ -15,19 +15,7 @@ TurnManager::TurnManager() {
 
 }
 
- // ターンマネージャーのインスタンスを取得する関数
-std::shared_ptr<TurnManager> TurnManager::GetInstance() {
 
-	// TurnManagerクラスのインスタンス
-	static std::shared_ptr<TurnManager> instance = nullptr;
-
-	// 既に生成されていないときのみ新しく生成
-	if (!instance) {
-		instance = std::shared_ptr<TurnManager>(new TurnManager());
-	}
-
-	return instance;
-}
 
 
 TurnManager::~TurnManager() {
@@ -37,12 +25,15 @@ TurnManager::~TurnManager() {
 
 void TurnManager::update(float delta_time) {
 
+
 	seq_.update(delta_time);
 
 }
 
 
 void TurnManager::setEnemyList( std::list<std::shared_ptr<Enemy>> enemyList ) {
+
+	enemyList_.clear();
 
 	enemyList_ = enemyList;
 
@@ -103,7 +94,7 @@ void TurnManager::ActionEndEnemy() {
 // 自身を削除する関数
 void TurnManager::Destroy() {
 
-	GetInstance().reset();
+	delete this;
 
 }
 
@@ -136,8 +127,7 @@ void TurnManager::CheckCharacterPos() {
 		// シーンを切り替え
 		ito::GameManager::GetInstance_()->changeScene( std::shared_ptr< SceneClear >(new SceneClear()) );
 
-		Destroy();
-
+		isSceneChange_ = true;
 	}
 	
 	return;
@@ -213,6 +203,12 @@ bool TurnManager::seqCheckAction(const float delta_time) {
 // 行動を行うシーケンス
 bool TurnManager::seqAction(const float delta_time) {
 
+	// プレイヤーが存在していないとき処理を行わない
+	if (player_ == nullptr) {
+
+		return true;
+	}
+
 	if (actionEndPlayer_) {
 
 		auto it = actionEndEnemyList_.begin();
@@ -232,6 +228,10 @@ bool TurnManager::seqAction(const float delta_time) {
 			
 		}
 		
+	}
+
+	if (isSceneChange_) {
+		return true;
 	}
 
 	if (player_->getNowSeq() == Player::PlayerSeq::WAIT ) {
@@ -277,23 +277,11 @@ bool TurnManager::seqAction(const float delta_time) {
 
 bool TurnManager::seqChangeSubScene(const float delta_time) {
 
-	int alpha = (seq_.getProgressTime() / transTime_ * 255.0f);
-	if (alpha >= 255) {
+	// シーン切り替え
+	SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE, battlingEnemy_);
 
-		seq_.change(&TurnManager::seqWaitPlayerInput);
+	seq_.change(&TurnManager::seqCheckAction);
 
-		
-		// シーンを切り替え
-		//subSceneManager_->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE);
-		SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE, battlingEnemy_);
-
-		battlingEnemy_ = nullptr;
-	}
-
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-	DrawRotaGraph(DXE_WINDOW_WIDTH / 2, DXE_WINDOW_HEIGHT / 2, 1.0f, 0, transGpc_, true);
-	// DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, transGpc_, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 	return true;
 
 }

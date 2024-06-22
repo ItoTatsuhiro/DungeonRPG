@@ -77,7 +77,7 @@ void SceneTitle::update(float delta_time) {
 	// キャラクターが画面外まで移動したらシーン切り替え
 	if (characterDrawPos_.x >= DXE_WINDOW_WIDTH + 120) {
 
-		ito::GameManager::GetInstance_()->changeScene( std::shared_ptr<ScenePlay>(new ScenePlay())  );
+		ito::GameManager::GetInstance_()->changeScene( std::shared_ptr<ScenePlay>( new ScenePlay()) );
 	}
 
 }
