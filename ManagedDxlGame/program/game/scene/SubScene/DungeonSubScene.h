@@ -73,6 +73,17 @@ private:
 	// 1マスの縦横の大きさ
 	float gridSize_ = 50;
 
+	// 方向を示す画像のハンドル
+	int directionGpcHdl_ = 0;
 
+	// 方向表示用画像の表示させる大きさの倍率
+	float directionGpcSize_ = 3.0f;
+
+	// 方向表示用画像の座標
+	tnl::Vector3 directionGpcPos_ = { 100, 100, 0 };
+
+	// 方向画像の表示する角度
+	// プレイヤーキャラクターの向きに応じて回転させるので、プレイヤーが回転した際にこれもずらす
+	double directionGpcAngle_ = 0;
 
 };

@@ -3,6 +3,7 @@
 #include "../../other/Enum.h"
 #include "../../base/SpriteObjectBase.h"
 #include "../other/BattleCharacterBase.h"
+#include "../other/CharacterTypeEnum.h"
 
 
 // バトルシーンで操作するプレイヤーのクラス
@@ -19,9 +20,9 @@ public :
 	// デストラクタ
 	~BattlePlayer();
 	// 更新用の関数
-	void update(float delta_time) override;
+	void update(const float delta_time) override;
 	// 描画用の関数
-	void draw( std::shared_ptr<dxe::Camera> camera) override;
+	void draw(const std::shared_ptr<dxe::Camera>& camera) override;
 
 
 protected :

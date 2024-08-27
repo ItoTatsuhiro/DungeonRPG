@@ -124,7 +124,7 @@ bool Player::seqIdle(const float delta_time) {
 		if (tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)) {
 
 			// 移動先を左のマスに設定
-			nextGridPos_ = calcMoveGrid(frontDir_ + Enum::Dir4::LEFT);
+			nextGridPos_ = calcMoveGrid(frontDir_ + Enum::eDir4::LEFT);
 
 			// 移動するシーケンスに移動
 			seq_.change(&Player::seqMoveCheck);
@@ -133,7 +133,7 @@ bool Player::seqIdle(const float delta_time) {
 		// 左向きに回転する処理
 		else {
 			// 向く方向を左に回す
-			nextDir_ += Enum::Dir4::LEFT;
+			nextDir_ += Enum::eDir4::LEFT;
 			// 回転するシーケンスに移動
 			seq_.change(&Player::seqRotateCheck);
 
@@ -148,7 +148,7 @@ bool Player::seqIdle(const float delta_time) {
 		if (tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)) {
 
 			// 移動先を右のマスに設定
-			nextGridPos_ = calcMoveGrid(frontDir_ + Enum::Dir4::RIGHT);
+			nextGridPos_ = calcMoveGrid(frontDir_ + Enum::eDir4::RIGHT);
 
 			// 移動するシーケンスに移動
 			seq_.change(&Player::seqMoveCheck);
@@ -157,7 +157,7 @@ bool Player::seqIdle(const float delta_time) {
 		// 右向きに回転する処理
 		else {
 			// 向く方向を右に回す
-			nextDir_ += Enum::Dir4::RIGHT;
+			nextDir_ += Enum::eDir4::RIGHT;
 			// 回転するシーケンスに移動
 			seq_.change(&Player::seqRotateCheck);
 			nowSeq_ = PlayerSeq::ROTATE_CHECK;
@@ -171,7 +171,7 @@ bool Player::seqIdle(const float delta_time) {
 		if (tnl::Input::IsKeyDown(eKeys::KB_LSHIFT)) {
 
 			// 移動先を後ろのマスに設定
-			nextGridPos_ = calcMoveGrid(frontDir_ + Enum::Dir4::DOWN);
+			nextGridPos_ = calcMoveGrid(frontDir_ + Enum::eDir4::DOWN);
 
 			// 移動するシーケンスに移動
 			seq_.change(&Player::seqMoveCheck);
@@ -180,7 +180,7 @@ bool Player::seqIdle(const float delta_time) {
 
 		else {
 			// 向く方向を後ろ向きに回す
-			nextDir_ += Enum::Dir4::DOWN;
+			nextDir_ += Enum::eDir4::DOWN;
 			// 回転するシーケンスに移動
 			seq_.change(&Player::seqRotateCheck);
 			nowSeq_ = PlayerSeq::ROTATE_CHECK;
@@ -245,15 +245,15 @@ bool Player::seqRotateCheck(const float delta_time) {
 
 	// 次の向きに応じて次の方向を変更する
 	// 左周りをプラスとする
-	if (nextDir_ == Enum::Dir4::LEFT) {
+	if (nextDir_ == Enum::eDir4::LEFT) {
 		// 回転させる量を90度にする
 		rotValMax_ = -90;
 	}
-	else if (nextDir_ == Enum::Dir4::DOWN) {
+	else if (nextDir_ == Enum::eDir4::DOWN) {
 		// 回転させる量を180度にする
 		rotValMax_ = -180;
 	}
-	else if (nextDir_ == Enum::Dir4::RIGHT) {
+	else if (nextDir_ == Enum::eDir4::RIGHT) {
 		// 回転させる量を-90度にする
 		rotValMax_ = 90;
 	}

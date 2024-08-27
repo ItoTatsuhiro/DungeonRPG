@@ -37,13 +37,13 @@ void BattleCharacterBase::update(float delta_time) {
 	SpriteObjectBase::update(delta_time);
 
 	// 攻撃の処理を実行
-	auto it = activeAttackList_.begin();
-	while (it != activeAttackList_.end()) {
+	auto it = attackList_.begin();
+	while (it != attackList_.end()) {
 		(*it)->update(delta_time);
 
-		if (!((*it)->getIsEnd())) {
+		if ((*it)->getIsEnd()) {
 
-			it = activeAttackList_.erase(it);
+			it = attackList_.erase(it);
 
 		}
 		else {
@@ -98,7 +98,7 @@ void BattleCharacterBase::update(float delta_time) {
 // 処理内容
 // 1.描画するメッシュの座標を更新
 // 2.攻撃のメッシュの描画
-void BattleCharacterBase::draw(std::shared_ptr<dxe::Camera> camera ) {
+void BattleCharacterBase::draw(const std::shared_ptr<dxe::Camera>& camera ) {
 
 	// 状態がActiveでないときには以下の処理を行わない
 	if (!isActive_) {
@@ -115,9 +115,14 @@ void BattleCharacterBase::draw(std::shared_ptr<dxe::Camera> camera ) {
 	}
 
 	// 攻撃のメッシュを描画
-	auto it = activeAttackList_.begin();
-	while (it != activeAttackList_.end()) {
-		(*it)->draw(camera);
+	auto it = attackList_.begin();
+	while (it != attackList_.end()) {
+
+		if( (*it)->getIsActive() ){
+
+			(*it)->draw(camera);
+
+		}
 
 		++it;
 	}
@@ -131,11 +136,11 @@ void BattleCharacterBase::draw(std::shared_ptr<dxe::Camera> camera ) {
 // 継承先のそれぞれのキャラクタークラスでキャラクターを動かす際にこの関数を用いて動かす
 // 
 // 引数：moveVector...移動方向, moveVectorMag...移動量の倍率、特定の行動の時のみ移動速度を上げたい場合に使用、デフォルトで1倍
-void BattleCharacterBase::MoveCharacter(tnl::Vector3 moveVector, float moveVectorMag) {
+void BattleCharacterBase::MoveCharacter(float delta_time, tnl::Vector3 moveVector, float moveVectorMag) {
 
 	// 現在の座標に対して移動量を加算する処理
 	// 移動量は移動方向と移動量（と倍率）をかけ合わせて計算
-	transform_.setPos_(transform_.getPos_() + moveVector * moveValue_ * moveVectorMag);
+	transform_.setPos_(transform_.getPos_() + moveVector * moveValue_ * moveVectorMag * delta_time);
 
 	return;
 }

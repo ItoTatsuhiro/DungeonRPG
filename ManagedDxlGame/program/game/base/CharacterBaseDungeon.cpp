@@ -124,7 +124,7 @@ void CharacterBaseDungeon::Rotating(float delta_time) {
 
 		frontDir_ += nextDir_;
 
-		nextDir_ = Enum::Dir4::UP;
+		nextDir_ = Enum::eDir4::UP;
 
 		finishAction_ = true;
 	}
@@ -133,7 +133,7 @@ void CharacterBaseDungeon::Rotating(float delta_time) {
 
 // 移送先のマスを計算する関数
 // 移動する量も計算しているため、移動する際はこれを一度呼び出すこと
-tnl::Vector2i CharacterBaseDungeon::calcMoveGrid(Enum::Dir4 moveDir) {
+tnl::Vector2i CharacterBaseDungeon::calcMoveGrid(Enum::eDir4 moveDir) {
 
 	// 移動先の座標
 	// 戻り値で戻す用
@@ -141,19 +141,19 @@ tnl::Vector2i CharacterBaseDungeon::calcMoveGrid(Enum::Dir4 moveDir) {
 
 	// 方向に応じて座標を計算
 	switch (moveDir) {
-	case Enum::Dir4::UP:
+	case Enum::eDir4::UP:
 		nextGridPos = { gridPos_.x, gridPos_.y - 1 };
 		break;
 
-	case Enum::Dir4::LEFT:
+	case Enum::eDir4::LEFT:
 		nextGridPos = { gridPos_.x - 1, gridPos_.y };
 		break;
 
-	case Enum::Dir4::DOWN:
+	case Enum::eDir4::DOWN:
 		nextGridPos = { gridPos_.x, gridPos_.y + 1 };
 		break;
 
-	case Enum::Dir4::RIGHT:
+	case Enum::eDir4::RIGHT:
 		nextGridPos = { gridPos_.x + 1, gridPos_.y };
 		break;
 	}

@@ -62,7 +62,7 @@ private :
 
 	// 描画するキャラクターのリスト
 	// 描画前にこれをソートして順番に描画する
-	std::list< std::shared_ptr<BattleCharacterBase> > displayCharaList_;
+	std::shared_ptr< std::list< std::shared_ptr<BattleCharacterBase>> > battleCharaList_;
 
 
 	//-------------------------------------------------------

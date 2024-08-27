@@ -12,8 +12,8 @@ class ActionMeleeAttack final : public ActionAttackBase {
 public:
 
 	// コンストラクタ
-	// 引数：actionCharacter ... 行動を行うキャラクター, targetCharacter ... 攻撃対象のキャラクター 
-	ActionMeleeAttack(std::shared_ptr < BattleCharacterBase > actionCharacter, std::shared_ptr < BattleCharacterBase > targetCharacter);
+	// 引数：actionCharacter ... 行動を行うキャラクター, charaList...シーンに存在するキャラクターのリスト
+	ActionMeleeAttack(const std::shared_ptr<BattleCharacterBase>& actionCharacter, const std::shared_ptr<std::list<std::shared_ptr<BattleCharacterBase>>>& charaList);
 
 	// デストラクタ
 	~ActionMeleeAttack();
@@ -30,7 +30,15 @@ public:
 	// 移動先の座標を決定する
 	void targetPosDecade();
 
+
+	// 攻撃対象を選択する関数
+	// ActionAttackBaseの仮想関数をオーバーライドして使用
+	void SelectTargetCharacter() override;
+
+
 private:
+
+
 
 
 	// 目標地点の座標
@@ -84,17 +92,17 @@ private:
 
 
 	// 攻撃の方向を決定する関数
-	void AttackDirectionDecade();
+	void SetAttackDetail();
 
 
 
 	tnl::Sequence<ActionMeleeAttack> seq_ = tnl::Sequence<ActionMeleeAttack>(this, &ActionMeleeAttack::seqComing);
 
+
 	// 近寄ってくる際のシーケンス
 	bool seqComing(const float delta_time);
 	// 近接攻撃を行うシーケンス
 	bool seqMeleeAttack(const float delta_time);
-
 
 
 };

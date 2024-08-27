@@ -5,4 +5,6 @@
 プレイヤー,travellerAnim.png,graphics/myGpc/texture/travellerAnim.png,4,4
 斬撃エフェクト,slashAnim.png,graphics/myGpc/texture/slashAnim.png,4,2
 敵(slime),slimeIdle.png,graphics/myGpc/texture/slimeIdle.png,4,2
-ゴール,GoalTexture.png,graphics/myGpc/texture/GoalTexture.png,0,3
+ゴール,GoalTexture.png,graphics/myGpc/texture/GoalTexture.png,4,1
+攻撃判定（仮）,attackKari.png,graphics/myGpc/texture/attackKari.png,4,1
+攻撃エフェクト,attackEffect.png,graphics/myGpc/texture/attackEffect.png,4,1

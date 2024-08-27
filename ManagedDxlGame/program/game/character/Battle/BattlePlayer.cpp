@@ -11,13 +11,12 @@ BattlePlayer::BattlePlayer(tnl::Vector3 startPos, float objSize, std::string fil
 	: /*attackSize_(meshSize_ * 2), */BattleCharacterBase(startPos, objSize, fileName){
 
 
-	// SpriteObjectBaseクラスの関数
-	// テクスチャを表示する用のplaneの配列を作成する
-	// CreateSpriteObjArray("travellerAnim.png");
 
 	// 表示するメッシュの初期設定
 	displayObj_ = tnl::Vector2i( 1, textureCutNum_.y - 2);
 
+	// キャラクターの種類の設定
+	characterType_ = eCharaType::PLAYER;
 
 	return;
 }
@@ -30,7 +29,7 @@ BattlePlayer::~BattlePlayer() {
 }
 
 // 更新用の関数
-void BattlePlayer::update(float delta_time) {
+void BattlePlayer::update(const float delta_time) {
 
 	seq_.update(delta_time);
 
@@ -41,7 +40,7 @@ void BattlePlayer::update(float delta_time) {
 }
 
 // 描画用の関数
-void BattlePlayer::draw( std::shared_ptr<dxe::Camera> camera) {
+void BattlePlayer::draw(const std::shared_ptr<dxe::Camera>& camera) {
 	// デバッグ用
 	// DrawStringEx(100, 100, -1, "playerPos = x : %f, y : %f, z : %f", hitBox_->get_mesh_()->pos_.x, hitBox_->get_mesh_()->pos_.y, hitBox_->get_mesh_()->pos_.z);
 
@@ -77,24 +76,24 @@ void BattlePlayer::Move(float delta_time) {
 
 	// 押したキーに応じて座標をずらす
 	if (InputManager::GetInstance()->KeyDownUp()) {
-		MoveCharacter(tnl::Vector3{ 0, 0, 1 });
-		frontDir_ = Enum::Dir4::UP;
+		MoveCharacter(delta_time, tnl::Vector3{ 0, 0, 1 });
+		frontDir_ = Enum::eDir4::UP;
 	}
 	if (InputManager::GetInstance()->KeyDownDown()) {
-		MoveCharacter(tnl::Vector3{ 0, 0, -1 });
-		frontDir_ = Enum::Dir4::DOWN;
+		MoveCharacter(delta_time, tnl::Vector3{ 0, 0, -1 });
+		frontDir_ = Enum::eDir4::DOWN;
 	}
 	if (InputManager::GetInstance()->KeyDownLeft()) {
-		MoveCharacter(tnl::Vector3{ -1, 0, 0 });
-		animFrontDir_ = Enum::Dir4::LEFT;
-		frontDir_ = Enum::Dir4::LEFT;
+		MoveCharacter(delta_time, tnl::Vector3{ -1, 0, 0 });
+		animFrontDir_ = Enum::eDir4::LEFT;
+		frontDir_ = Enum::eDir4::LEFT;
 		displayObj_.y = 3;
 	}
 
 	if (InputManager::GetInstance()->KeyDownRight()) {
-		MoveCharacter(tnl::Vector3{ 1, 0, 0 });
-		animFrontDir_ = Enum::Dir4::RIGHT;
-		frontDir_ = Enum::Dir4::RIGHT;
+		MoveCharacter(delta_time, tnl::Vector3{ 1, 0, 0 });
+		animFrontDir_ = Enum::eDir4::RIGHT;
+		frontDir_ = Enum::eDir4::RIGHT;
 		displayObj_.y = 2;
 	}
 
@@ -124,25 +123,26 @@ void BattlePlayer::OnAttackKey() {
 		animChangeCount_ = 0;
 
 		// 向きに応じて表示する画像の向きを変更
-		displayObj_.y = (animFrontDir_ == Enum::Dir4::LEFT) ? 1 : 0;
+		displayObj_.y = (animFrontDir_ == Enum::eDir4::LEFT) ? 1 : 0;
 		displayObj_.x = 0;
 
 		tnl::Vector3 attackPos;
 
-		if (frontDir_ == Enum::Dir4::UP) {
+		if (frontDir_ == Enum::eDir4::UP) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ 0, 0, attackSize_ };
 		}
-		else if (frontDir_ == Enum::Dir4::DOWN) {
+		else if (frontDir_ == Enum::eDir4::DOWN) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ 0, 0, -attackSize_ };
 		}
-		else if (frontDir_ == Enum::Dir4::LEFT) {
+		else if (frontDir_ == Enum::eDir4::LEFT) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ -attackSize_ , 0, 0 };
 		}
-		else if (frontDir_ == Enum::Dir4::RIGHT) {
+		else if (frontDir_ == Enum::eDir4::RIGHT) {
 			attackPos = hitBox_->get_mesh_()->pos_ + tnl::Vector3{ attackSize_ , 0, 0 };
 		}
 
-		activeAttackList_.emplace_back(std::shared_ptr<Attack>(new Attack(attackPos, attackSize_, "slashAnim.png", animFrontDir_)));
+		// 攻撃のリストに追加
+		attackList_.emplace_back(std::shared_ptr<Attack>(new Attack(attackPos, attackSize_, "slashAnim.png", animFrontDir_, eCharaType::PLAYER)));
 	}
 
 
@@ -179,7 +179,7 @@ bool BattlePlayer::seqAttack(const float delta_time) {
 
 			// 表示するメッシュを切り替え
 			displayObj_.x = 0;
-			displayObj_.y = (animFrontDir_ == Enum::Dir4::LEFT) ? 3 : 2;
+			displayObj_.y = (animFrontDir_ == Enum::eDir4::LEFT) ? 3 : 2;
 
 			seq_.change(&BattlePlayer::seqIdle);
 		}

@@ -25,19 +25,25 @@ void ActionMove::update(const float delta_time) {
 		return;
 	}
 
+	auto actionCharacter = actionCharacter_.lock();
+
+	if (actionCharacter == nullptr) {
+		return;
+	}
+
 
 	// 移動量分移動の処理を行う
-	actionCharacter_->MoveCharacter(moveVectorNor_);
+	actionCharacter->MoveCharacter(delta_time, moveVectorNor_);
 
 	// 移動した距離をカウント
-	movedValueCount_ += actionCharacter_->getMoveValue();
+	movedValueCount_ += actionCharacter->getMoveValue() * delta_time;
 
 
 	// 距離を移動し切ったとき行動を終了させる
 	if (movedValueCount_ >= totalMoveValue_) {
 
 		// キャラクターの座標を目標地点の座標に補正
-		actionCharacter_->setPos(targetPos_);
+		actionCharacter->setPos(targetPos_);
 
 		movedValueCount_ = 0;
 
@@ -62,8 +68,15 @@ void ActionMove::setUpAction() {
 // 移動に関する初期設定を行う関数
 void ActionMove::targetPosDecade() {
 
+	auto actionCharacter = actionCharacter_.lock();
+
+	if (actionCharacter == nullptr) {
+		return;
+	}
+
+
 	// 移動量を取得
-	moveValue_ = actionCharacter_->getMoveValue();
+	moveValue_ = actionCharacter->getMoveValue();
 
 	// 移動した距離を0にする
 	movedValueCount_ = 0;
@@ -74,16 +87,16 @@ void ActionMove::targetPosDecade() {
 
 
 	// 角度と距離から座標を計算
-	targetPos_.x = actionCharacter_->getPos().x + distance * cos(angle);
-	targetPos_.z = actionCharacter_->getPos().z + distance * sin(angle);
+	targetPos_.x = actionCharacter->getPos().x + distance * cos(angle);
+	targetPos_.z = actionCharacter->getPos().z + distance * sin(angle);
 
 	// 移動する距離を計算
-	totalMoveValue_ = (targetPos_ - actionCharacter_->getPos()).length();
+	totalMoveValue_ = (targetPos_ - actionCharacter->getPos()).length();
 
 
 	// 移動する方向を計算
 	// （移動先の座標 - 現在の座標）を正規化
-	moveVectorNor_ = tnl::Vector3::Normalize(targetPos_ - (actionCharacter_->getPos()));
+	moveVectorNor_ = tnl::Vector3::Normalize(targetPos_ - (actionCharacter->getPos()));
 
 	// 移動量を計算
 	moveVector_ = moveVectorNor_ * moveValue_;

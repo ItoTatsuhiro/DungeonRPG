@@ -2,8 +2,8 @@
 
 #include "../../base/SpriteObjectBase.h"
 #include "StatusCharacter.h"
-#include "../Battle/attack/Attack.h"
-
+#include "../Battle/attack/AttackBase.h"
+#include "../other/CharacterTypeEnum.h"
 
 // バトルシーンでのキャラクターのベースとなるクラス
 // *************************************************************
@@ -23,7 +23,7 @@ public :
 	// *********************************************************************
 	// 継承先のupdate関数でも、このクラスのupdate関数を呼び出すこと!!
 	// *********************************************************************
-	virtual void update(float delta_time) = 0;
+	virtual void update(const float delta_time) = 0;
 
 	// 描画用の関数
 	// *********************************************************************
@@ -32,7 +32,7 @@ public :
 	// 処理内容
 	// 1.描画するメッシュの座標を更新
 	// 2.攻撃のメッシュの描画
-	void draw(std::shared_ptr<dxe::Camera> camera) = 0;
+	virtual void draw(const std::shared_ptr<dxe::Camera>& camera) = 0;
 
 
 	// キャラクターのベースステータス
@@ -42,7 +42,7 @@ public :
 
 	// キャラクターを移動させる関数
 	// 継承先のそれぞれのキャラクタークラスでキャラクターを動かす際にこの関数を用いて動かす
-	void MoveCharacter(tnl::Vector3 moveVector, float moveVectorMag = 1.0f);
+	void MoveCharacter(float delta_time, tnl::Vector3 moveVector, float moveVectorMag = 1.0f);
 
 	// ダメージを受ける関数
 	// 引数：damage...受けるダメージ
@@ -52,8 +52,17 @@ public :
 
 
 
+
+	inline void addActiveAttack(std::shared_ptr<AttackBase> newAttack) {
+		attackList_.emplace_back(newAttack);
+	}
+
+
 	// ******************************************************************************
 	// 以下ゲッター
+
+	// キャラクターの種類を取得する関数
+	inline eCharaType getCharacterType() const { return characterType_; }
 
 	// 移動前の座標を取得する関数
 	// 座標の補正等の際に使用
@@ -66,9 +75,19 @@ public :
 	inline bool getCanTakeDamage() const { return canTakeDamage_; }
 
 	// 攻撃のリストを取得する関数
-	inline const std::list<std::shared_ptr<Attack>>& getActiveAttackList() const { return activeAttackList_; }
+	inline const std::list<std::shared_ptr<AttackBase>>& getAttackList() const { return attackList_; }
+
+
+
+
 
 protected :
+
+	// キャラクターの種類
+	// ※デフォルトでは設定されていない状態になっているので、
+	// 　コンストラクタ等でそれぞれに応じた値を入れること！
+	eCharaType characterType_ = eCharaType::NONE;
+
 
 	// 移動前の座標
 	// 座標の補正の際にこの座標を使用する
@@ -76,7 +95,7 @@ protected :
 
 
 	// 移動量
-	float moveValue_ = 5;
+	float moveValue_ = 300.0f;
 
 
 	// 攻撃の大きさ
@@ -101,7 +120,7 @@ protected :
 	bool isDisplay_ = true;
 
 
-	// 発生している攻撃のリスト
-	std::list<std::shared_ptr<Attack>> activeAttackList_;
+	// 攻撃のリスト
+	std::list<std::shared_ptr<AttackBase>> attackList_;
 
 };

@@ -48,7 +48,7 @@ protected :
 
 	// 行動を行うキャラクター
 	// コンストラクタで初期化
-	std::shared_ptr< BattleCharacterBase > actionCharacter_ = nullptr;
+	std::weak_ptr< BattleCharacterBase > actionCharacter_;
 
 	// 行動が終了しているかどうかのフラグ
 	bool isFinished_ = false;

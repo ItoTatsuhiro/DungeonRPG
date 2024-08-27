@@ -5,6 +5,7 @@
 #include "../../manager/TurnManager.h"
 #include "../../manager/SubSceneManager.h"
 #include "../../other/TransformCamera.h"
+#include "../../other/Enum.h"
 
 
 // コンストラクタ
@@ -16,10 +17,14 @@ DungeonSubScene::DungeonSubScene() {
 	// ステージを管理するクラスの生成
 	stage_ = Stage::GetInstance("test", "csv/mapData.csv", gridSize_);
 
-
+	// ターンマネージャー生成
 	turnManager_ = std::shared_ptr<TurnManager>(new TurnManager());
 
+	// キャラクター生成
 	CreateCharacter();
+
+	// 方向表示用のコンパスの画像を読み込み
+	directionGpcHdl_ = ito::ResourceManager::GetInstance()->loadGraph("compass.png");
 
 }
 
@@ -76,6 +81,29 @@ void DungeonSubScene::draw() {
 		(*it)->draw(FPCamera_);
 		++it;
 	}
+
+
+	// 表示する方向の画像の向きを計算
+	switch (player_->getFrontDir()) {
+	case Enum::eDir4::UP :
+		directionGpcAngle_ = 0;
+		break;
+	case Enum::eDir4::DOWN:
+		directionGpcAngle_ = tnl::PI ;
+		break;
+	case Enum::eDir4::LEFT:
+		directionGpcAngle_ = tnl::PI / 2;
+		break;
+	case Enum::eDir4::RIGHT:
+		directionGpcAngle_ = tnl::PI * 1.5;
+		break;
+	default :
+		directionGpcAngle_ = 0;
+		break;
+	}
+
+
+	DrawRotaGraph(directionGpcPos_.x, directionGpcPos_.y, directionGpcSize_, directionGpcAngle_, directionGpcHdl_, true);
 
 }
 

@@ -3,10 +3,11 @@
 
 // コンストラクタ
 // 引数：tnl::Vector3 startPos...開始位置, float objSize...オブジェクトの大きさ, std::string filePath...テクスチャのファイルのパス
+// charaList...バトルシーンに存在しているキャラクターのリスト
 // 移動前の座標は開始位置で初期化
 // SpriteObjectBaseの引数も入れる
-BattleEnemy::BattleEnemy(tnl::Vector3 startPos, float objSize, std::string fileName)
-	: BattleCharacterBase(startPos, objSize, fileName) {
+BattleEnemy::BattleEnemy(tnl::Vector3 startPos, float objSize, std::string fileName, std::shared_ptr<std::list<std::shared_ptr< BattleCharacterBase >>> charaList)
+	: BattleCharacterBase(startPos, objSize, fileName), charaList_(charaList) {
 
 
 	// SpriteObjectBaseクラスの関数
@@ -16,6 +17,8 @@ BattleEnemy::BattleEnemy(tnl::Vector3 startPos, float objSize, std::string fileN
 	// 表示するメッシュの初期設定
 	displayObj_ = tnl::Vector2i(1, textureCutNum_.y - 2);
 
+	// キャラクターの種類を設定
+	characterType_ = eCharaType::ENEMY;
 
 	return;
 
@@ -29,7 +32,7 @@ BattleEnemy::~BattleEnemy() {
 }
 
 // 更新用の関数
-void BattleEnemy::update(float delta_time) {
+void BattleEnemy::update(const float delta_time) {
 
 	BattleCharacterBase::update(delta_time);
 
@@ -38,7 +41,7 @@ void BattleEnemy::update(float delta_time) {
 }
 
 // 
-void BattleEnemy::draw(std::shared_ptr<dxe::Camera> camera) {
+void BattleEnemy::draw(const std::shared_ptr<dxe::Camera>& camera) {
 
 	BattleCharacterBase::draw(camera);
 
@@ -52,10 +55,10 @@ void BattleEnemy::draw(std::shared_ptr<dxe::Camera> camera) {
 bool BattleEnemy::seqActDecade(const float delta_time) {
 
 	// 行動の数をカウント
-	actionNum_ = actionList_.size();
+	int actionNum = actionList_.size();
 
 	// 実行する行動の番号を決定
-	int selectActionNum = rand() % actionNum_;
+	int selectActionNum = rand() % actionNum;
 
 
 

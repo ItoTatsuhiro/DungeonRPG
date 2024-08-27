@@ -194,8 +194,11 @@
     <ClCompile Include="program\game\character\Battle\action\BattleActionBase.cpp" />
     <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionMeleeAttack.cpp" />
     <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionMove.cpp" />
+    <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionRangeAttack.cpp" />
     <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionWait.cpp" />
     <ClCompile Include="program\game\character\Battle\attack\Attack.cpp" />
+    <ClCompile Include="program\game\character\Battle\attack\AttackBase.cpp" />
+    <ClCompile Include="program\game\character\Battle\attack\AttackLongRange.cpp" />
     <ClCompile Include="program\game\character\Battle\BattleEnemy.cpp" />
     <ClCompile Include="program\game\character\Battle\BattlePlayer.cpp" />
     <ClCompile Include="program\game\character\Battle\Enemy\EnemyEscape.cpp" />
@@ -203,6 +206,7 @@
     <ClCompile Include="program\game\character\Dungeon\Enemy.cpp" />
     <ClCompile Include="program\game\character\Dungeon\Player.cpp" />
     <ClCompile Include="program\game\character\other\BattleCharacterBase.cpp" />
+    <ClCompile Include="program\game\character\other\CharacterTypeEnum.cpp" />
     <ClCompile Include="program\game\character\other\StatusCharacter.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\manager\InputManager.cpp" />
@@ -303,8 +307,11 @@
     <ClInclude Include="program\game\character\Battle\action\BattleActionBase.h" />
     <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionMeleeAttack.h" />
     <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionMove.h" />
+    <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionRangeAttack.h" />
     <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionWait.h" />
     <ClInclude Include="program\game\character\Battle\attack\Attack.h" />
+    <ClInclude Include="program\game\character\Battle\attack\AttackBase.h" />
+    <ClInclude Include="program\game\character\Battle\attack\AttackLongRange.h" />
     <ClInclude Include="program\game\character\Battle\BattleEnemy.h" />
     <ClInclude Include="program\game\character\Battle\BattlePlayer.h" />
     <ClInclude Include="program\game\character\Battle\Enemy\EnemyEscape.h" />
@@ -312,6 +319,7 @@
     <ClInclude Include="program\game\character\Dungeon\Enemy.h" />
     <ClInclude Include="program\game\character\Dungeon\Player.h" />
     <ClInclude Include="program\game\character\other\BattleCharacterBase.h" />
+    <ClInclude Include="program\game\character\other\CharacterTypeEnum.h" />
     <ClInclude Include="program\game\character\other\StatusCharacter.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\manager\InputManager.h" />

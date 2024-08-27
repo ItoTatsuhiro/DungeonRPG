@@ -1,47 +1,30 @@
 #pragma once
+
 #include "../../../../dxlib_ext/dxlib_ext.h"
-#include "../../../other/Enum.h"
-#include "../../../base/SpriteObjectBase.h"
+#include "AttackBase.h"
+#include "../../other/CharacterTypeEnum.h"
 
 
-// 攻撃のクラス
-// 当たり判定用のメッシュを持つ
-class Attack : public SpriteObjectBase {
+// 通常の攻撃のクラス
+// 移動等の特殊な処理は行わない
+// 処理はほぼほぼattackBaseクラスの内容
+class Attack : public AttackBase {
 public :
 
 	// コンストラクタ
-	// 引数：座標、大きさ、ファイル名、正面の方向、ダメージ
-	Attack(tnl::Vector3 pos, float size, std::string fileName, Enum::Dir4 front, float damage = 1.0f );
+	// 引数：座標、大きさ、ファイル名、正面の方向、攻撃のキャラクター属性、ダメージ
+	Attack(const tnl::Vector3& pos, float size, std::string fileName, Enum::eDir4 front, eCharaType charaType, float damage = 1.0f );
 	// デストラクタ
-	~Attack();
+	virtual ~Attack();
 	// 更新用の関数
-	void update(float delta_time) override;
+	virtual void update(float delta_time) override;
 	// 描画用の関数
-	void draw( std::shared_ptr<dxe::Camera> camera) override;
-
-	//-------------------------------------------------------------
-	// ゲッター
-
-	// ダメージの数値を取得する関数
-	inline float getDamage() const { return damage_; }
-
-	// ゲームの終了状態を取得する関数
-	inline bool getIsEnd() const { return isEnd_; }
+	virtual void draw(const std::shared_ptr<dxe::Camera>& camera) override;
 
 
 
 protected :
 
-	// ダメージ
-	float damage_;
 
-	// ループするかどうか
-	// ループしない場合はアニメーションの1ループで基本削除する
-	bool isLoop_;
 
-	// 終了しているかどうか
-	// デフォルトでfalse
-	// 処理を終了させるときはこのフラグをtrueにする
-	bool isEnd_;
-	
 };

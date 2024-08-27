@@ -389,6 +389,18 @@
     <ClCompile Include="program\game\character\Battle\action\ActionAttackBase.cpp">
       <Filter>program\[003] game\character\Battle\action</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\character\Battle\attack\AttackLongRange.cpp">
+      <Filter>program\[003] game\character\Battle\attack</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\attack\AttackBase.cpp">
+      <Filter>program\[003] game\character\Battle\attack</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\other\CharacterTypeEnum.cpp">
+      <Filter>program\[003] game\character\other</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\character\Battle\action\enemyAction\ActionRangeAttack.cpp">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ManagedDxlGame.rc">
@@ -724,6 +736,18 @@
     </ClInclude>
     <ClInclude Include="program\game\character\Battle\action\ActionAttackBase.h">
       <Filter>program\[003] game\character\Battle\action</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\attack\AttackLongRange.h">
+      <Filter>program\[003] game\character\Battle\attack</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\attack\AttackBase.h">
+      <Filter>program\[003] game\character\Battle\attack</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\other\CharacterTypeEnum.h">
+      <Filter>program\[003] game\character\other</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\character\Battle\action\enemyAction\ActionRangeAttack.h">
+      <Filter>program\[003] game\character\Battle\action\enemyAction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

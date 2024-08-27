@@ -29,7 +29,7 @@ public :
 	// *********************************************************************
 	// 継承先のdraw関数でも、このクラスのdraw関数を呼び出すこと!!
 	// *********************************************************************
-	virtual void draw(std::shared_ptr<dxe::Camera> camera = nullptr) = 0;
+	virtual void draw(const std::shared_ptr<dxe::Camera>& camera) = 0;
 
 	// spriteObjArray_の中身を生成する関数
 	// 引数：textureFileName...貼り付けるテクスチャのファイル名
@@ -51,7 +51,7 @@ public :
 	inline std::shared_ptr<ito::Object3D> getHitBox() const { return hitBox_; }
 
 	// frontDir_のゲッター
-	inline Enum::Dir4 getFrontDir() const { return frontDir_; }
+	inline Enum::eDir4 getFrontDir() const { return frontDir_; }
 
 	// meshSize_のゲッター
 	inline float getMeshSize() const { return meshSize_; }
@@ -70,7 +70,7 @@ public :
 	inline void setPos(tnl::Vector3 newPos) { transform_.setPos_(newPos); }
 
 	// frontDirのセッター
-	inline void setFrontDir(Enum::Dir4 frontDir) { frontDir_ = frontDir; }
+	inline void setFrontDir(Enum::eDir4 frontDir) { frontDir_ = frontDir; }
 
 
 protected :
@@ -111,10 +111,10 @@ protected :
 	float meshSize_ = 50;
 
 	// 向いている方向の変数
-	Enum::Dir4 frontDir_ = Enum::Dir4::UP;
+	Enum::eDir4 frontDir_ = Enum::eDir4::UP;
 	// アニメーションの方向
 	// アニメーションが左右の絵しかない場合等、これで管理する
-	Enum::Dir4 animFrontDir_ = Enum::Dir4::UP;
+	Enum::eDir4 animFrontDir_ = Enum::eDir4::UP;
 
 
 

@@ -41,7 +41,7 @@ void SpriteObjectBase::update(float delta_time) {
 // *********************************************************************
 // 処理内容
 // 1.描画するメッシュの座標を更新
-void SpriteObjectBase::draw(std::shared_ptr<dxe::Camera> camera) {
+void SpriteObjectBase::draw(const std::shared_ptr<dxe::Camera>& camera = nullptr) {
 
 	// 非表示状態の時以下の描画の処理を行わない
 	if (!isActive_) {

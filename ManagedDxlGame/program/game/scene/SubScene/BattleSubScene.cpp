@@ -18,6 +18,9 @@
 // コンストラクタ
 BattleSubScene::BattleSubScene() {
 
+	// リスト生成
+	battleCharaList_ = std::make_shared<std::list<std::shared_ptr<BattleCharacterBase>>>();
+
 	// バトルシーンのマップ配列の読み込み
 	battleStageArray_ = tnl::LoadCsv<int>("csv/BattleMap.csv");
 	// 表示するカメラの変数を初期化
@@ -31,17 +34,17 @@ BattleSubScene::BattleSubScene() {
 	// プレイヤーを生成
 	player_ = std::shared_ptr<BattlePlayer>(new BattlePlayer(startPosPlayer_, gridSize_, "travellerAnim.png"));
 	// プレイヤーの向きを設定(右向き)
-	player_->setFrontDir(Enum::Dir4::RIGHT);
+	player_->setFrontDir(Enum::eDir4::RIGHT);
 	// 描画するリストに追加
-	displayCharaList_.emplace_back(player_);
+	battleCharaList_->emplace_back(player_);
 
 
 	// 敵キャラクターの生成
-	enemy_ = BattleEnemyEscape::Create(startPosEnemy_, gridSize_, "slimeIdle.png");
+	enemy_ = BattleEnemyEscape::Create(startPosEnemy_, gridSize_, "slimeIdle.png", battleCharaList_);
 	// 敵キャラクターの向きを設定(左向き)
-	enemy_->setFrontDir(Enum::Dir4::LEFT);
+	enemy_->setFrontDir(Enum::eDir4::LEFT);
 	// 描画するリストに追加
-	displayCharaList_.emplace_back(enemy_);
+	battleCharaList_->emplace_back(enemy_);
 
 
 	CreateBattleUI();
@@ -94,8 +97,8 @@ void BattleSubScene::draw() {
 
 
 	// キャラクターを順番に描画
-	auto itC = displayCharaList_.begin();
-	while (itC != displayCharaList_.end()) {
+	auto itC = battleCharaList_->begin();
+	while (itC != battleCharaList_->end()) {
 
 		(*itC)->draw(TPCamera_);
 
@@ -208,7 +211,7 @@ void BattleSubScene::SortObject(std::shared_ptr<dxe::Camera> camera) {
 void BattleSubScene::SortCharacter(std::shared_ptr<dxe::Camera> camera) {
 
 	// キャラクターをカメラからの距離でソート
-	displayCharaList_.sort([&](const std::shared_ptr<BattleCharacterBase>& left, const std::shared_ptr<BattleCharacterBase>& right) {
+	battleCharaList_->sort([&](const std::shared_ptr<BattleCharacterBase>& left, const std::shared_ptr<BattleCharacterBase>& right) {
 		float l1 = (camera->pos_ - left->getPos()).length();
 		float l2 = (camera->pos_ - right->getPos()).length();
 		return (l1 > l2);
@@ -221,76 +224,66 @@ void BattleSubScene::SortCharacter(std::shared_ptr<dxe::Camera> camera) {
 // ステージの範囲外にはみ出た場合、前の座標をもとに補正を行う
 void BattleSubScene::PosCorrection() {
 
-	// プレイヤーが存在するときのみ処理
-	if (player_) {
 
-		// プレイヤーのxをステージサイズに補正
-		if (player_->getPos().x < stageSizeMin_.x) {
-			player_->setPos(tnl::Vector3{ stageSizeMin_.x, player_->getPos().y, player_->getPos().z });
-		}
-		else if (player_->getPos().x > stageSizeMax_.x) {
-			player_->setPos(tnl::Vector3{ stageSizeMax_.x, player_->getPos().y, player_->getPos().z });
-		}
+	auto it = battleCharaList_->begin();
 
-		// プレイヤーのyをステージサイズ未満にならないよう補正
-		if (player_->getPos().y < stageSizeMin_.y) {
-			player_->setPos(tnl::Vector3{ player_->getPos().x, stageSizeMin_.y, player_->getPos().z });
+	while (it != battleCharaList_->end()) {
+
+		// キャラクターのxをステージサイズに補正
+		if ((*it)->getPos().x < stageSizeMin_.x) {
+			(*it)->setPos(tnl::Vector3{ stageSizeMin_.x, (*it)->getPos().y, (*it)->getPos().z });
+		}
+		else if ((*it)->getPos().x > stageSizeMax_.x) {
+			(*it)->setPos(tnl::Vector3{ stageSizeMax_.x, (*it)->getPos().y, (*it)->getPos().z });
 		}
 
-		// プレイヤーのzをステージサイズに補正
-		if (player_->getPos().z > stageSizeMin_.z) {
-			player_->setPos(tnl::Vector3{ player_->getPos().x, player_->getPos().y, stageSizeMin_.z });
+		// キャラクターのyをステージサイズ未満にならないよう補正
+		if ((*it)->getPos().y < stageSizeMin_.y) {
+			(*it)->setPos(tnl::Vector3{ (*it)->getPos().x, stageSizeMin_.y, (*it)->getPos().z });
 		}
-		else if (player_->getPos().z < stageSizeMax_.z) {
-			player_->setPos(tnl::Vector3{ player_->getPos().x, player_->getPos().y, stageSizeMax_.z });
+
+		// キャラクターのzをステージサイズに補正
+		if ((*it)->getPos().z > stageSizeMin_.z) {
+			(*it)->setPos(tnl::Vector3{ (*it)->getPos().x, (*it)->getPos().y, stageSizeMin_.z });
 		}
+		else if ((*it)->getPos().z < stageSizeMax_.z) {
+			(*it)->setPos(tnl::Vector3{ (*it)->getPos().x, (*it)->getPos().y, stageSizeMax_.z });
+		}
+
+		++it;
+
 	}
 
-	// 敵が存在するときのみ処理
-	if (enemy_) {
 
-		// 敵のxをステージサイズに補正
-		if (enemy_->getPos().x < stageSizeMin_.x) {
-			enemy_->setPos(tnl::Vector3{ stageSizeMin_.x, enemy_->getPos().y, enemy_->getPos().z });
-		}
-		else if (enemy_->getPos().x > stageSizeMax_.x) {
-			enemy_->setPos(tnl::Vector3{ stageSizeMax_.x, enemy_->getPos().y, enemy_->getPos().z });
-		}
-
-		// 敵のyをステージサイズ未満にならないよう補正
-		if (enemy_->getPos().y < stageSizeMin_.y) {
-			enemy_->setPos(tnl::Vector3{ enemy_->getPos().x, stageSizeMax_.y, enemy_->getPos().z });
-		}
-
-		// 敵のzをステージサイズに補正
-		if (enemy_->getPos().z > stageSizeMin_.z) {
-			enemy_->setPos(tnl::Vector3{ enemy_->getPos().x, enemy_->getPos().y, stageSizeMin_.z });
-		}
-		else if (enemy_->getPos().z < stageSizeMax_.z) {
-			enemy_->setPos(tnl::Vector3{ enemy_->getPos().x, enemy_->getPos().y, stageSizeMax_.z });
-		}
-	}
 }
 
 
 // 攻撃判定が当たっているかどうか確認する関数
 void BattleSubScene::CheckHitAttack() {
 
-	tnl::Vector3 aaa = player_->getPos();
-	tnl::Vector3 bbb = player_->getHitBox()->get_mesh_()->pos_;
-
-
 
 	//-----------------------------------------------------------------
 	// プレイヤーの攻撃の当たり判定の処理
 
-	auto& playerAttack = player_->getActiveAttackList();
+	auto& playerAttack = player_->getAttackList();
 
 	auto it_p = playerAttack.begin();
 
-	while (it_p != player_->getActiveAttackList().end()) {
 
-		if (tnl::IsIntersectAABB((*it_p)->getPos(), { (*it_p)->getMeshSize(), (*it_p)->getMeshSize(), (*it_p)->getMeshSize() },
+
+	while (it_p != player_->getAttackList().end()) {
+
+		// 攻撃が有効でないときは処理しない
+		if (!(*it_p)->getIsActive()) {
+			++it_p;
+			continue;
+		}
+
+
+		tnl::Vector3 atkPos = (*it_p)->getPos();
+
+		// キャラクターとの当たり判定を確認
+		if (tnl::IsIntersectAABB( atkPos, { (*it_p)->getMeshSize(), (*it_p)->getMeshSize(), (*it_p)->getMeshSize() },
 									enemy_->getPos(), { enemy_->getMeshSize(), enemy_->getMeshSize(), enemy_->getMeshSize() })) {
 
 			// ダメージを与える関数
@@ -298,18 +291,40 @@ void BattleSubScene::CheckHitAttack() {
 
 		}
 
+		// *********************************************************************************************************
+		// ステージとの当たり判定を確認
+		// 作成中！！！！！
+		if (atkPos.x < stageSizeMin_.x || atkPos.y < stageSizeMin_.y || atkPos.x > stageSizeMax_.x || atkPos.y > stageSizeMax_.y) {
+
+			//// ステージの範囲外の時アクティブ状態をfalseにする
+			//(*it_p)->setIsActive(false);
+
+			// ステージ範囲外に出たとき当たった判定にする
+			(*it_p)->setIsHit(true);
+
+		}
+
+
+
 		++it_p;
 	}
 
 	//-----------------------------------------------------------------
 	// 敵の攻撃の当たり判定の処理
 
-	auto& enemyAttack = enemy_->getActiveAttackList();
+	auto& enemyAttack = enemy_->getAttackList();
 
 	auto it_e = enemyAttack.begin();
 
-	while (it_e != enemy_->getActiveAttackList().end()) {
+	while (it_e != enemy_->getAttackList().end()) {
 
+		// 攻撃が有効でないときは処理しない
+		if (!(*it_e)->getIsActive()) {
+			++it_e;
+			continue;
+		}
+
+		// キャラクターとの当たり判定
 		if (tnl::IsIntersectAABB((*it_e)->getPos(), { (*it_e)->getMeshSize(), (*it_e)->getMeshSize(), (*it_e)->getMeshSize() },
 			player_->getPos(), { player_->getMeshSize(), player_->getMeshSize(), player_->getMeshSize() })) {
 
@@ -320,6 +335,7 @@ void BattleSubScene::CheckHitAttack() {
 
 		++it_e;
 	}
+
 
 
 

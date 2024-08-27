@@ -53,7 +53,7 @@ protected :
 	// moveGrid_（マス目を移動する方向ベクトル）も計算
 	// 引数：移動方向(Enum::Dir4型)
 	// 戻り値：移動先のマスの座標(nextGridPos_に入れる用)
-	tnl::Vector2i calcMoveGrid(Enum::Dir4 moveDir);
+	tnl::Vector2i calcMoveGrid(Enum::eDir4 moveDir);
 
 	// ステージのポインタ
 	// シーンで生成してあるStageクラスから、ステージの配列の情報を持ってくるために使用
@@ -97,7 +97,7 @@ protected :
 
 	// 次に向く方向の変数
 	// Dir4クラスは別ファイルで定義
-	Enum::Dir4 nextDir_ = Enum::Dir4::UP;
+	Enum::eDir4 nextDir_ = Enum::eDir4::UP;
 
 
 

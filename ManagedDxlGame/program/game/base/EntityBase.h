@@ -30,7 +30,7 @@ public :
 
 	// dir_のゲッター
 	// 戻り値：dir_...向いている方向
-	Enum::Dir4 getFrontDir() { return frontDir_; }
+	Enum::eDir4 getFrontDir() { return frontDir_; }
 
 	//----------------------------------------------------------------------------------------
 	// セッター
@@ -41,7 +41,7 @@ public :
 
 	// dir_のセッター
 	// 引数：newDir...変更する新しい方向
-	void setDir(Enum::Dir4 newDir) { frontDir_ = newDir; }
+	void setDir(Enum::eDir4 newDir) { frontDir_ = newDir; }
 
 protected :
 
@@ -60,6 +60,6 @@ protected :
 
 	// 向いている方向を表す変数
 	// Dir4クラスは別ファイルで定義
-	Enum::Dir4 frontDir_ = Enum::Dir4::UP;
+	Enum::eDir4 frontDir_ = Enum::eDir4::UP;
 
 };

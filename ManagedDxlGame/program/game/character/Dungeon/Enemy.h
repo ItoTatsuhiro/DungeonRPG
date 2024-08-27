@@ -61,7 +61,7 @@ private :
 
 	// 進行方向
 	// 壁等にぶつかるまでは進行方向に進み続ける
-	Enum::Dir4 moveDir_ = frontDir_;
+	Enum::eDir4 moveDir_ = frontDir_;
 
 	// EnemyのMesh
 	// 2Dの画像を貼り付けるPlaneを用意する用

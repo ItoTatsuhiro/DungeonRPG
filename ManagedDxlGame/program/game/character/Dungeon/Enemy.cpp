@@ -14,7 +14,7 @@ Enemy::Enemy(float gridSize, tnl::Vector2i startGridPos, std::shared_ptr<Player>
 	: player_(player), CharacterBaseDungeon(gridSize, startGridPos), turnManager_(turnManager) {
 
 	// 向きをランダムに決定
-	frontDir_ = static_cast<Enum::Dir4>(rand() % static_cast<int>(Enum::Dir4::DIRMAX));
+	frontDir_ = static_cast<Enum::eDir4>(rand() % static_cast<int>(Enum::eDir4::DIRMAX));
 
 	// ステージクラスのインスタンスを取得
 	stage_ = Stage::GetInstance();
@@ -89,19 +89,19 @@ void Enemy::update(float delta_time) {
 
 	// プレイヤーの向きとの差に応じて表示させるテクスチャを切り替える
 	// 背中の画像を表示
-	if (frontDir_ - (player_->getFrontDir()) == Enum::Dir4::UP) { 
+	if (frontDir_ - (player_->getFrontDir()) == Enum::eDir4::UP) { 
 		displayObj_.y= 0;
 	}
 	// 左向きの画像を表示
-	else if (frontDir_ - (player_->getFrontDir()) == Enum::Dir4::LEFT) { 
+	else if (frontDir_ - (player_->getFrontDir()) == Enum::eDir4::LEFT) { 
 		displayObj_.y = 1;
 	}
 	// 正面の画像を表示
-	else if (frontDir_ - (player_->getFrontDir()) == Enum::Dir4::DOWN) { 
+	else if (frontDir_ - (player_->getFrontDir()) == Enum::eDir4::DOWN) { 
 		displayObj_.y = 3;
 	}
 	// 右向きの画像を表示
-	else if (frontDir_ - (player_->getFrontDir()) == Enum::Dir4::RIGHT) { 
+	else if (frontDir_ - (player_->getFrontDir()) == Enum::eDir4::RIGHT) { 
 		displayObj_.y = 2;
 	}
 
@@ -222,20 +222,20 @@ bool Enemy::seqActionDecide(const float delta_time) {
 
 		// 自分の左のマスが移動可能か確認
 		tnl::Vector2i leftGrid = { 0, 0 };
-		if (frontDir_ + Enum::Dir4::LEFT == Enum::Dir4::UP) { leftGrid = gridPos_ + tnl::Vector2i::up; }
-		else if (frontDir_ + Enum::Dir4::LEFT == Enum::Dir4::LEFT) { leftGrid = gridPos_ + tnl::Vector2i::left; }
-		else if (frontDir_ + Enum::Dir4::LEFT == Enum::Dir4::DOWN) { leftGrid = gridPos_ + tnl::Vector2i::down; }
-		else if (frontDir_ + Enum::Dir4::LEFT == Enum::Dir4::RIGHT) { leftGrid = gridPos_ + tnl::Vector2i::right; }
+		if (frontDir_ + Enum::eDir4::LEFT == Enum::eDir4::UP) { leftGrid = gridPos_ + tnl::Vector2i::up; }
+		else if (frontDir_ + Enum::eDir4::LEFT == Enum::eDir4::LEFT) { leftGrid = gridPos_ + tnl::Vector2i::left; }
+		else if (frontDir_ + Enum::eDir4::LEFT == Enum::eDir4::DOWN) { leftGrid = gridPos_ + tnl::Vector2i::down; }
+		else if (frontDir_ + Enum::eDir4::LEFT == Enum::eDir4::RIGHT) { leftGrid = gridPos_ + tnl::Vector2i::right; }
 
 		bool canMoveL = stage_->CheckGridCanMove(leftGrid);
 
 
 		// 自分の右のマスが移動可能か確認
 		tnl::Vector2i rightGrid = { 0, 0 };
-		if (frontDir_ + Enum::Dir4::RIGHT == Enum::Dir4::UP) { rightGrid = gridPos_ + tnl::Vector2i::up; }
-		else if (frontDir_ + Enum::Dir4::RIGHT == Enum::Dir4::LEFT) { rightGrid = gridPos_ + tnl::Vector2i::left; }
-		else if (frontDir_ + Enum::Dir4::RIGHT == Enum::Dir4::DOWN) { rightGrid = gridPos_ + tnl::Vector2i::down; }
-		else if (frontDir_ + Enum::Dir4::RIGHT == Enum::Dir4::RIGHT) { rightGrid = gridPos_ + tnl::Vector2i::right; }
+		if (frontDir_ + Enum::eDir4::RIGHT == Enum::eDir4::UP) { rightGrid = gridPos_ + tnl::Vector2i::up; }
+		else if (frontDir_ + Enum::eDir4::RIGHT == Enum::eDir4::LEFT) { rightGrid = gridPos_ + tnl::Vector2i::left; }
+		else if (frontDir_ + Enum::eDir4::RIGHT == Enum::eDir4::DOWN) { rightGrid = gridPos_ + tnl::Vector2i::down; }
+		else if (frontDir_ + Enum::eDir4::RIGHT == Enum::eDir4::RIGHT) { rightGrid = gridPos_ + tnl::Vector2i::right; }
 
 		bool canMoveR = stage_->CheckGridCanMove(rightGrid);
 
@@ -243,22 +243,22 @@ bool Enemy::seqActionDecide(const float delta_time) {
 		// 左右どちらにも移動できるとき
 		if (canMoveL && canMoveR) {
 			// 次に向く方向を左右からランダムに決定する
-			nextDir_ = frontDir_ + ((rand() % 2 == 0) ? Enum::Dir4::LEFT : Enum::Dir4::RIGHT);
+			nextDir_ = frontDir_ + ((rand() % 2 == 0) ? Enum::eDir4::LEFT : Enum::eDir4::RIGHT);
 		}
 		// 左にのみ移動できるとき
 		else if (canMoveL && !canMoveR) {
 			// 次に向く方向を現在の向きの左向きにする
-			nextDir_ = frontDir_ + Enum::Dir4::LEFT;
+			nextDir_ = frontDir_ + Enum::eDir4::LEFT;
 		}
 		// 右にのみ移動できるとき
 		else if (!canMoveL && canMoveR) {
 			// 次に向く向きを現在の向きの右向きにする
-			nextDir_ = frontDir_ + Enum::Dir4::RIGHT;
+			nextDir_ = frontDir_ + Enum::eDir4::RIGHT;
 		}
 		// 左右どちらにも移動できないとき
 		else if (!canMoveL && !canMoveR) {
 			// 次に向く向きを現在の向きの後ろ向きにする
-			nextDir_ = frontDir_ + Enum::Dir4::DOWN;
+			nextDir_ = frontDir_ + Enum::eDir4::DOWN;
 		}
 		nowSeq_ = EnemySeq::ROT_CHECK;
 
@@ -335,15 +335,15 @@ bool Enemy::seqRotateCheck(const float delta_time) {
 
 	// 次の向きに応じて次の方向を変更する
 	// 左周りをプラスとする
-	if (nextDir_ - frontDir_ == Enum::Dir4::LEFT) {
+	if (nextDir_ - frontDir_ == Enum::eDir4::LEFT) {
 		// 回転させる量を90度にする
 		rotValMax_ = -90;
 	}
-	else if (nextDir_ - frontDir_ == Enum::Dir4::DOWN) {
+	else if (nextDir_ - frontDir_ == Enum::eDir4::DOWN) {
 		// 回転させる量を180度にする
 		rotValMax_ = -180;
 	}
-	else if (nextDir_ - frontDir_ == Enum::Dir4::RIGHT) {
+	else if (nextDir_ - frontDir_ == Enum::eDir4::RIGHT) {
 		// 回転させる量を-90度にする
 		rotValMax_ = 90;
 	}
@@ -411,7 +411,7 @@ bool Enemy::seqRotating(const float delta_time) {
 	// 向きの情報を最新の状態にする
 	frontDir_ += nextDir_;
 	// 次の位置を正面にしておく
-	nextDir_ = Enum::Dir4::UP;
+	nextDir_ = Enum::eDir4::UP;
 	// 行動処理が終わった判定をtrueに
 	finishAction_ = true;
 
