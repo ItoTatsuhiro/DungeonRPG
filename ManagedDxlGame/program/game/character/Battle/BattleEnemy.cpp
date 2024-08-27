@@ -38,12 +38,23 @@ void BattleEnemy::update(const float delta_time) {
 
 	seq_.update(delta_time);
 
+
+	// アニメーション用画像切り替え
+	if (animChangeCount_ >= animChangeTime_) {
+		displayObj_.x = (displayObj_.x + 1) % textureCutNum_.x;
+		animChangeCount_ = 0;
+	}
+	else {
+		animChangeCount_ += delta_time;
+	}
+
 }
 
 // 
 void BattleEnemy::draw(const std::shared_ptr<dxe::Camera>& camera) {
 
 	BattleCharacterBase::draw(camera);
+
 
 
 }

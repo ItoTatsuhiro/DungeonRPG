@@ -63,6 +63,14 @@ void ActionMove::setUpAction() {
 
 	targetPosDecade();
 
+
+	auto actionCharacter = actionCharacter_.lock();
+
+	if (actionCharacter == nullptr) {
+		return;
+	}
+	// 移動状態をセット
+	actionCharacter->setNowSituation(BattleCharacterBase::Situation::MOVING);
 }
 
 // 移動に関する初期設定を行う関数

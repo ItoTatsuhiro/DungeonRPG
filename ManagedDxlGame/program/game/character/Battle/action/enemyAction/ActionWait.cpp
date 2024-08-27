@@ -43,6 +43,16 @@ void ActionWait::setUpAction() {
 	// 経過時間をリセット
 	waitCount_ = 0;
 
+
+	auto actionCharacter = actionCharacter_.lock();
+
+	if (actionCharacter == nullptr) {
+		return;
+	}
+
+	// 状態を待機状態にする
+	actionCharacter->setNowSituation(BattleCharacterBase::Situation::WAITING);
+
 }
 
 

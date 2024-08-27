@@ -46,6 +46,16 @@ void ActionMeleeAttack::setUpAction() {
 
 	// シーケンスを初期状態に戻しておく
 	seq_.change(&ActionMeleeAttack::seqComing);
+
+
+	auto actionCharacter = actionCharacter_.lock();
+
+	if (!actionCharacter) {
+		return;
+	}
+	// 状態を移動にする
+	actionCharacter->setNowSituation(BattleCharacterBase::Situation::MOVING);
+
 }
 
 
@@ -218,6 +228,8 @@ bool ActionMeleeAttack::seqComing( const float delta_time ) {
 		SetAttackDetail();
 
 		seq_.change(&ActionMeleeAttack::seqMeleeAttack);
+
+		actionCharacter->setNowSituation(BattleCharacterBase::Situation::ATTACKING);
 	}
 
 	return true;
@@ -226,6 +238,8 @@ bool ActionMeleeAttack::seqComing( const float delta_time ) {
 
 // 近接攻撃を行うシーケンス
 bool ActionMeleeAttack::seqMeleeAttack(const float delta_time) {
+
+	
 
 
 	// ベースクラスの更新

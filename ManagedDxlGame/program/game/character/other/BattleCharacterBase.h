@@ -52,10 +52,26 @@ public :
 
 
 
-
+	// 攻撃行った際に攻撃をリストにセットする
 	inline void addActiveAttack(std::shared_ptr<AttackBase> newAttack) {
 		attackList_.emplace_back(newAttack);
 	}
+
+
+
+	// 実行中の行動を表す定数
+	enum class Situation {
+		WAITING,					// 待機中
+		MOVING,						// 移動中
+		WAITING_BEFORE_ATTACK,		// 攻撃前の待機中
+		ATTACKING,					// 攻撃中
+		WAITING_AFTER_ATTACK,		// 攻撃後の待機中
+		COUNT,						// 基本的な行動の種類
+		NONE						// なし（実際には使用はしない）
+	};
+
+
+
 
 
 	// ******************************************************************************
@@ -78,7 +94,16 @@ public :
 	inline const std::list<std::shared_ptr<AttackBase>>& getAttackList() const { return attackList_; }
 
 
+	// 現在実行中の行動を取得する関数
+	inline Situation getNowSituation() const { return nowSituation_; }
 
+
+	// ******************************************************************************
+	// 以下セッター
+
+	// 現在実行中の行動をセットする関数
+	// 行動クラス実行の際に毎回新しい行動をセットする
+	void setNowSituation(Situation newSituation) { nowSituation_ = newSituation; }
 
 
 protected :
@@ -87,6 +112,12 @@ protected :
 	// ※デフォルトでは設定されていない状態になっているので、
 	// 　コンストラクタ等でそれぞれに応じた値を入れること！
 	eCharaType characterType_ = eCharaType::NONE;
+
+
+
+	// 現在の行動の状態
+	// 行動クラスから切り替える
+	Situation nowSituation_ = Situation::NONE;
 
 
 	// 移動前の座標

@@ -142,6 +142,15 @@ void BattleCharacterBase::MoveCharacter(float delta_time, tnl::Vector3 moveVecto
 	// 移動量は移動方向と移動量（と倍率）をかけ合わせて計算
 	transform_.setPos_(transform_.getPos_() + moveVector * moveValue_ * moveVectorMag * delta_time);
 
+	// 移動方向によって向きを左右のどちらかに変更
+	if (moveVector.x > 0) {
+		frontDir_ = Enum::eDir4::RIGHT;
+	}
+	else {
+		frontDir_ = Enum::eDir4::LEFT;
+	}
+
+
 	return;
 }
 

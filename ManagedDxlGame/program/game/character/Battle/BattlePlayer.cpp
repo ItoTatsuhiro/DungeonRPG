@@ -97,6 +97,7 @@ void BattlePlayer::Move(float delta_time) {
 		displayObj_.y = 2;
 	}
 
+	// アニメーション用画像切り替え
 	if (animChangeCount_ >= animChangeTime_) {
 		displayObj_.x = (displayObj_.x + 1) % textureCutNum_.x;
 		animChangeCount_ = 0;

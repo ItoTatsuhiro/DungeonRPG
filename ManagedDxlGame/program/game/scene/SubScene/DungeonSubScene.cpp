@@ -25,6 +25,8 @@ DungeonSubScene::DungeonSubScene() {
 
 	// 方向表示用のコンパスの画像を読み込み
 	directionGpcHdl_ = ito::ResourceManager::GetInstance()->loadGraph("compass.png");
+	// 操作説明画像の読み込み
+	controlExpGpcHdl_ = ito::ResourceManager::GetInstance()->loadGraph("controlExp.png");
 
 }
 
@@ -102,8 +104,11 @@ void DungeonSubScene::draw() {
 		break;
 	}
 
-
+	// コンパス画像の表示
 	DrawRotaGraph(directionGpcPos_.x, directionGpcPos_.y, directionGpcSize_, directionGpcAngle_, directionGpcHdl_, true);
+
+	// 操作説明の表示
+	DrawRotaGraph(controlExpPos_.x, controlExpPos_.y, controlExpSize_, 0, controlExpGpcHdl_, true);
 
 }
 

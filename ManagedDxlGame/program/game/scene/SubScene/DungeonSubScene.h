@@ -86,4 +86,10 @@ private:
 	// プレイヤーキャラクターの向きに応じて回転させるので、プレイヤーが回転した際にこれもずらす
 	double directionGpcAngle_ = 0;
 
+	// 操作の説明の画像関連
+	int controlExpGpcHdl_ = 0;
+	tnl::Vector3 controlExpPos_ = { 300, 650, 0 };
+	float controlExpSize_ = 2.5f;
+
+
 };

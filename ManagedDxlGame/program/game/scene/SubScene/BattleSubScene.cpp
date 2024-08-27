@@ -40,7 +40,7 @@ BattleSubScene::BattleSubScene() {
 
 
 	// 敵キャラクターの生成
-	enemy_ = BattleEnemyEscape::Create(startPosEnemy_, gridSize_, "slimeIdle.png", battleCharaList_);
+	enemy_ = BattleEnemyEscape::Create(startPosEnemy_, gridSize_, "slimeAnim.png", battleCharaList_);
 	// 敵キャラクターの向きを設定(左向き)
 	enemy_->setFrontDir(Enum::eDir4::LEFT);
 	// 描画するリストに追加
@@ -56,6 +56,11 @@ BattleSubScene::BattleSubScene() {
 
 
 	CreateStage();
+
+	// 操作説明画像読み込み
+	battleControlExpGpc_ = ito::ResourceManager::GetInstance()->loadGraph("battleExp.png");
+
+
 
 }
 
@@ -118,6 +123,9 @@ void BattleSubScene::draw() {
 
 		++itGpc;
 	}
+
+	// 操作説明画像の描画
+	DrawRotaGraph(battleControlExpPos_.x, battleControlExpPos_.y, battleControlExpSize_, 0, battleControlExpGpc_, true);
 
 }
 

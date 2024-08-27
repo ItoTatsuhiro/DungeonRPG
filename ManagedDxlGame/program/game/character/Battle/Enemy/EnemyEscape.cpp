@@ -51,6 +51,45 @@ void BattleEnemyEscape::update(const float delta_time) {
 // 描画用の関数
 void BattleEnemyEscape::draw(const std::shared_ptr< dxe::Camera >& camera ) {
 
+	// 表示する画像の範囲を切り替える処理
+
+	// 待機、移動、攻撃後の待機の状態の時
+	if (nowSituation_ == Situation::WAITING || nowSituation_ == Situation::MOVING || nowSituation_ == Situation::WAITING_AFTER_ATTACK) {
+
+		// 左向きの時
+		if (frontDir_ == Enum::eDir4::LEFT) {
+			displayObj_.y = 5;
+		}
+		// それ以外のとき
+		else {
+			displayObj_.y = 4;
+		}
+
+	}
+	// 攻撃前の待機状態の時
+	else if (nowSituation_ == Situation::WAITING_BEFORE_ATTACK) {
+		// 左向きの時
+		if (frontDir_ == Enum::eDir4::LEFT) {
+			displayObj_.y = 3;
+		}
+		// それ以外のとき
+		else {
+			displayObj_.y = 2;
+		}
+	}
+	else if (nowSituation_ == Situation::ATTACKING) {
+		// 左向きの時
+		if (frontDir_ == Enum::eDir4::LEFT) {
+			displayObj_.y = 1;
+		}
+		// それ以外のとき
+		else {
+			displayObj_.y = 0;
+		}
+	}
+
+
+
 	// BattleEnemyの描画
 	BattleEnemy::draw( camera );
 

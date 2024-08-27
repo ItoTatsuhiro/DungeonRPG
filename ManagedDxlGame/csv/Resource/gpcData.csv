@@ -16,3 +16,5 @@
 背景_街道,kaidou0331_800b.jpg,graphics/kaidou0331_800b.jpg
 背景_草原,grass.png,graphics/grass.png
 方向表示用のコンパス,compass.png,graphics/myGpc/compass.png
+操作説明：探索,controlExp.png,graphics/myGpc/controlExp.png
+操作説明：バトル,battleExp.png,graphics/myGpc/battleExp.png

@@ -143,6 +143,10 @@ private :
 	// 描画を行う画像のリスト
 	std::list< std::shared_ptr<ito::Graphic> > gpcList_;
 
+	// バトルシーンでの操作説明画像関連
+	int battleControlExpGpc_ = 0;
+	tnl::Vector3 battleControlExpPos_ = { 300, 650, 0 };
+	float battleControlExpSize_ = 2.5f;
 
 	//-------------------------------------------------------
 	// シーン切り替え関係

@@ -8,3 +8,4 @@
 ゴール,GoalTexture.png,graphics/myGpc/texture/GoalTexture.png,4,1
 攻撃判定（仮）,attackKari.png,graphics/myGpc/texture/attackKari.png,4,1
 攻撃エフェクト,attackEffect.png,graphics/myGpc/texture/attackEffect.png,4,1
+スライム,slimeAnim.png,graphics/myGpc/texture/slimeAnim.png,4,6
