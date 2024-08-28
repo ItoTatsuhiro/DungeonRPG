@@ -15,6 +15,8 @@ SceneClear::SceneClear() {
 
 	characterDrawPos_ = characterStartPos_;
 
+
+	clearBGMhdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("ファンタジー-日常-.mp3");
 }
 
 
@@ -29,6 +31,14 @@ SceneClear::~SceneClear() {
 
 // 毎フレームの処理
 void SceneClear::update(float delta_time) {
+
+	if (!isPlayingBgm_) {
+
+		PlaySoundMem(clearBGMhdl_, DX_PLAYTYPE_LOOP);
+
+		isPlayingBgm_ = true;
+	}
+
 
 	if (characterDrawPos_.x < characterDrawPosFinal_.x) {
 		// 移動
@@ -57,6 +67,10 @@ void SceneClear::update(float delta_time) {
 	if (canChangeScene_) {
 
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
+			// BGM停止
+			StopSoundMem(clearBGMhdl_);
+
+			// タイトルシーンに切り替え
 			ito::GameManager::GetInstance_()->changeScene(std::shared_ptr<SceneTitle>(new SceneTitle()));
 		}
 

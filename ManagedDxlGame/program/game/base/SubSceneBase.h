@@ -20,4 +20,6 @@ public :
 	// 純粋仮想関数
 	virtual void draw(){};
 
+	// サブシーンを切り替える際に呼び出す関数
+	virtual void ChangeSubScene() = 0;
 };

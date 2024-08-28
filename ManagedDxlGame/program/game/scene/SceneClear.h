@@ -54,4 +54,12 @@ private:
 	float animDisplayCount_ = 0;
 	// アニメーションを切り替える時間
 	float animDisplayTime_ = 0.15f;
+
+
+
+	// BGM用ハンドル
+	int clearBGMhdl_ = 0;
+
+	// BGMを掛けるためのフラグ
+	bool isPlayingBgm_ = false;
 };

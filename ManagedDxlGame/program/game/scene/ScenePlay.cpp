@@ -20,6 +20,8 @@ ScenePlay::ScenePlay() {
 ScenePlay::~ScenePlay() {
 
 
+	SubSceneManager::GetInstance()->Destroy();
+
 }
 
 // XV—p‚ÌŠÖ”

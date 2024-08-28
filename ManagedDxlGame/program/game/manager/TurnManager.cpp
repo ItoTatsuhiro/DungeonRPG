@@ -33,7 +33,10 @@ void TurnManager::update(float delta_time) {
 
 void TurnManager::setEnemyList( std::list<std::shared_ptr<Enemy>> enemyList ) {
 
+	
+
 	enemyList_.clear();
+
 
 	enemyList_ = enemyList;
 
@@ -103,7 +106,14 @@ void TurnManager::Destroy() {
 // キャラクターの位置を確認する関数
 void TurnManager::CheckCharacterPos() {
 
-	tnl::Vector2i playerGrid = player_->getGridPos();
+	auto player = player_.lock();
+	// auto battlingEnemy = battlingEnemy_.lock();
+
+	if (!player) {
+		return;
+	}
+
+	tnl::Vector2i playerGrid = player->getGridPos();
 
 	auto it = enemyList_.begin();
 
@@ -117,6 +127,7 @@ void TurnManager::CheckCharacterPos() {
 			// シーンを切り替えるためのシーケンスに変更
 			seq_.change(&TurnManager::seqChangeSubScene);
 
+
 			return;
 		}
 		++it;
@@ -127,7 +138,11 @@ void TurnManager::CheckCharacterPos() {
 		// シーンを切り替え
 		ito::GameManager::GetInstance_()->changeScene( std::shared_ptr< SceneClear >(new SceneClear()) );
 
+		SubSceneManager::GetInstance()->DeleteSubScene();
+
 		isSceneChange_ = true;
+
+
 	}
 	
 	return;
@@ -166,8 +181,14 @@ bool TurnManager::seqEnemyActionDecade(const float delta_time) {
 // それぞれのキャラクターの行動を確認するシーケンス
 bool TurnManager::seqCheckAction(const float delta_time) {
 
+	auto player = player_.lock();
+
+	if (!player) {
+		return true;
+	}
+
 	// それぞれが次に移動するマス目を取得
-	tnl::Vector2i nextPlayerPos = (player_->/*getGridPos()*/ getNextGridPos());
+	tnl::Vector2i nextPlayerPos = (player-> getNextGridPos());
 
 
 	// 敵の現在のマス目のリスト
@@ -203,8 +224,10 @@ bool TurnManager::seqCheckAction(const float delta_time) {
 // 行動を行うシーケンス
 bool TurnManager::seqAction(const float delta_time) {
 
+	auto player = player_.lock();
+
 	// プレイヤーが存在していないとき処理を行わない
-	if (player_ == nullptr) {
+	if (!player) {
 
 		return true;
 	}
@@ -234,7 +257,7 @@ bool TurnManager::seqAction(const float delta_time) {
 		return true;
 	}
 
-	if (player_->getNowSeq() == Player::PlayerSeq::WAIT ) {
+	if (player->getNowSeq() == Player::PlayerSeq::WAIT ) {
 
 		auto it = enemyList_.begin();
 		while (it != enemyList_.end()) {
@@ -249,7 +272,7 @@ bool TurnManager::seqAction(const float delta_time) {
 
 	}
 
-	player_->ChangeSeqFromWait();
+	player->ChangeSeqFromWait();
 
 	// 敵が通常通り動けるとき
 	if (canMoveEnemy_) {
@@ -277,8 +300,14 @@ bool TurnManager::seqAction(const float delta_time) {
 
 bool TurnManager::seqChangeSubScene(const float delta_time) {
 
+	auto battlingEnemy = battlingEnemy_.lock();
+
+	if (!battlingEnemy) {
+		return true;
+	}
+
 	// シーン切り替え
-	SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE, battlingEnemy_);
+	SubSceneManager::GetInstance()->ChangeSubScene(SubSceneManager::ScenePlaySubScene::BATTLE, battlingEnemy);
 
 	seq_.change(&TurnManager::seqCheckAction);
 

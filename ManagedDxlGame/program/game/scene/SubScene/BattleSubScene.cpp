@@ -60,8 +60,8 @@ BattleSubScene::BattleSubScene() {
 	// 操作説明画像読み込み
 	battleControlExpGpc_ = ito::ResourceManager::GetInstance()->loadGraph("battleExp.png");
 
-
-
+	// BGM読み込み
+	battleBgmHdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("hiphop2.mp3");
 }
 
 // デストラクタ
@@ -72,6 +72,14 @@ BattleSubScene::~BattleSubScene() {
 
 // 更新用関数
 void BattleSubScene::update(float delta_time) {
+
+	// BGM再生
+	if (!isPlayingBGM_) {
+		PlaySoundMem(battleBgmHdl_, DX_PLAYTYPE_LOOP);
+
+		isPlayingBGM_ = true;
+	}
+
 
 	// シーケンスの更新
 	seq_.update(delta_time);
@@ -128,6 +136,20 @@ void BattleSubScene::draw() {
 	DrawRotaGraph(battleControlExpPos_.x, battleControlExpPos_.y, battleControlExpSize_, 0, battleControlExpGpc_, true);
 
 }
+
+
+
+// サブシーン切り替えの際に実行する関数
+void BattleSubScene::ChangeSubScene() {
+
+	// BGM停止
+	StopSoundMem(battleBgmHdl_);
+
+	isPlayingBGM_ = false;
+}
+
+
+
 
 // 読み込んだCSVの配列からステージを生成する関数
 void BattleSubScene::CreateStage() {

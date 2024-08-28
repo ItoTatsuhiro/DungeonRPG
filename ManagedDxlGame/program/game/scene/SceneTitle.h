@@ -30,6 +30,12 @@ private:
 	// タイトル画像の表示位置
 	tnl::Vector3 titleGpcPos_ = { 800, 400, 0 };
 
+	// タイトルBGM用ハンドル
+	int titleBGMhdl_ = 0;
+
+	// BGMを掛けるためのフラグ
+	bool isPlayingBgm_ = false;
+
 	// 待機中かどうかのフラグ
 	bool isWaiting_ = false;
 

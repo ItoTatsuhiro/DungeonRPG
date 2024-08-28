@@ -33,10 +33,10 @@ public :
 	// 引数：敵のリスト
 	void setEnemyList(std::list<std::shared_ptr<Enemy>> enemyList);
 
-	// サブシーンマネージャーをセットする関数
-	// シーンで呼び出してセット
-	// 引数：サブシーンマネージャー
-	void setSubSceneManager(std::shared_ptr<SubSceneManager> subSceneManager) { subSceneManager_ = subSceneManager; }
+	//// サブシーンマネージャーをセットする関数
+	//// シーンで呼び出してセット
+	//// 引数：サブシーンマネージャー
+	//void setSubSceneManager(std::shared_ptr<SubSceneManager> subSceneManager) { subSceneManager_ = subSceneManager; }
 
 	// プレイヤーが入力が行われた際に呼び出す関数
 	// 敵の処理を行うシーケンスに遷移するための関数
@@ -58,18 +58,21 @@ private :
 	// キャラクターの位置を確認する関数
 	void CheckCharacterPos();
 
-	// サブシーンマネージャーのインスタンス
-	// ターンマネージャーが生成された際に引数で入れる
-	std::shared_ptr<SubSceneManager> subSceneManager_ = nullptr;
+	//// サブシーンマネージャーのインスタンス
+	//// ターンマネージャーが生成された際に引数で入れる
+	//std::shared_ptr<SubSceneManager> subSceneManager_ = nullptr;
 
 	// プレイヤー
 	// シーンでsetPlayer関数を用いてセットする
 	// 座標等取得に必要
-	std::shared_ptr<Player> player_;
+	std::weak_ptr<Player> player_;
 
 	// 敵キャラクターのリスト
 	// シーンでsetEnemyList関数でセットする
 	// 座標取得に必要
+	// ***************************************************
+	// 修正する！
+	// ***************************************************
 	std::list<std::shared_ptr<Enemy>> enemyList_;
 
 	// プレイヤーの行動が終了しているかどうかのフラグ
@@ -102,7 +105,7 @@ private :
 
 	tnl::Vector2i goalPos_;
 
-	std::shared_ptr< Enemy > battlingEnemy_ = nullptr;
+	std::weak_ptr< Enemy > battlingEnemy_;
 
 	// 現在のシーケンス
 	TurnManagerSeq nowSeq_ = TurnManagerSeq::WAIT_PLAYER_INPUT;

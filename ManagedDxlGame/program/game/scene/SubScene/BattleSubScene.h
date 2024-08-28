@@ -24,6 +24,8 @@ public :
 	void draw() override;
 
 
+	// サブシーン切り替えの際に呼び出す関数
+	void ChangeSubScene() override;
 
 private :
 
@@ -147,6 +149,18 @@ private :
 	int battleControlExpGpc_ = 0;
 	tnl::Vector3 battleControlExpPos_ = { 300, 650, 0 };
 	float battleControlExpSize_ = 2.5f;
+
+
+	//-------------------------------------------------------
+	// サウンド関係
+
+	// BGMのハンドル
+	int battleBgmHdl_ = 0;
+
+	// BGMがかかっているかのフラグ
+	bool isPlayingBGM_ = false;
+
+
 
 	//-------------------------------------------------------
 	// シーン切り替え関係

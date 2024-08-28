@@ -37,7 +37,7 @@ private :
 
 	// サブシーンを管理する用のマネージャー
 	// サブシーンはこちらに持たせる
-	std::shared_ptr< SubSceneManager > subSceneManager_ = nullptr;
+	// std::shared_ptr< SubSceneManager > subSceneManager_ = nullptr;
 
 
 

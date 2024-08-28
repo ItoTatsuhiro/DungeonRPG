@@ -6,16 +6,19 @@ SceneTitle::SceneTitle() {
 
 	// キャラクターの歩行アニメーション読み込み
 	characterAnim_ = ito::ResourceManager::GetInstance()->loadAnimGraph("travellerWalkAnimLtoR.png");
-
+	// 背景画像読み込み
 	backGpc_ = ito::ResourceManager::GetInstance()->loadGraph("kaidou0331_800b.jpg");
-
+	// タイトルロゴ用画像読み込み
 	titleGpc_ = ito::ResourceManager::GetInstance()->loadGraph("DungeonCrawl_Title.png");
 
+	// キャラクター開始位置
 	characterStartPos_ = { -100, 580, 0 };
 	characterDrawPosFinal_ = { DXE_WINDOW_WIDTH >> 1, 580, 0 };
-
+	// キャラクター描画の初期位置を設定
 	characterDrawPos_ = characterStartPos_;
 
+	// BGM読み込み
+	titleBGMhdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("ファンタジー7-街-.mp3");
 }
 
 
@@ -31,11 +34,18 @@ SceneTitle::~SceneTitle() {
 // 毎フレームの処理
 void SceneTitle::update(float delta_time) {
 
+	// BGM再生
+	if (!isPlayingBgm_) {
+		PlaySoundMem(titleBGMhdl_, DX_PLAYTYPE_LOOP);
+		isPlayingBgm_ = true;
+	}
+
+
 	if ( !isWaiting_) {
-		// 移動
+		// キャラクターの移動
 		characterDrawPos_.x += characterMoveValue_;
 
-
+		// 所定の位置までキャラクターが移動したときゲーム開始できる状態にする
 		if (characterDrawPos_.x >= characterDrawPosFinal_.x && !canStart_) {
 
 			characterDrawPos_ = characterDrawPosFinal_;
@@ -49,7 +59,7 @@ void SceneTitle::update(float delta_time) {
 			animframe_ = 1;
 		}
 
-
+		// アニメーション用画像切り替え
 		if (animDisplayCount_ > animDisplayTime_) {
 
 			animDisplayCount_ = 0;
@@ -77,7 +87,11 @@ void SceneTitle::update(float delta_time) {
 	// キャラクターが画面外まで移動したらシーン切り替え
 	if (characterDrawPos_.x >= DXE_WINDOW_WIDTH + 120) {
 
+		// BGM停止
+		StopSoundMem(titleBGMhdl_);
+
 		ito::GameManager::GetInstance_()->changeScene( std::shared_ptr<ScenePlay>( new ScenePlay()) );
+
 	}
 
 }

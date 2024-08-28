@@ -159,11 +159,11 @@ namespace ito {
 		}
 
 		// csvに保存されたファイル名から同じものを探す
-		for (int y = 1; y < soundsCsv_.size(); ++y) {
+		for (int y = 0; y < soundsCsv_.size(); ++y) {
 			if (soundsCsv_[y][static_cast<int>(SOUND_CSV_ITEM::FILE_NAME)] == soundFileName) {
 
 				// サウンドの読み込み
-				int sound_hdl = LoadGraph(soundsCsv_[y][static_cast<int>(SOUND_CSV_ITEM::PATH)].c_str(), true);
+				int sound_hdl = LoadSoundMem(soundsCsv_[y][static_cast<int>(SOUND_CSV_ITEM::PATH)].c_str(), true);
 
 				// sounds_map_に読み込んだ画像をパスと紐づけて保存
 				soundsMap_.insert(std::make_pair(soundFileName, sound_hdl));

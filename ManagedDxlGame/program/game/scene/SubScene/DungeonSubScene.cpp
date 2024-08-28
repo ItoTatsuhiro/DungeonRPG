@@ -28,6 +28,8 @@ DungeonSubScene::DungeonSubScene() {
 	// 操作説明画像の読み込み
 	controlExpGpcHdl_ = ito::ResourceManager::GetInstance()->loadGraph("controlExp.png");
 
+
+	dungeonBgmHdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("キネマティック_03.mp3");
 }
 
 // デストラクタ
@@ -42,6 +44,14 @@ DungeonSubScene::~DungeonSubScene() {
 
 // 更新用の関数
 void DungeonSubScene::update(float delta_time){
+
+	// BGMが流れていないとき再生
+	if (!isPlayingBGM_) {
+
+		PlaySoundMem(dungeonBgmHdl_, DX_PLAYTYPE_LOOP);
+
+		isPlayingBGM_ = true;
+	}
 
 	// 線の描画
 	// DrawGridGround(FPCamera_, 50, 20);
@@ -112,6 +122,14 @@ void DungeonSubScene::draw() {
 
 }
 
+// サブシーン切り替えの際に実行する関数
+void DungeonSubScene::ChangeSubScene() {
+
+	// BGM停止
+	StopSoundMem(dungeonBgmHdl_);
+
+	isPlayingBGM_ = false;
+}
 
 // 敵を消す関数
 void DungeonSubScene::DeleteEnemy(std::shared_ptr<Enemy> deleteEnemy) {

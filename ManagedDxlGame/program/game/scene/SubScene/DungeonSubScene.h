@@ -32,6 +32,9 @@ public :
 	// 描画用の関数
 	void draw() override;
 
+	// サブシーン切り替えの際に呼び出す関数
+	void ChangeSubScene() override;
+
 	// 敵を消す関数
 	void DeleteEnemy( std::shared_ptr<Enemy> deleteEnemy );
 
@@ -91,5 +94,10 @@ private:
 	tnl::Vector3 controlExpPos_ = { 300, 650, 0 };
 	float controlExpSize_ = 2.5f;
 
+	// BGMのハンドル
+	int dungeonBgmHdl_ = 0;
+
+	// BGMがかかっているかのフラグ
+	bool isPlayingBGM_ = false;
 
 };

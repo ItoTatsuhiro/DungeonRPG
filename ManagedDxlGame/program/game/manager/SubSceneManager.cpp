@@ -35,36 +35,39 @@ std::shared_ptr<SubSceneManager> SubSceneManager::GetInstance() {
 // 現在のサブシーンの更新を行う
 void SubSceneManager::update(float delta_time) {
 
-	if (!nowSubScene_) {
+	auto nowSubScene = nowSubScene_.lock();
+
+	if (!nowSubScene) {
 		return;
 	}
 
-	// nowSubScene_->update(delta_time);
 
 	seq_.update(delta_time);
 
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_P)) {
-		debugMode_ = true;
-	}
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_P)) {
+	//	debugMode_ = true;
+	//}
 
-	if (debugMode_) {
-		screenEffect_->drawGuiController( {0, 0} );
-	}
+	//if (debugMode_) {
+	//	screenEffect_->drawGuiController( {0, 0} );
+	//}
 }
 
 // 描画用の関数
 // 現在のサブシーンの描画を行う関数
 void SubSceneManager::draw() {
 
-	if (!nowSubScene_) {
+	auto nowSubScene = nowSubScene_.lock();
+
+	if (!nowSubScene) {
 		return;
 	}
 
 
 	screenEffect_->renderBegin();
 
-	nowSubScene_->draw();
+	nowSubScene->draw();
 
 	screenEffect_->renderEnd();
 
@@ -139,11 +142,32 @@ void SubSceneManager::Destroy() {
 	SubSceneManager::GetInstance().reset();
 }
 
+void SubSceneManager::DeleteSubScene() {
+
+	auto nowSubScene = nowSubScene_.lock();
+
+	if (!nowSubScene) {
+		return;
+	}
+
+	nowSubScene->ChangeSubScene();
+
+	dungeonSubScene_.reset();
+	battleSubScene_.reset();
+
+}
+
 
 // サブシーンの更新を行うシーケンス
 bool SubSceneManager::seqSubSceneUpdate(const float delta_time) {
 
-	nowSubScene_->update(delta_time);
+	auto nowSubScene = nowSubScene_.lock();
+
+	if (!nowSubScene) {
+		return true;
+	}
+
+	nowSubScene->update(delta_time);
 
 	return true;
 }
@@ -152,7 +176,13 @@ bool SubSceneManager::seqSubSceneUpdate(const float delta_time) {
 // 基本的に画面の暗転を行う
 bool SubSceneManager::seqSubSceneChange(const float delta_time) {
 
+	auto nowSubScene = nowSubScene_.lock();
 
+	if (!nowSubScene) {
+		return true;
+	}
+
+	// フェードイン、フェードアウト用
 	float blurAlpha = (seq_.getProgressTime() / transTime_);
 	screenEffect_->setBlurAlpha(blurAlpha);
 
@@ -163,6 +193,8 @@ bool SubSceneManager::seqSubSceneChange(const float delta_time) {
 
 
 	if (blurAlpha >= 1.0f) {
+
+		nowSubScene->ChangeSubScene();
 
 		// シーンを切り替える
 		switch (nextSubScene_) {
@@ -180,6 +212,9 @@ bool SubSceneManager::seqSubSceneChange(const float delta_time) {
 			break;
 		}
 		seq_.change(&SubSceneManager::seqSubSceneStart);
+
+
+
 	}
 
 

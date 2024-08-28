@@ -52,11 +52,14 @@ public :
 	// インスタンスを削除する関数
 	void Destroy();
 
+	// サブシーンを削除する関数
+	void DeleteSubScene();
+
 private:
 
 	// 実行するサブシーン
 	// この変数に入れているサブシーンを実行する
-	std::shared_ptr<SubSceneBase> nowSubScene_ = nullptr;
+	std::weak_ptr<SubSceneBase> nowSubScene_;
 
 
 	// 次に実行するサブシーン
