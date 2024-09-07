@@ -28,8 +28,11 @@ DungeonSubScene::DungeonSubScene() {
 	// 操作説明画像の読み込み
 	controlExpGpcHdl_ = ito::ResourceManager::GetInstance()->loadGraph("controlExp.png");
 
-
+	// BGM読み込み
 	dungeonBgmHdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("キネマティック_03.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(50, dungeonBgmHdl_);
 }
 
 // デストラクタ

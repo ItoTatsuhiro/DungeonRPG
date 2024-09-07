@@ -19,6 +19,9 @@ SceneTitle::SceneTitle() {
 
 	// BGM読み込み
 	titleBGMhdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("ファンタジー7-街-.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(50, titleBGMhdl_);
 }
 
 

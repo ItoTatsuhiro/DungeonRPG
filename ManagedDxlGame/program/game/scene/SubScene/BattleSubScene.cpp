@@ -62,6 +62,10 @@ BattleSubScene::BattleSubScene() {
 
 	// BGM読み込み
 	battleBgmHdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("hiphop2.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(50, battleBgmHdl_);
+
 }
 
 // デストラクタ

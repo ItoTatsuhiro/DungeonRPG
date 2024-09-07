@@ -15,8 +15,11 @@ SceneClear::SceneClear() {
 
 	characterDrawPos_ = characterStartPos_;
 
-
+	// BGM読み込み
 	clearBGMhdl_ = ito::ResourceManager::GetInstance()->loadSoundMem("ファンタジー-日常-.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(50, clearBGMhdl_);
 }
 
 
